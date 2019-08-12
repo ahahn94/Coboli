@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical" android:backgroundTint="@color/bg_light">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" android:layout_weight="1">
+        <TextView
+                android:text="@string/trust_certificate_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/Title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:textStyle="bold"
+                android:textAlignment="center" android:textAllCaps="false"
+                android:layout_marginLeft="@dimen/margin_login_small"
+                android:layout_marginRight="@dimen/margin_login_small"/>
+        <TextView
+                android:text="@string/trust_certificate_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/CertificateDetails"
+                android:layout_marginLeft="@dimen/margin_login_small"
+                android:layout_marginRight="@dimen/margin_login_small" android:textAlignment="center"
+                android:textStyle="bold"/>
+    </LinearLayout>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_login_small"
+            android:layout_marginEnd="@dimen/margin_login_small" android:layout_weight="5"
+    >
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:orientation="vertical">
+            <TextView
+                    android:text="@string/trust_certificate_issued_to"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/IssuedTo"
+                    android:textStyle="bold"
+            />
+            <TextView
+                    android:text="@string/trust_certificate_common_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/IssuedToCNLabel"
+            />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/IssuedToCNValue"
+            />
+            <TextView
+                    android:text="@string/trust_certificate_organization"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/IssuedToOLabel"
+            />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/IssuedToOValue"
+            />
+            <TextView
+                    android:text="@string/trust_certificate_organizational_unit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/IssuedToOULabel"
+            />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/IssuedToOUValue"
+            />
+            <TextView
+                    android:text="@string/trust_certificate_issued_by"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/IssuedBy"
+                    android:textStyle="bold"
+            />
+            <TextView
+                    android:text="@string/trust_certificate_common_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/IssuedByCNLabel"
+            />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/IssuedByCNValue"
+            />
+            <TextView
+                    android:text="@string/trust_certificate_organization"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/IssuedByOLabel"
+            />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/IssuedByOValue"
+            />
+            <TextView
+                    android:text="@string/trust_certificate_organizational_unit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/IssuedByOULabel"
+            />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/IssuedByOUValue"
+            />
+            <TextView
+                    android:text="@string/trust_certificate_validity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/Validity"
+                    android:textStyle="bold"/>
+            <TextView
+                    android:text="@string/trust_certificate_valid_from"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/ValidityFromLabel"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/ValidityFromValue"/>
+            <TextView
+                    android:text="@string/trust_certificate_valid_until"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/ValidityUntilLabel"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/ValidityUntilValue"/>
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" android:layout_weight="1.5">
+        <TextView
+                android:text="@string/trust_certificate_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/Question"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_marginLeft="@dimen/margin_login_small"
+                android:layout_marginRight="@dimen/margin_login_small"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:gravity="center_horizontal">
+            <Button
+                    android:text="@string/trust_certificate_button_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/Yes"
+            />
+            <Button
+                    android:text="@string/trust_certificate_button_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/No"
+            />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

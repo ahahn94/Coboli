@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Manhattan</string>
+    <string name="login_login">Login</string>
+    <string name="login_password">Passwort</string>
+    <string name="login_url_to_server">Server-Adresse</string>
+    <string name="login_username">Benutzername</string>
+    <string name="login_failed">Anmeldung gescheitert. Falscher Benutzername oder Passwort.</string>
+    <string name="login_successful">Anmeldung erfolgreich</string>
+    <string name="server_not_found">Server ist nicht erreichbar. Server-Adresse prüfen.</string>
+    <string name="bad_request">Fehlerhafte Anfrage. Server-Adresse überprüfen.</string>
+    <string name="trust_certificate_title">Das Server-Zertifikat konnte nicht verifiziert werden</string>
+    <string name="trust_certificate_question">Möchten Sie diesem Server dennoch vertrauen?</string>
+    <string name="trust_certificate_details">Zertifikat-Details:</string>
+    <string name="trust_certificate_common_name">Allgemeiner Name:</string>
+    <string name="trust_certificate_organization">Organisation:</string>
+    <string name="trust_certificate_organizational_unit">Organisationseinheit:</string>
+    <string name="trust_certificate_issued_to">Ausgestellt für:</string>
+    <string name="trust_certificate_issued_by">Ausgestellt von:</string>
+    <string name="trust_certificate_validity">Gültigkeit:</string>
+    <string name="trust_certificate_valid_from">Von:</string>
+    <string name="trust_certificate_valid_until">Bis:</string>
+    <string name="trust_certificate_button_yes">Ja</string>
+    <string name="trust_certificate_button_no">Nein</string>
+</resources>

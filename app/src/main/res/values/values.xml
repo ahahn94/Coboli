@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_login">20dp</dimen>
+    <dimen name="margin_login_small">5dp</dimen>
+    <dimen name="padding_edittext">5dp</dimen>
+    <color name="text_light">#f8f9fa</color>
+    <color name="bg_light">#f8f9fa</color>
+    <color name="text_dark">#343a40</color>
+    <color name="bg_dark">#343a40</color>
+    <color name="btn_primary">#007bff</color>
+</resources>

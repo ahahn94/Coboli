@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">Manhattan</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_url_to_server">URL to Server</string>
+    <string name="login_login">Login</string>
+    <string name="login_failed">Login failed. Wrong username or password.</string>
+    <string name="login_successful">Login successful</string>
+    <string name="server_not_found">Server is not reachable. Check the server address.</string>
+    <string name="bad_request">Bad request. Check the server address.</string>
+    <string name="trust_certificate_title">The certificate of the server could not be verified</string>
+    <string name="trust_certificate_question">Do you want to trust this server anyway?</string>
+    <string name="trust_certificate_details">Certificate details:</string>
+    <string name="trust_certificate_common_name">Common name:</string>
+    <string name="trust_certificate_organization">Organization:</string>
+    <string name="trust_certificate_organizational_unit">Organizational unit:</string>
+    <string name="trust_certificate_issued_to">Issued to:</string>
+    <string name="trust_certificate_issued_by">Issued by:</string>
+    <string name="trust_certificate_validity">Validity:</string>
+    <string name="trust_certificate_valid_from">From:</string>
+    <string name="trust_certificate_valid_until">Until:</string>
+    <string name="trust_certificate_button_yes">Yes</string>
+    <string name="trust_certificate_button_no">No</string>
 </resources>
