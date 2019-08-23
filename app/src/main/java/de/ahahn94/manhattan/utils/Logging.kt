@@ -16,6 +16,13 @@ class Logging {
          * Log an info message.
          */
         fun logInfo(message: String) {
+            Log.i(TAG, message)
+        }
+
+        /**
+         * Log a debug message.
+         */
+        fun logDebug(message: String) {
             Log.d(TAG, message)
         }
 

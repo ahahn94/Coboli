@@ -106,8 +106,8 @@ class LoginActivity : AppCompatActivity() {
                 // Get api key from response.
                 val token = connectionStatus.response?.body()
                 if (token != null) {
-                    val apiKey = token.Content.APIKey
-                    Credentials.getInstance().apiKey = apiKey
+                    val apiKey = token.content?.apiKey
+                    Credentials.getInstance().apiKey = apiKey.toString()
                 }
 
                 // Save credentials

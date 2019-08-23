@@ -1,22 +1,17 @@
 package de.ahahn94.manhattan.api.repos
 
-import de.ahahn94.manhattan.api.resources.Token
+import de.ahahn94.manhattan.api.types.*
+import de.ahahn94.manhattan.utils.network.TrustedCertificatesClientFactory
 import de.ahahn94.manhattan.utils.security.Authentication
-import de.ahahn94.manhattan.utils.security.KnownServers
 import de.ahahn94.manhattan.utils.settings.Credentials
-import okhttp3.OkHttpClient
-import okhttp3.internal.tls.OkHostnameVerifier
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Header
-import java.security.KeyStore
-import javax.net.ssl.*
+import retrofit2.http.*
 
 /**
- * Class that handles access to the ComicLib API resources.
+ * Class that handles the json part of the ComicLib API.
  */
 class ComicLibAPI(url: String) {
 
@@ -40,60 +35,129 @@ class ComicLibAPI(url: String) {
             .baseUrl(url + API_V1_BASE_PATH)
             .addConverterFactory(GsonConverterFactory.create())
 
-            .client(getTrustedCertificatesClient())
+            .client(TrustedCertificatesClientFactory.create())
 
             .build().create(ComicLibApiInterface::class.java)
         val credentials = Credentials.getInstance()
-        basicAuthentication = Authentication.generateBasicAuthHeader(credentials.username, credentials.password)
+        basicAuthentication =
+            Authentication.generateBasicAuthHeader(credentials.username, credentials.password)
         bearerTokenAuthentication = Authentication.generateBearerTokenHeader(credentials.apiKey)
     }
 
     /**
-     * Get a custom OkHttpClient that accepts the certificate and hostname of the known server.
-     * This will enable HTTPS-connections with servers even when there is a certificate error.
-     * Returns an OkHttpClient preloaded with the certificate and hostname of the known server.
-     */
-    private fun getTrustedCertificatesClient(): OkHttpClient {
-        val builder = OkHttpClient().newBuilder()
-
-        // Get trusted certificate.
-        val cert = KnownServers.getCertificate()
-
-        if (cert != null) {
-            // Prepare TrustManager preloaded with known server certificate.
-            val keyStore = KeyStore.getInstance(KeyStore.getDefaultType())
-            keyStore.load(null)
-            keyStore.setCertificateEntry(cert.hashCode().toString(), cert)
-            val keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm())
-            keyManagerFactory.init(keyStore, null)
-            val trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
-            trustManagerFactory.init(keyStore)
-            val trustManager = trustManagerFactory.trustManagers[0] as X509TrustManager
-            val sslContext = SSLContext.getInstance("TLS")
-            sslContext.init(null, arrayOf(trustManager), null)
-            val sslSocketFactory = sslContext.socketFactory
-            builder.sslSocketFactory(sslSocketFactory, trustManager)
-
-            // Preload HostnameVerifier with the hostname of the known server.
-            val hostnameVerifier = object : HostnameVerifier {
-                override fun verify(hostname: String?, session: SSLSession?): Boolean {
-                    val trustedHostname = KnownServers.getServerName()
-                    if (hostname.equals(trustedHostname)) return true
-                    return OkHostnameVerifier.verify(hostname!!, session!!)
-                }
-            }
-
-            builder.hostnameVerifier(hostnameVerifier)
-        }
-        return builder.build()
-    }
-
-    /**
      * Get the bearer token of the logged-in user from the /tokens resource.
-     * Returns a Token.
+     * Returns a Response with a Token that may be null.
      */
     fun getToken(): Response<Token?> {
         return instance.getToken(basicAuthentication).execute()
+    }
+
+    /**
+     * Get the issues list from the /issues resource.
+     * Returns a Response with an Issue.List that may be null.
+     */
+    fun getIssues(): Response<Issue.List?> {
+        return instance.getIssues(bearerTokenAuthentication).execute()
+    }
+
+    /**
+     * Get the issue with the specified issueID from the /issues/{id} resource.
+     * Returns a Response with an Issue that may be null.
+     */
+    fun getIssue(issueID: String): Response<Issue?> {
+        return instance.getIssue(bearerTokenAuthentication, issueID).execute()
+    }
+
+    /**
+     * Get the read-status of the issue with the specified issueID from the
+     * /issues/{id}/readstatus resource.
+     * Returns a Response with an IssueReadStatus that may be null.
+     */
+    fun getIssueReadStatus(issueID: String): Response<IssueReadStatus?> {
+        return instance.getIssueReadStatus(bearerTokenAuthentication, issueID).execute()
+    }
+
+    /**
+     * Update the read-status of the issue with the specified issueID for the logged-in user on the
+     * /issues/{id}/readstatus resource.
+     * Returns a Response with an IssueReadStatus of the updated dataset that may be null.
+     */
+    fun putIssueReadStatus(
+        issueID: String,
+        issueReadStatus: IssueReadStatus.Content
+    ): Response<IssueReadStatus?> {
+        return instance.putIssueReadStatus(bearerTokenAuthentication, issueID, issueReadStatus)
+            .execute()
+    }
+
+    /**
+     * Get the volumes list from the /volumes resource.
+     * Returns a Response with an Volume.List that may be null.
+     */
+    fun getVolumes(): Response<Volume.List?> {
+        return instance.getVolumes(bearerTokenAuthentication).execute()
+    }
+
+    /**
+     * Get the volume with the specified volumeID from the /volumes/{id} resource.
+     * Returns a Response with a Volume that may be null.
+     */
+    fun getVolume(volumeID: String): Response<Volume?> {
+        return instance.getVolume(bearerTokenAuthentication, volumeID).execute()
+    }
+
+    /**
+     * Get the issues list of the volume specified by volumeID from the /volumes/{id}/issues resource.
+     * Returns a Response with an Issue.List that may be null.
+     */
+    fun getVolumeIssues(volumeID: String): Response<Issue.List?> {
+        return instance.getVolumeIssues(bearerTokenAuthentication, volumeID).execute()
+    }
+
+    /**
+     * Get the read-status of the volume with the specified volumeID from the
+     * /volumes/{id}/readstatus resource.
+     * Returns a Response with a VolumeReadStatus that may be null.
+     */
+    fun getVolumeReadStatus(volumeID: String): Response<VolumeReadStatus?> {
+        return instance.getVolumeReadStatus(bearerTokenAuthentication, volumeID).execute()
+    }
+
+    /**
+     * Update the read-status of the volume with the specified volumeID for the logged-in user on the
+     * /volumes/{id}/readstatus resource.
+     * Returns a Response with a VolumeReadStatus of the updated dataset that may be null.
+     */
+    fun putVolumeReadStatus(
+        volumeID: String,
+        volumeReadStatus: VolumeReadStatus.Content
+    ): Response<VolumeReadStatus?> {
+        return instance.putVolumeReadStatus(bearerTokenAuthentication, volumeID, volumeReadStatus)
+            .execute()
+    }
+
+    /**
+     * Get the publishers list from the /publishers resource.
+     * Returns a Response with a Publisher.List that may be null.
+     */
+    fun getPublishers(): Response<Publisher.List?> {
+        return instance.getPublishers(bearerTokenAuthentication).execute()
+    }
+
+    /**
+     * Get the publisher with the specified publisherID from the /publishers/{id} resource.
+     * Returns a Response with a Publisher that may be null.
+     */
+    fun getPublisher(publisherID: String): Response<Publisher?> {
+        return instance.getPublisher(bearerTokenAuthentication, publisherID).execute()
+    }
+
+    /**
+     * Get the volumes list of the publisher specified by publisherID from the /publishers/{id}/volumes resource.
+     * Returns a Response with an Volume.List that may be null.
+     */
+    fun getPublisherVolumes(publisherID: String): Response<Volume.List?> {
+        return instance.getPublisherVolumes(bearerTokenAuthentication, publisherID).execute()
     }
 
     /**
@@ -102,6 +166,48 @@ class ComicLibAPI(url: String) {
     interface ComicLibApiInterface {
         @GET("tokens")
         fun getToken(@Header("Authorization") authorization: String): Call<Token?>
+
+        @GET("issues")
+        fun getIssues(@Header("Authorization") authorization: String): Call<Issue.List?>
+
+        @GET("issues/{issueID}")
+        fun getIssue(@Header("Authorization") authorization: String, @Path("issueID") issueID: String): Call<Issue?>
+
+        @GET("issues/{issueID}/readstatus")
+        fun getIssueReadStatus(@Header("Authorization") authorization: String, @Path("issueID") issueID: String): Call<IssueReadStatus?>
+
+        @PUT("issues/{issueID}/readstatus")
+        fun putIssueReadStatus(
+            @Header("Authorization") authorization: String, @Path("issueID") issueID: String,
+            @Body issueReadStatus: IssueReadStatus.Content
+        ): Call<IssueReadStatus?>
+
+        @GET("volumes")
+        fun getVolumes(@Header("Authorization") authorization: String): Call<Volume.List?>
+
+        @GET("volumes/{volumeID}")
+        fun getVolume(@Header("Authorization") authorization: String, @Path("volumeID") volumeID: String): Call<Volume?>
+
+        @GET("volumes/{volumeID}/issues")
+        fun getVolumeIssues(@Header("Authorization") authorization: String, @Path("volumeID") volumeID: String): Call<Issue.List?>
+
+        @GET("volumes/{volumeID}/readstatus")
+        fun getVolumeReadStatus(@Header("Authorization") authorization: String, @Path("volumeID") volumeID: String): Call<VolumeReadStatus?>
+
+        @PUT("volumes/{volumeID}/readstatus")
+        fun putVolumeReadStatus(
+            @Header("Authorization") authorization: String, @Path("volumeID") volumeID: String,
+            @Body volumeReadStatus: VolumeReadStatus.Content
+        ): Call<VolumeReadStatus?>
+
+        @GET("publishers")
+        fun getPublishers(@Header("Authorization") authorization: String): Call<Publisher.List?>
+
+        @GET("publishers/{publisherID}")
+        fun getPublisher(@Header("Authorization") authorization: String, @Path("publisherID") publisherID: String): Call<Publisher?>
+
+        @GET("publishers/{publisherID}/volumes")
+        fun getPublisherVolumes(@Header("Authorization") authorization: String, @Path("publisherID") publisherID: String): Call<Volume.List?>
     }
 
 }

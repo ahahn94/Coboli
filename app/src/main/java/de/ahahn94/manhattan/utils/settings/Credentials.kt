@@ -98,7 +98,7 @@ data class Credentials(var username: String = "", var password: String = "", var
 
         /**
          * Save credentials to SharedPreferences.
-         * Username, Password and APIKey will be encrypted before storing.
+         * Username, Password and apiKey will be encrypted before storing.
          */
         fun saveInstance() {
             val sharedPreferences = getSharedPreferences()

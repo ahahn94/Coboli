@@ -1,6 +1,6 @@
 package de.ahahn94.manhattan.utils.network
 
-import de.ahahn94.manhattan.api.resources.Token
+import de.ahahn94.manhattan.api.types.Token
 import retrofit2.Response
 
 /**
