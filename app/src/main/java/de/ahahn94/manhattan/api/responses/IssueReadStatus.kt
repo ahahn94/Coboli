@@ -1,4 +1,4 @@
-package de.ahahn94.manhattan.api.types
+package de.ahahn94.manhattan.api.responses
 
 import com.google.gson.annotations.SerializedName
 
@@ -18,7 +18,7 @@ data class IssueReadStatus(
         // Constants.
         const val IS_READ_READ = "1"
         const val IS_READ_UNREAD = "0"
-        const val CURRENT_PAGE_READ = "0"
+        const val CURRENT_PAGE_NO_PROGRESS = "0"
 
     }
 

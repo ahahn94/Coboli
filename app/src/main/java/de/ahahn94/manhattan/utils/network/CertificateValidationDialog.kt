@@ -1,13 +1,13 @@
 package de.ahahn94.manhattan.utils.network
 
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.fragment.app.DialogFragment
 import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.utils.replaceNull
 import de.ahahn94.manhattan.utils.security.KnownServers
@@ -58,7 +58,11 @@ class CertificateValidationDialog :
      * Customizations:
      * Inflate custom layout.
      */
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.trust_certificate_layout, container, false)
     }

@@ -1,11 +1,17 @@
 package de.ahahn94.manhattan
 
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.google.gson.Gson
 import de.ahahn94.manhattan.api.repos.ComicLibAPI
-import de.ahahn94.manhattan.api.types.*
+import de.ahahn94.manhattan.api.responses.ApiResponse
+import de.ahahn94.manhattan.api.responses.IssueReadStatus
+import de.ahahn94.manhattan.api.responses.Token
+import de.ahahn94.manhattan.api.responses.VolumeReadStatus
+import de.ahahn94.manhattan.database.Issue
+import de.ahahn94.manhattan.database.Publisher
+import de.ahahn94.manhattan.database.Volume
 import de.ahahn94.manhattan.utils.ContextProvider
 import de.ahahn94.manhattan.utils.Logging
 import de.ahahn94.manhattan.utils.replaceNull
@@ -37,7 +43,7 @@ class ComicLibApiTest {
      * Initialize comicLibAPI.
      */
     init {
-        ContextProvider.setApplicationContext(InstrumentationRegistry.getTargetContext())
+        ContextProvider.setApplicationContext(InstrumentationRegistry.getInstrumentation().targetContext)
         val serverAddress =
             Preferences.getInstance().getString(Preferences.SERVER_ADDRESS_KEY, "") replaceNull ""
         comicLibAPI = ComicLibAPI(serverAddress)
@@ -78,7 +84,7 @@ class ComicLibApiTest {
     private fun testIssues() {
         val response = comicLibAPI.getIssues()
         val obj = getObjectFromResponse(response)
-        testObject(obj as ApiResponse<List<Issue.Content>?>)
+        testObject(obj as ApiResponse<List<Issue>?>)
     }
 
     /**
@@ -87,7 +93,7 @@ class ComicLibApiTest {
     private fun testIssue() {
         val response = comicLibAPI.getIssue(ISSUE_ID)
         val obj = getObjectFromResponse(response)
-        testObject(obj as ApiResponse<Issue.Content?>)
+        testObject(obj as ApiResponse<Issue?>)
     }
 
     /**
@@ -100,7 +106,7 @@ class ComicLibApiTest {
 
         // Test PUT
         obj.content?.isRead = IssueReadStatus.IS_READ_READ
-        obj.content?.currentPage = IssueReadStatus.CURRENT_PAGE_READ
+        obj.content?.currentPage = IssueReadStatus.CURRENT_PAGE_NO_PROGRESS
         val response2 = comicLibAPI.putIssueReadStatus(ISSUE_ID, obj.content!!)
         val obj2 = getObjectFromResponse(response2)
         testObject(obj2 as ApiResponse<IssueReadStatus.Content?>)
@@ -112,7 +118,7 @@ class ComicLibApiTest {
     private fun testVolumes() {
         val response = comicLibAPI.getVolumes()
         val obj = getObjectFromResponse(response)
-        testObject(obj as ApiResponse<List<Volume.Content>?>)
+        testObject(obj as ApiResponse<List<Volume>?>)
     }
 
     /**
@@ -121,7 +127,7 @@ class ComicLibApiTest {
     fun testVolume() {
         val response = comicLibAPI.getVolume(VOLUME_ID)
         val obj = getObjectFromResponse(response)
-        testObject(obj as ApiResponse<Volume.Content?>)
+        testObject(obj as ApiResponse<Volume?>)
     }
 
     /**
@@ -130,7 +136,7 @@ class ComicLibApiTest {
     private fun testVolumeIssues() {
         val response = comicLibAPI.getVolumeIssues(VOLUME_ID)
         val obj = getObjectFromResponse(response)
-        testObject(obj as ApiResponse<List<Issue.Content>?>)
+        testObject(obj as ApiResponse<List<Issue>?>)
     }
 
     /**
@@ -154,7 +160,7 @@ class ComicLibApiTest {
     private fun testPublishers() {
         val response = comicLibAPI.getPublishers()
         val obj = getObjectFromResponse(response)
-        testObject(obj as ApiResponse<List<Publisher.Content>?>)
+        testObject(obj as ApiResponse<List<Publisher>?>)
     }
 
     /**
@@ -163,7 +169,7 @@ class ComicLibApiTest {
     private fun testPublisher() {
         val response = comicLibAPI.getPublisher(PUBLISHER_ID)
         val obj = getObjectFromResponse(response)
-        testObject(obj as ApiResponse<Publisher.Content?>)
+        testObject(obj as ApiResponse<Publisher?>)
     }
 
     /**
@@ -172,7 +178,7 @@ class ComicLibApiTest {
     private fun testPublisherVolumes() {
         val response = comicLibAPI.getPublisherVolumes(PUBLISHER_ID)
         val obj = getObjectFromResponse(response)
-        testObject(obj as ApiResponse<List<Volume.Content>?>)
+        testObject(obj as ApiResponse<List<Volume>?>)
     }
 
     /**

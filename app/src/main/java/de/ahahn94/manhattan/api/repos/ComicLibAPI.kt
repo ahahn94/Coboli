@@ -1,6 +1,6 @@
 package de.ahahn94.manhattan.api.repos
 
-import de.ahahn94.manhattan.api.types.*
+import de.ahahn94.manhattan.api.responses.*
 import de.ahahn94.manhattan.utils.network.TrustedCertificatesClientFactory
 import de.ahahn94.manhattan.utils.security.Authentication
 import de.ahahn94.manhattan.utils.settings.Credentials
@@ -54,17 +54,17 @@ class ComicLibAPI(url: String) {
 
     /**
      * Get the issues list from the /issues resource.
-     * Returns a Response with an Issue.List that may be null.
+     * Returns a Response with an IssueResponse.List that may be null.
      */
-    fun getIssues(): Response<Issue.List?> {
+    fun getIssues(): Response<IssueResponse.List?> {
         return instance.getIssues(bearerTokenAuthentication).execute()
     }
 
     /**
      * Get the issue with the specified issueID from the /issues/{id} resource.
-     * Returns a Response with an Issue that may be null.
+     * Returns a Response with an IssueResponse that may be null.
      */
-    fun getIssue(issueID: String): Response<Issue?> {
+    fun getIssue(issueID: String): Response<IssueResponse?> {
         return instance.getIssue(bearerTokenAuthentication, issueID).execute()
     }
 
@@ -92,25 +92,25 @@ class ComicLibAPI(url: String) {
 
     /**
      * Get the volumes list from the /volumes resource.
-     * Returns a Response with an Volume.List that may be null.
+     * Returns a Response with an VolumeResponse.List that may be null.
      */
-    fun getVolumes(): Response<Volume.List?> {
+    fun getVolumes(): Response<VolumeResponse.List?> {
         return instance.getVolumes(bearerTokenAuthentication).execute()
     }
 
     /**
      * Get the volume with the specified volumeID from the /volumes/{id} resource.
-     * Returns a Response with a Volume that may be null.
+     * Returns a Response with a VolumeResponse that may be null.
      */
-    fun getVolume(volumeID: String): Response<Volume?> {
+    fun getVolume(volumeID: String): Response<VolumeResponse?> {
         return instance.getVolume(bearerTokenAuthentication, volumeID).execute()
     }
 
     /**
      * Get the issues list of the volume specified by volumeID from the /volumes/{id}/issues resource.
-     * Returns a Response with an Issue.List that may be null.
+     * Returns a Response with an IssueResponse.List that may be null.
      */
-    fun getVolumeIssues(volumeID: String): Response<Issue.List?> {
+    fun getVolumeIssues(volumeID: String): Response<IssueResponse.List?> {
         return instance.getVolumeIssues(bearerTokenAuthentication, volumeID).execute()
     }
 
@@ -138,25 +138,25 @@ class ComicLibAPI(url: String) {
 
     /**
      * Get the publishers list from the /publishers resource.
-     * Returns a Response with a Publisher.List that may be null.
+     * Returns a Response with a PublisherResponse.List that may be null.
      */
-    fun getPublishers(): Response<Publisher.List?> {
+    fun getPublishers(): Response<PublisherResponse.List?> {
         return instance.getPublishers(bearerTokenAuthentication).execute()
     }
 
     /**
      * Get the publisher with the specified publisherID from the /publishers/{id} resource.
-     * Returns a Response with a Publisher that may be null.
+     * Returns a Response with a PublisherResponse that may be null.
      */
-    fun getPublisher(publisherID: String): Response<Publisher?> {
+    fun getPublisher(publisherID: String): Response<PublisherResponse?> {
         return instance.getPublisher(bearerTokenAuthentication, publisherID).execute()
     }
 
     /**
      * Get the volumes list of the publisher specified by publisherID from the /publishers/{id}/volumes resource.
-     * Returns a Response with an Volume.List that may be null.
+     * Returns a Response with an VolumeResponse.List that may be null.
      */
-    fun getPublisherVolumes(publisherID: String): Response<Volume.List?> {
+    fun getPublisherVolumes(publisherID: String): Response<VolumeResponse.List?> {
         return instance.getPublisherVolumes(bearerTokenAuthentication, publisherID).execute()
     }
 
@@ -168,10 +168,10 @@ class ComicLibAPI(url: String) {
         fun getToken(@Header("Authorization") authorization: String): Call<Token?>
 
         @GET("issues")
-        fun getIssues(@Header("Authorization") authorization: String): Call<Issue.List?>
+        fun getIssues(@Header("Authorization") authorization: String): Call<IssueResponse.List?>
 
         @GET("issues/{issueID}")
-        fun getIssue(@Header("Authorization") authorization: String, @Path("issueID") issueID: String): Call<Issue?>
+        fun getIssue(@Header("Authorization") authorization: String, @Path("issueID") issueID: String): Call<IssueResponse?>
 
         @GET("issues/{issueID}/readstatus")
         fun getIssueReadStatus(@Header("Authorization") authorization: String, @Path("issueID") issueID: String): Call<IssueReadStatus?>
@@ -183,13 +183,13 @@ class ComicLibAPI(url: String) {
         ): Call<IssueReadStatus?>
 
         @GET("volumes")
-        fun getVolumes(@Header("Authorization") authorization: String): Call<Volume.List?>
+        fun getVolumes(@Header("Authorization") authorization: String): Call<VolumeResponse.List?>
 
         @GET("volumes/{volumeID}")
-        fun getVolume(@Header("Authorization") authorization: String, @Path("volumeID") volumeID: String): Call<Volume?>
+        fun getVolume(@Header("Authorization") authorization: String, @Path("volumeID") volumeID: String): Call<VolumeResponse?>
 
         @GET("volumes/{volumeID}/issues")
-        fun getVolumeIssues(@Header("Authorization") authorization: String, @Path("volumeID") volumeID: String): Call<Issue.List?>
+        fun getVolumeIssues(@Header("Authorization") authorization: String, @Path("volumeID") volumeID: String): Call<IssueResponse.List?>
 
         @GET("volumes/{volumeID}/readstatus")
         fun getVolumeReadStatus(@Header("Authorization") authorization: String, @Path("volumeID") volumeID: String): Call<VolumeReadStatus?>
@@ -201,13 +201,13 @@ class ComicLibAPI(url: String) {
         ): Call<VolumeReadStatus?>
 
         @GET("publishers")
-        fun getPublishers(@Header("Authorization") authorization: String): Call<Publisher.List?>
+        fun getPublishers(@Header("Authorization") authorization: String): Call<PublisherResponse.List?>
 
         @GET("publishers/{publisherID}")
-        fun getPublisher(@Header("Authorization") authorization: String, @Path("publisherID") publisherID: String): Call<Publisher?>
+        fun getPublisher(@Header("Authorization") authorization: String, @Path("publisherID") publisherID: String): Call<PublisherResponse?>
 
         @GET("publishers/{publisherID}/volumes")
-        fun getPublisherVolumes(@Header("Authorization") authorization: String, @Path("publisherID") publisherID: String): Call<Volume.List?>
+        fun getPublisherVolumes(@Header("Authorization") authorization: String, @Path("publisherID") publisherID: String): Call<VolumeResponse.List?>
     }
 
 }

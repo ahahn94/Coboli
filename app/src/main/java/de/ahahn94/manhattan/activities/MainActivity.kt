@@ -2,7 +2,7 @@ package de.ahahn94.manhattan.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.utils.ContextProvider

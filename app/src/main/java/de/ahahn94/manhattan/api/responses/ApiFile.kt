@@ -1,4 +1,4 @@
-package de.ahahn94.manhattan.api.types
+package de.ahahn94.manhattan.api.responses
 
 import android.util.Base64
 import java.io.File

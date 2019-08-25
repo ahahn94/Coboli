@@ -1,8 +1,8 @@
 package de.ahahn94.manhattan
 
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.ahahn94.manhattan.api.repos.ComicLibImages
 import de.ahahn94.manhattan.cache.ImagesCache
 import de.ahahn94.manhattan.utils.ContextProvider
@@ -33,7 +33,7 @@ class ComicLibImagesTest {
      * Initializes comicLibImages.
      */
     init {
-        ContextProvider.setApplicationContext(InstrumentationRegistry.getTargetContext())
+        ContextProvider.setApplicationContext(InstrumentationRegistry.getInstrumentation().targetContext)
         val serverAddress =
             Preferences.getInstance().getString(Preferences.SERVER_ADDRESS_KEY, "") replaceNull ""
         comicLibImages = ComicLibImages(serverAddress)

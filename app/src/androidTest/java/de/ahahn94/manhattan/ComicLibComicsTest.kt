@@ -1,8 +1,8 @@
 package de.ahahn94.manhattan
 
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import de.ahahn94.manhattan.api.repos.ComicLibComics
 import de.ahahn94.manhattan.cache.ComicsCache
 import de.ahahn94.manhattan.utils.ContextProvider
@@ -32,8 +32,9 @@ class ComicLibComicsTest {
      * Initializes comicLibComics.
      */
     init {
-        ContextProvider.setApplicationContext(InstrumentationRegistry.getTargetContext())
-        val serverAddress = Preferences.getInstance().getString(Preferences.SERVER_ADDRESS_KEY, "") replaceNull ""
+        ContextProvider.setApplicationContext(InstrumentationRegistry.getInstrumentation().targetContext)
+        val serverAddress =
+            Preferences.getInstance().getString(Preferences.SERVER_ADDRESS_KEY, "") replaceNull ""
         comicLibComics = ComicLibComics(serverAddress)
     }
 
@@ -50,10 +51,10 @@ class ComicLibComicsTest {
     /**
      * Test requests to the /issues/{id}/file resource.
      */
-    private fun testComics(){
+    private fun testComics() {
         val response = comicLibComics.getComicFile(ISSUE_ID)
         response?.saveFile(ComicsCache.getInstance())
-        val fileExists = ComicsCache.getFilesNames()?.contains(response?.filename)?: false
+        val fileExists = ComicsCache.getFilesNames()?.contains(response?.filename) ?: false
         assert(fileExists)
     }
 
