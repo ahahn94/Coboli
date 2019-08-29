@@ -1,6 +1,5 @@
 package de.ahahn94.manhattan
 
-
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import de.ahahn94.manhattan.api.repos.ComicLibComics
@@ -9,8 +8,10 @@ import de.ahahn94.manhattan.utils.ContextProvider
 import de.ahahn94.manhattan.utils.Logging
 import de.ahahn94.manhattan.utils.replaceNull
 import de.ahahn94.manhattan.utils.settings.Preferences
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+
 
 /**
  * Unit tests for the functions that handle the comic file parts of the ComicLib API.
@@ -55,7 +56,7 @@ class ComicLibComicsTest {
         val response = comicLibComics.getComicFile(ISSUE_ID)
         response?.saveFile(ComicsCache.getInstance())
         val fileExists = ComicsCache.getFilesNames()?.contains(response?.filename) ?: false
-        assert(fileExists)
+        assertTrue(fileExists)
     }
 
 }

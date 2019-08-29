@@ -5,13 +5,11 @@ import com.google.gson.annotations.SerializedName
 /**
  * Data class for datasets received from the /volumes/{id}/readstatus resource.
  */
-data class VolumeReadStatus(
-    @SerializedName("Status")
-    val status: ResponseStatus,
-    @SerializedName("Content")
-    val content: Content?
+class VolumeReadStatus(
+    responseStatus: ResponseStatus,
+    responseContent: Content?
 ) :
-    ApiResponse<VolumeReadStatus.Content?>(status, content) {
+    ApiResponse<VolumeReadStatus.Content?>(responseStatus, responseContent) {
 
     companion object {
 
@@ -28,7 +26,9 @@ data class VolumeReadStatus(
         @SerializedName("VolumeID")
         val volumeID: String,
         @SerializedName("IsRead")
-        var isRead: String
+        var isRead: String,
+        @SerializedName("Changed")
+        var timestampChanged: String
     )
 
 }

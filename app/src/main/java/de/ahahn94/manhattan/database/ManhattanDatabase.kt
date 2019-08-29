@@ -6,8 +6,12 @@ import androidx.room.RoomDatabase
 /**
  * RoomDatabase that wraps the tables and DAOs for the app database.
  */
-@Database(entities = [Publisher::class, Volume::class, Issue::class], version = 1)
+@Database(
+    entities = [Publisher::class, Volume::class, Issue::class, CachedComic::class],
+    version = 1
+)
 abstract class ManhattanDatabase : RoomDatabase() {
+    abstract fun cachedComicsDao(): CachedComic.CachedComicsDao
     abstract fun issuesDao(): Issue.IssuesDao
     abstract fun publishersDao(): Publisher.PublishersDao
     abstract fun volumesDao(): Volume.VolumesDao

@@ -9,6 +9,7 @@ import de.ahahn94.manhattan.utils.ContextProvider
 import de.ahahn94.manhattan.utils.Logging
 import de.ahahn94.manhattan.utils.replaceNull
 import de.ahahn94.manhattan.utils.settings.Preferences
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -58,13 +59,13 @@ class DatabaseTest {
      * Run tests on the Publishers table.
      */
     private fun testPublishers() {
-        val publisher = comicLibAPI.getPublisher(PUBLISHER_ID).body()?.content
+        val publisher = comicLibAPI.getPublisher(PUBLISHER_ID).body()?.responseContent
 
         if (publisher != null) {
             database.publishersDao().insert(publisher)
 
             val fromDatabase = database.publishersDao().getAll()
-            assert(fromDatabase.isNotEmpty())
+            assertTrue(fromDatabase.isNotEmpty())
         }
     }
 
@@ -72,13 +73,13 @@ class DatabaseTest {
      * Run tests on the Volumes table.
      */
     private fun testVolumes() {
-        val volume = comicLibAPI.getVolume(VOLUME_ID).body()?.content
+        val volume = comicLibAPI.getVolume(VOLUME_ID).body()?.responseContent
 
         if (volume != null) {
             database.volumesDao().insert(volume)
 
             val fromDatabase = database.volumesDao().getAll()
-            assert(fromDatabase.isNotEmpty())
+            assertTrue(fromDatabase.isNotEmpty())
         }
     }
 
@@ -86,13 +87,13 @@ class DatabaseTest {
      * Run tests on the Issues table.
      */
     private fun testIssues() {
-        val issue = comicLibAPI.getIssue(ISSUE_ID).body()?.content
+        val issue = comicLibAPI.getIssue(ISSUE_ID).body()?.responseContent
 
         if (issue != null) {
             database.issuesDao().insert(issue)
 
             val fromDatabase = database.issuesDao().getAll()
-            assert(fromDatabase.isNotEmpty())
+            assertTrue(fromDatabase.isNotEmpty())
         }
     }
 

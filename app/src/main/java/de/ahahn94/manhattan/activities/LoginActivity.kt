@@ -3,13 +3,13 @@ package de.ahahn94.manhattan.activities
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Gravity
 import android.view.View
 import android.view.autofill.AutofillManager
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.utils.network.CertificateValidationDialog
 import de.ahahn94.manhattan.utils.network.ConnectionStatus
@@ -57,7 +57,8 @@ class LoginActivity : AppCompatActivity() {
         inputServerAddress = findViewById(R.id.LoginServerAddress)
 
         // If server address in settings, autofill address.
-        val serverAddressFromPreferences = Preferences.getInstance().getString(Preferences.SERVER_ADDRESS_KEY, "")
+        val serverAddressFromPreferences =
+            Preferences.getInstance().getString(Preferences.SERVER_ADDRESS_KEY, "")
         if (serverAddressFromPreferences != "") {
             inputServerAddress.setText(serverAddressFromPreferences)
         }
@@ -106,7 +107,7 @@ class LoginActivity : AppCompatActivity() {
                 // Get api key from response.
                 val token = connectionStatus.response?.body()
                 if (token != null) {
-                    val apiKey = token.content?.apiKey
+                    val apiKey = token.responseContent?.apiKey
                     Credentials.getInstance().apiKey = apiKey.toString()
                 }
 

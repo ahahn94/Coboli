@@ -8,10 +8,16 @@ import de.ahahn94.manhattan.api.responses.VolumeReadStatus
 /**
  * Data class for volume datasets.
  */
-@Entity(tableName = "Volumes",
-    foreignKeys = [ForeignKey(entity = Publisher::class, parentColumns = ["ID"], childColumns = ["PublisherID"])]
+@Entity(
+    tableName = "Volumes",
+    foreignKeys = [ForeignKey(
+        entity = Publisher::class,
+        parentColumns = ["ID"],
+        childColumns = ["PublisherID"]
+    )],
+    indices = [Index(value = ["PublisherID"], unique = false)]
 )
-data class Volume (
+data class Volume(
 
     @SerializedName("ID")
     @ColumnInfo(name = "ID")
@@ -65,6 +71,10 @@ data class Volume (
         @ColumnInfo(name = "IsRead")
         var isRead: String = VolumeReadStatus.IS_READ_UNREAD,
 
+        @SerializedName("Changed")
+        @ColumnInfo(name = "Changed")
+        var timestampChanged: String = "",
+
         @SerializedName("Link")
         @ColumnInfo(name = "ReadStatusURL")
         var link: String = ""
@@ -93,8 +103,20 @@ data class Volume (
         @Insert(onConflict = OnConflictStrategy.ABORT)
         fun insert(volume: Volume)
 
+        @Update
+        fun update(vararg volume: Volume)
+
+        @Query("SELECT * FROM Volumes WHERE ID = :volumeID")
+        fun get(volumeID: String): Volume?
+
         @Query("SELECT * FROM Volumes")
         fun getAll(): Array<Volume>
+
+        @Query("SELECT * FROM Volumes WHERE PublisherID = :publisherID")
+        fun getByPublisher(publisherID: String): Array<Volume>
+
+        @Delete
+        fun delete(vararg volume: Volume)
 
     }
 

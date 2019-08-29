@@ -5,13 +5,11 @@ import com.google.gson.annotations.SerializedName
 /**
  * Data class for datasets received from the /issues/{id}/readstatus resource.
  */
-data class IssueReadStatus(
-    @SerializedName("Status")
-    val status: ResponseStatus,
-    @SerializedName("Content")
-    val content: Content?
+class IssueReadStatus(
+    responseStatus: ResponseStatus,
+    responseContent: Content?
 ) :
-    ApiResponse<IssueReadStatus.Content?>(status, content) {
+    ApiResponse<IssueReadStatus.Content?>(responseStatus, responseContent) {
 
     companion object {
 
@@ -31,7 +29,9 @@ data class IssueReadStatus(
         @SerializedName("IsRead")
         var isRead: String,
         @SerializedName("CurrentPage")
-        var currentPage: String
+        var currentPage: String,
+        @SerializedName("Changed")
+        var timestampChanged : String
     )
 
 }

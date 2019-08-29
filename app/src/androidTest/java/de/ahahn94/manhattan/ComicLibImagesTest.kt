@@ -1,14 +1,14 @@
 package de.ahahn94.manhattan
 
-
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import de.ahahn94.manhattan.api.repos.ComicLibImages
 import de.ahahn94.manhattan.cache.ImagesCache
 import de.ahahn94.manhattan.utils.ContextProvider
 import de.ahahn94.manhattan.utils.Logging
 import de.ahahn94.manhattan.utils.replaceNull
 import de.ahahn94.manhattan.utils.settings.Preferences
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -21,7 +21,7 @@ class ComicLibImagesTest {
     companion object {
 
         // Constants for testing. Filename taken from the example datasets of ComicLib..
-        private const val IMAGE_URL = "4000-511011.jpg"
+        private const val IMAGE_URL = "/cache/images/4000-511011.jpg"
 
     }
 
@@ -56,7 +56,7 @@ class ComicLibImagesTest {
         val response = comicLibImages.getImage(IMAGE_URL)
         response?.saveFile(ImagesCache.getInstance())
         val fileExists = ImagesCache.getFilesNames()?.contains(response?.filename) ?: false
-        assert(fileExists)
+        assertTrue(fileExists)
     }
 
 }

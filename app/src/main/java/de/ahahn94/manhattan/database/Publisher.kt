@@ -44,12 +44,22 @@ data class Publisher(
      * Data access object for the Publishers database table.
      */
     @Dao
-    interface PublishersDao{
+    interface PublishersDao {
         @Insert(onConflict = OnConflictStrategy.ABORT)
         fun insert(publisher: Publisher)
 
+        @Update
+        fun update(vararg publisher: Publisher)
+
+        @Query("SELECT * FROM Publishers WHERE ID = :publisherID")
+        fun get(publisherID: String): Publisher?
+
         @Query("SELECT * FROM Publishers")
-        fun getAll() : Array<Publisher>
+        fun getAll(): Array<Publisher>
+
+        @Delete
+        fun delete(vararg publisher: Publisher)
+
     }
 
 }

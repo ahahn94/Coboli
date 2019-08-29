@@ -8,8 +8,15 @@ import de.ahahn94.manhattan.api.responses.IssueReadStatus
 /**
  * Data class for issue datasets.
  */
-@Entity(tableName = "Issues",
-    foreignKeys = [ForeignKey(entity = Volume::class, parentColumns = ["ID"], childColumns = ["VolumeID"])])
+@Entity(
+    tableName = "Issues",
+    foreignKeys = [ForeignKey(
+        entity = Volume::class,
+        parentColumns = ["ID"],
+        childColumns = ["VolumeID"]
+    )],
+    indices = [Index(value = ["VolumeID"], unique = false)]
+)
 data class Issue(
 
     @SerializedName("ID")
@@ -44,7 +51,7 @@ data class Issue(
 
     @SerializedName("ReadStatus")
     @Embedded
-    val readStatus: ReadStatus,
+    var readStatus: ReadStatus,
 
     @SerializedName("Volume")
     @Embedded
@@ -77,6 +84,10 @@ data class Issue(
         @ColumnInfo(name = "CurrentPage")
         var currentPage: String = IssueReadStatus.CURRENT_PAGE_NO_PROGRESS,
 
+        @SerializedName("Changed")
+        @ColumnInfo(name = "Changed")
+        var timestampChanged: String = "",
+
         @SerializedName("Link")
         @ColumnInfo(name = "ReadStatusURL")
         var link: String = ""
@@ -105,8 +116,20 @@ data class Issue(
         @Insert(onConflict = OnConflictStrategy.ABORT)
         fun insert(issue: Issue)
 
+        @Update
+        fun update(vararg issue: Issue)
+
+        @Query("SELECT * FROM Issues WHERE ID = :issueID")
+        fun get(issueID: String): Issue?
+
         @Query("SELECT * FROM Issues")
         fun getAll(): Array<Issue>
+
+        @Query("SELECT * FROM Issues WHERE VolumeID = :volumeID")
+        fun getByVolume(volumeID: String): Array<Issue>
+
+        @Delete
+        fun delete(vararg issue: Issue)
     }
 
 }

@@ -1,6 +1,8 @@
 package de.ahahn94.manhattan.api.repos
 
 import de.ahahn94.manhattan.api.responses.*
+import de.ahahn94.manhattan.database.Issue
+import de.ahahn94.manhattan.database.Volume
 import de.ahahn94.manhattan.utils.network.TrustedCertificatesClientFactory
 import de.ahahn94.manhattan.utils.security.Authentication
 import de.ahahn94.manhattan.utils.settings.Credentials
@@ -84,6 +86,19 @@ class ComicLibAPI(url: String) {
      */
     fun putIssueReadStatus(
         issueID: String,
+        issueReadStatus: Issue.ReadStatus
+    ): Response<IssueReadStatus?> {
+        return instance.putIssueReadStatus(bearerTokenAuthentication, issueID, issueReadStatus)
+            .execute()
+    }
+
+    /**
+     * Update the read-status of the issue with the specified issueID for the logged-in user on the
+     * /issues/{id}/readstatus resource.
+     * Returns a Response with an IssueReadStatus of the updated dataset that may be null.
+     */
+    fun putIssueReadStatus(
+        issueID: String,
         issueReadStatus: IssueReadStatus.Content
     ): Response<IssueReadStatus?> {
         return instance.putIssueReadStatus(bearerTokenAuthentication, issueID, issueReadStatus)
@@ -121,6 +136,19 @@ class ComicLibAPI(url: String) {
      */
     fun getVolumeReadStatus(volumeID: String): Response<VolumeReadStatus?> {
         return instance.getVolumeReadStatus(bearerTokenAuthentication, volumeID).execute()
+    }
+
+    /**
+     * Update the read-status of the volume with the specified volumeID for the logged-in user on the
+     * /volumes/{id}/readstatus resource.
+     * Returns a Response with a VolumeReadStatus of the updated dataset that may be null.
+     */
+    fun putVolumeReadStatus(
+        volumeID: String,
+        volumeReadStatus: Volume.ReadStatus
+    ): Response<VolumeReadStatus?> {
+        return instance.putVolumeReadStatus(bearerTokenAuthentication, volumeID, volumeReadStatus)
+            .execute()
     }
 
     /**
@@ -179,6 +207,12 @@ class ComicLibAPI(url: String) {
         @PUT("issues/{issueID}/readstatus")
         fun putIssueReadStatus(
             @Header("Authorization") authorization: String, @Path("issueID") issueID: String,
+            @Body issueReadStatus: Issue.ReadStatus
+        ): Call<IssueReadStatus?>
+
+        @PUT("issues/{issueID}/readstatus")
+        fun putIssueReadStatus(
+            @Header("Authorization") authorization: String, @Path("issueID") issueID: String,
             @Body issueReadStatus: IssueReadStatus.Content
         ): Call<IssueReadStatus?>
 
@@ -193,6 +227,12 @@ class ComicLibAPI(url: String) {
 
         @GET("volumes/{volumeID}/readstatus")
         fun getVolumeReadStatus(@Header("Authorization") authorization: String, @Path("volumeID") volumeID: String): Call<VolumeReadStatus?>
+
+        @PUT("volumes/{volumeID}/readstatus")
+        fun putVolumeReadStatus(
+            @Header("Authorization") authorization: String, @Path("volumeID") volumeID: String,
+            @Body volumeReadStatus: Volume.ReadStatus
+        ): Call<VolumeReadStatus?>
 
         @PUT("volumes/{volumeID}/readstatus")
         fun putVolumeReadStatus(

@@ -16,9 +16,11 @@ import de.ahahn94.manhattan.utils.ContextProvider
 import de.ahahn94.manhattan.utils.Logging
 import de.ahahn94.manhattan.utils.replaceNull
 import de.ahahn94.manhattan.utils.settings.Preferences
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import retrofit2.Response
+
 
 /**
  * Unit tests for the functions that handle the JSON-based parts of the ComicLib API.
@@ -75,7 +77,6 @@ class ComicLibApiTest {
         val response = comicLibAPI.getToken()
         val obj = getObjectFromResponse(response)
         testObject(obj as ApiResponse<Token.Content?>)
-
     }
 
     /**
@@ -105,9 +106,9 @@ class ComicLibApiTest {
         testObject(obj as ApiResponse<IssueReadStatus.Content?>)
 
         // Test PUT
-        obj.content?.isRead = IssueReadStatus.IS_READ_READ
-        obj.content?.currentPage = IssueReadStatus.CURRENT_PAGE_NO_PROGRESS
-        val response2 = comicLibAPI.putIssueReadStatus(ISSUE_ID, obj.content!!)
+        obj.responseContent?.isRead = IssueReadStatus.IS_READ_READ
+        obj.responseContent?.currentPage = IssueReadStatus.CURRENT_PAGE_NO_PROGRESS
+        val response2 = comicLibAPI.putIssueReadStatus(ISSUE_ID, obj.responseContent!!)
         val obj2 = getObjectFromResponse(response2)
         testObject(obj2 as ApiResponse<IssueReadStatus.Content?>)
     }
@@ -148,8 +149,8 @@ class ComicLibApiTest {
         testObject(obj as ApiResponse<VolumeReadStatus.Content?>)
 
         // Test PUT
-        obj.content?.isRead = VolumeReadStatus.IS_READ_READ
-        val response2 = comicLibAPI.putVolumeReadStatus(VOLUME_ID, obj.content!!)
+        obj.responseContent?.isRead = VolumeReadStatus.IS_READ_READ
+        val response2 = comicLibAPI.putVolumeReadStatus(VOLUME_ID, obj.responseContent!!)
         val obj2 = getObjectFromResponse(response2)
         testObject(obj2 as ApiResponse<VolumeReadStatus.Content?>)
     }
@@ -203,8 +204,9 @@ class ComicLibApiTest {
     private fun <T> testObject(obj: ApiResponse<T?>) {
         val status = obj.responseStatus
         val content = obj.responseContent
-        assert(status != null)
-        assert(content != null)
+        if (status?.responseCode != 200) Logging.logError("API call failed: ${status?.responseMessage.toString()}")
+        assertTrue(status != null)
+        assertTrue(content != null)
     }
 
 }
