@@ -8,6 +8,7 @@ import androidx.room.RoomDatabase
  */
 @Database(
     entities = [Publisher::class, Volume::class, Issue::class, CachedComic::class],
+    views = [Volume.ReadStatus::class],
     version = 1
 )
 abstract class ManhattanDatabase : RoomDatabase() {

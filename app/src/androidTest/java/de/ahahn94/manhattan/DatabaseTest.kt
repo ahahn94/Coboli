@@ -80,6 +80,9 @@ class DatabaseTest {
 
             val fromDatabase = database.volumesDao().getAll()
             assertTrue(fromDatabase.isNotEmpty())
+
+            // Check that a ReadStatus was loaded from the VolumeReadStatus view.
+            assertTrue(fromDatabase.first().readStatus != null)
         }
     }
 

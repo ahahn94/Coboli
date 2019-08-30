@@ -74,7 +74,7 @@ class SyncTest {
         val volume = comicLibAPI.getVolume(VOLUME_ID).body()?.responseContent
         if (volume != null) {
             // Insert volume for update testing.
-            volume.readStatus.timestampChanged = OLD_TIMESTAMP
+            volume.name = ""
             database.volumesDao().insert(volume)
             // Insert volume for delete testing
             volume.id = FAKE_VOLUME_ID
@@ -130,7 +130,7 @@ class SyncTest {
      */
     private fun testVolumes() {
         // Check that the volume was updated via the change on the timestampChanged field.
-        assertTrue(database.volumesDao().get(VOLUME_ID)?.readStatus?.timestampChanged != OLD_TIMESTAMP)
+        assertTrue(database.volumesDao().get(VOLUME_ID)?.name != "")
         // Check that the faked volume was remove from the database.
         assertTrue(database.volumesDao().get(FAKE_VOLUME_ID) == null)
         // Check that all volumes from the example datasets of the ComicLib API have been added.

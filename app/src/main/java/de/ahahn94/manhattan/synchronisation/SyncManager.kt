@@ -139,7 +139,8 @@ class SyncManager {
          * - Add volumes that are missing on the database.
          */
         private fun syncVolumes(fromApi: List<Volume>) {
-            val fromDatabase = database.volumesDao().getAll()
+            // ReadStatus not needed, so using getAllVolumes instead of getAll.
+            val fromDatabase = database.volumesDao().getAllVolumes()
             val mapFromDatabase = fromDatabase.map { item -> item.id to item }.toMap()
             val keysFromDatabase = mapFromDatabase.keys
             val mapFromApi = fromApi.map { item -> item.id to item }.toMap()
@@ -247,35 +248,9 @@ class SyncManager {
 
         /**
          * Update the volumes with the data from the ComicLib API.
-         * Sync the ReadStatus with the API.
          */
         private fun updateVolumes(volumes: List<Volume>) {
-            volumes.forEach {
-                // Compare ReadStatus timestamp and update API and database.
-                val onDatabase = database.volumesDao().get(it.id)
-                if (onDatabase != null) {
-                    val changedOnDatabase =
-                        Timestamps.timeStampToDate(onDatabase.readStatus.timestampChanged)
-                    val changedOnApi = Timestamps.timeStampToDate(it.readStatus.timestampChanged)
-                    val difference = changedOnDatabase?.compareTo(changedOnApi)
-                    if (difference != null) {
-                        it.readStatus = when {
-                            // Timestamp from API is newer. Update on database.
-                            difference < 0 -> it.readStatus
-                            // Timestamps are equal. Update on database.
-                            difference == 0 -> it.readStatus
-                            // Timestamp from database is newer. Update on API.
-                            else -> {
-                                comicLibApi.putVolumeReadStatus(
-                                    onDatabase.id,
-                                    onDatabase.readStatus
-                                )
-                                onDatabase.readStatus
-                            }
-                        }
-                    }
-                }
-            }
+            // ReadStatus is generated via a view in ComicLib as well as Manhattan. No sync necessary.
             // VolumesDao.update can take an array as a vararg, so using the spread-operator *.
             database.volumesDao().update(*volumes.toTypedArray())
         }
