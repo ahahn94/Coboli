@@ -1,9 +1,11 @@
 package de.ahahn94.manhattan.synchronisation
 
+import android.os.AsyncTask
 import de.ahahn94.manhattan.api.repos.ComicLibAPI
 import de.ahahn94.manhattan.cache.ComicsCache
 import de.ahahn94.manhattan.cache.ImagesCache
 import de.ahahn94.manhattan.database.*
+import de.ahahn94.manhattan.utils.Logging
 import de.ahahn94.manhattan.utils.Timestamps
 import de.ahahn94.manhattan.utils.replaceNull
 import de.ahahn94.manhattan.utils.settings.Preferences
@@ -65,6 +67,8 @@ class SyncManager {
             // Initialize the ImagesCache.
             ImagesCache.init()
 
+            Logging.logDebug("Starting synchronisation.")
+
             // Get publishers, volumes and issues from ComicLib API.
             val publishersFromApiResponse = comicLibApi.getPublishers()
             val volumesFromApiResponse = comicLibApi.getVolumes()
@@ -75,14 +79,18 @@ class SyncManager {
                 !publishersFromApiResponse.isSuccessful or
                 !volumesFromApiResponse.isSuccessful or
                 !issuesFromApiResponse.isSuccessful
-            ) return
+            ) {
+                Logging.logError("Error reading from ComicLib API! Aborting sync!"); return
+            }
 
             // Do not proceed if empty content on one of the responses.
             if (
                 (publishersFromApiResponse.body()!!.responseContent == null) or
                 (volumesFromApiResponse.body()!!.responseContent == null) or
                 (issuesFromApiResponse.body()!!.responseContent == null)
-            ) return
+            ) {
+                Logging.logError("Error reading from ComicLib API! Aborting sync!"); return
+            }
 
             // Get content from responses. Throw exception if null.
             val publishersFromApi = publishersFromApiResponse.body()!!.responseContent!!
@@ -94,6 +102,8 @@ class SyncManager {
             syncVolumes(volumesFromApi)
 
             syncIssues(issuesFromApi)
+
+            Logging.logDebug("Synchronisation finished.")
         }
 
 
@@ -329,6 +339,25 @@ class SyncManager {
                 ImagesCache.deleteImage(it.imageFileURL)
                 database.issuesDao().delete(it)
             }
+        }
+
+        /**
+         * Run the startSync-function in the background.
+         */
+        fun runSyncInBackground() {
+            SyncManagerRunner().execute()
+        }
+
+    }
+
+    /**
+     * AsyncTask that runs the SyncManager in the background.
+     */
+    private class SyncManagerRunner :
+        AsyncTask<Unit, Int, Unit>() {
+
+        override fun doInBackground(vararg params: Unit?) {
+            startSync()
         }
 
     }

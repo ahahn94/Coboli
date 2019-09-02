@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/LoginTitle"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2" android:textAlignment="center"
-            android:textColor="@color/text_light"/>
+            android:textColor="@color/colorTextLight"/>
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,15 +48,21 @@
             android:background="@android:drawable/edit_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" android:hint="@string/login_url_to_server"
             android:importantForAutofill="no"/>
+
     <Button
-            android:text="@string/login_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/LoginButton"
-            android:layout_marginLeft="@dimen/margin_login" android:layout_marginRight="@dimen/margin_login"
-            android:layout_marginTop="@dimen/margin_login_small"
-            android:layout_marginBottom="@dimen/margin_login_small"
+            android:id="@+id/LoginButton"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:textColor="@color/text_light" android:onClick="loginButtonClicked"
-            android:backgroundTint="@color/btn_primary" android:textSize="24sp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_login"
+            android:layout_marginTop="@dimen/margin_login_small"
+            android:layout_marginRight="@dimen/margin_login"
+            android:layout_marginBottom="@dimen/margin_login_small"
+            android:backgroundTint="@color/colorAccent"
+            android:onClick="loginButtonClicked"
+            android:text="@string/login_login"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/colorTextLight"
+            android:textSize="24sp" />
+
 </LinearLayout>

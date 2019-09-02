@@ -22,4 +22,6 @@
     <string name="trust_certificate_valid_until">Bis:</string>
     <string name="trust_certificate_button_yes">Ja</string>
     <string name="trust_certificate_button_no">Nein</string>
+    <string name="connected_starting_sync">Verbunden. Starte Synchronisierung...</string>
+    <string name="no_connection">Keine Verbindung zum Server</string>
 </resources>

@@ -3,6 +3,7 @@ package de.ahahn94.manhattan.utils.network
 import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.api.repos.ComicLibAPI
 import de.ahahn94.manhattan.utils.ContextProvider
+import de.ahahn94.manhattan.utils.Localization
 import de.ahahn94.manhattan.utils.network.ConnectionStatusType.OK
 import de.ahahn94.manhattan.utils.network.ConnectionStatusType.PARAM_ERROR
 import de.ahahn94.manhattan.utils.replaceNull
@@ -58,22 +59,22 @@ class ConnectionTester {
                     when (response.code()) {
                         200 -> {
                             // Connection ok.
-                            message = getMessage(R.string.login_successful)
+                            message = Localization.getLocalizedString(R.string.login_successful)
                             statusType = OK
                         }
                         400 -> {
                             // Probably an error in the server address.
-                            message = getMessage(R.string.bad_request)
+                            message = Localization.getLocalizedString(R.string.bad_request)
                             statusType = PARAM_ERROR
                         }
                         401 -> {
                             // Wrong credentials.
-                            message = getMessage(R.string.login_failed)
+                            message = Localization.getLocalizedString(R.string.login_failed)
                             statusType = PARAM_ERROR
                         }
                         404 -> {
                             // Wrong server address or server is down.
-                            message = getMessage(R.string.server_not_found)
+                            message = Localization.getLocalizedString(R.string.server_not_found)
                             statusType = PARAM_ERROR
                         }
                         else -> {
@@ -143,15 +144,10 @@ class ConnectionTester {
                 // Empty server address.
                 return ConnectionStatus(
                     404,
-                    getMessage(R.string.server_not_found),
+                    Localization.getLocalizedString(R.string.server_not_found),
                     PARAM_ERROR
                 )
             }
-        }
-
-        // Get the localized version of a string.
-        private fun getMessage(id: Int): String {
-            return ContextProvider.getApplicationContext().getString(id)
         }
 
     }
