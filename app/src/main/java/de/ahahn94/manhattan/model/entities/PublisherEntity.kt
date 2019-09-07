@@ -1,14 +1,15 @@
-package de.ahahn94.manhattan.database
+package de.ahahn94.manhattan.model.entities
 
 import androidx.annotation.NonNull
+import androidx.paging.DataSource
 import androidx.room.*
 import com.google.gson.annotations.SerializedName
 
 /**
- * Data class for publisher datasets.
+ * Entity data class for publisher datasets.
  */
 @Entity(tableName = "Publishers")
-data class Publisher(
+data class PublisherEntity(
     @SerializedName("ID")
     @ColumnInfo(name = "ID")
     @PrimaryKey
@@ -36,29 +37,32 @@ data class Publisher(
     var volumesURL: String = "",
 
     @SerializedName("VolumesCount")
-    @Ignore
+    @ColumnInfo(name = "VolumesCount")
     var volumesCount: Int = 0
 ) {
 
     /**
-     * Data access object for the Publishers database table.
+     * Data access object for the publishers database table.
      */
     @Dao
     interface PublishersDao {
         @Insert(onConflict = OnConflictStrategy.ABORT)
-        fun insert(publisher: Publisher)
+        fun insert(publisherEntity: PublisherEntity)
 
         @Update
-        fun update(vararg publisher: Publisher)
+        fun update(vararg publisherEntity: PublisherEntity)
 
-        @Query("SELECT * FROM Publishers WHERE ID = :publisherID")
-        fun get(publisherID: String): Publisher?
+        @Query("SELECT * FROM PublisherView WHERE ID = :publisherID")
+        fun get(publisherID: String): PublisherEntity?
 
-        @Query("SELECT * FROM Publishers")
-        fun getAll(): Array<Publisher>
+        @Query("SELECT * FROM PublisherView")
+        fun getAll(): Array<PublisherEntity>
 
         @Delete
-        fun delete(vararg publisher: Publisher)
+        fun delete(vararg publisherEntity: PublisherEntity)
+
+        @Query("SELECT * FROM PublisherView")
+        fun getAllPaged(): DataSource.Factory<Int, PublisherEntity>
 
     }
 

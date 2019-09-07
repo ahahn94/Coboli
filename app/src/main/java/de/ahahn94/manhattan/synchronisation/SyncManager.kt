@@ -1,10 +1,16 @@
 package de.ahahn94.manhattan.synchronisation
 
-import android.os.AsyncTask
+import android.content.Context
+import androidx.work.*
 import de.ahahn94.manhattan.api.repos.ComicLibAPI
 import de.ahahn94.manhattan.cache.ComicsCache
 import de.ahahn94.manhattan.cache.ImagesCache
-import de.ahahn94.manhattan.database.*
+import de.ahahn94.manhattan.model.Database
+import de.ahahn94.manhattan.model.ManhattanDatabase
+import de.ahahn94.manhattan.model.entities.IssueEntity
+import de.ahahn94.manhattan.model.entities.PublisherEntity
+import de.ahahn94.manhattan.model.entities.VolumeEntity
+import de.ahahn94.manhattan.utils.ContextProvider
 import de.ahahn94.manhattan.utils.Logging
 import de.ahahn94.manhattan.utils.Timestamps
 import de.ahahn94.manhattan.utils.replaceNull
@@ -19,6 +25,11 @@ class SyncManager {
 
         lateinit var comicLibApi: ComicLibAPI
         lateinit var database: ManhattanDatabase
+
+        // Tag for the SyncManager job.
+        // Used to make sure that a) only one sync task is run at a time and b) the job is resumed
+        // if it was paused by quitting the app.
+        private const val SYNC_MANAGER_WORK_TAG = "ManhattanSyncManager"
 
         /**
          * Initialize comicLibApi and database if necessary.
@@ -114,7 +125,7 @@ class SyncManager {
          * - Update publishers that are on both lists.
          * - Add publishers that are missing on the database.
          */
-        private fun syncPublishers(fromApi: List<Publisher>) {
+        private fun syncPublishers(fromApi: List<PublisherEntity>) {
             val fromDatabase = database.publishersDao().getAll()
             val mapFromDatabase = fromDatabase.map { item -> item.id to item }.toMap()
             val keysFromDatabase = mapFromDatabase.keys
@@ -148,9 +159,8 @@ class SyncManager {
          * - Sync volumes ReadStatus with ComicLib API.
          * - Add volumes that are missing on the database.
          */
-        private fun syncVolumes(fromApi: List<Volume>) {
-            // ReadStatus not needed, so using getAllVolumes instead of getAll.
-            val fromDatabase = database.volumesDao().getAllVolumes()
+        private fun syncVolumes(fromApi: List<VolumeEntity>) {
+            val fromDatabase = database.volumesDao().getAll()
             val mapFromDatabase = fromDatabase.map { item -> item.id to item }.toMap()
             val keysFromDatabase = mapFromDatabase.keys
             val mapFromApi = fromApi.map { item -> item.id to item }.toMap()
@@ -183,7 +193,7 @@ class SyncManager {
          * - Update issues that are on both lists.
          * - Add issues that are missing on the database.
          */
-        private fun syncIssues(fromApi: List<Issue>) {
+        private fun syncIssues(fromApi: List<IssueEntity>) {
             val fromDatabase = database.issuesDao().getAll()
             val mapFromDatabase = fromDatabase.map { item -> item.id to item }.toMap()
             val keysFromDatabase = mapFromDatabase.keys
@@ -214,8 +224,8 @@ class SyncManager {
          * - Add publishers to database.
          * - Cache publisher image.
          */
-        private fun addPublishers(publishers: List<Publisher>) {
-            publishers.forEach {
+        private fun addPublishers(publisherEntities: List<PublisherEntity>) {
+            publisherEntities.forEach {
                 database.publishersDao().insert(it)
                 ImagesCache.cacheImageFile(it.imageFileURL)
             }
@@ -224,9 +234,9 @@ class SyncManager {
         /**
          * Update the publishers with the data from the ComicLib API.
          */
-        private fun updatePublishers(publishers: List<Publisher>) {
+        private fun updatePublishers(publisherEntities: List<PublisherEntity>) {
             // PublishersDao.update can take an array as a vararg, so using the spread-operator *.
-            database.publishersDao().update(*publishers.toTypedArray())
+            database.publishersDao().update(*publisherEntities.toTypedArray())
         }
 
         /**
@@ -236,8 +246,8 @@ class SyncManager {
          * - Remove the image file of the publisher.
          * - Remove the publishers.
          */
-        private fun deletePublishers(publishers: List<Publisher>) {
-            publishers.forEach {
+        private fun deletePublishers(publisherEntities: List<PublisherEntity>) {
+            publisherEntities.forEach {
                 deleteVolumes(database.volumesDao().getByPublisher(it.id).toList())
                 ImagesCache.deleteImage(it.imageFileURL)
                 database.publishersDao().delete(it)
@@ -249,8 +259,8 @@ class SyncManager {
          * - Add volumes to database.
          * - Cache volume image.
          */
-        private fun addVolumes(volumes: List<Volume>) {
-            volumes.forEach {
+        private fun addVolumes(volumeEntities: List<VolumeEntity>) {
+            volumeEntities.forEach {
                 database.volumesDao().insert(it)
                 ImagesCache.cacheImageFile(it.imageFileURL)
             }
@@ -259,10 +269,10 @@ class SyncManager {
         /**
          * Update the volumes with the data from the ComicLib API.
          */
-        private fun updateVolumes(volumes: List<Volume>) {
+        private fun updateVolumes(volumeEntities: List<VolumeEntity>) {
             // ReadStatus is generated via a view in ComicLib as well as Manhattan. No sync necessary.
             // VolumesDao.update can take an array as a vararg, so using the spread-operator *.
-            database.volumesDao().update(*volumes.toTypedArray())
+            database.volumesDao().update(*volumeEntities.toTypedArray())
         }
 
         /**
@@ -271,8 +281,8 @@ class SyncManager {
          * - Remove the image of the volume.
          * - Remove the volume from the database.
          */
-        private fun deleteVolumes(volumes: List<Volume>) {
-            volumes.forEach {
+        private fun deleteVolumes(volumeEntities: List<VolumeEntity>) {
+            volumeEntities.forEach {
                 deleteIssues(database.issuesDao().getByVolume(it.id).toList())
                 ImagesCache.deleteImage(it.imageFileURL)
                 database.volumesDao().delete(it)
@@ -284,8 +294,8 @@ class SyncManager {
          * - Add issues to database.
          * - Cache issue image.
          */
-        private fun addIssues(issues: List<Issue>) {
-            issues.forEach {
+        private fun addIssues(issueEntities: List<IssueEntity>) {
+            issueEntities.forEach {
                 database.issuesDao().insert(it)
                 ImagesCache.cacheImageFile(it.imageFileURL)
             }
@@ -295,8 +305,8 @@ class SyncManager {
          * Update the issues with the data from the ComicLib API.
          * Sync the ReadStatus with the API.
          */
-        private fun updateIssues(issues: List<Issue>) {
-            issues.forEach {
+        private fun updateIssues(issueEntities: List<IssueEntity>) {
+            issueEntities.forEach {
                 // Compare ReadStatus timestamp and update API and database.
                 val onDatabase = database.issuesDao().get(it.id)
                 if (onDatabase != null) {
@@ -324,7 +334,7 @@ class SyncManager {
             }
 
             // IssuesDao.update can take an array as a vararg, so using the spread-operator *.
-            database.issuesDao().update(*issues.toTypedArray())
+            database.issuesDao().update(*issueEntities.toTypedArray())
         }
 
         /**
@@ -333,8 +343,8 @@ class SyncManager {
          * - Remove the cached image file of the issue.
          * - Remove the issue from the database.
          */
-        private fun deleteIssues(issues: List<Issue>) {
-            issues.forEach {
+        private fun deleteIssues(issueEntities: List<IssueEntity>) {
+            issueEntities.forEach {
                 ComicsCache.deleteComicFile(it.id)
                 ImagesCache.deleteImage(it.imageFileURL)
                 database.issuesDao().delete(it)
@@ -343,21 +353,33 @@ class SyncManager {
 
         /**
          * Run the startSync-function in the background.
+         * Runs callbackBefore function before running background job.
+         * Runs callbackAfter function after background job is done.
          */
-        fun runSyncInBackground() {
-            SyncManagerRunner().execute()
+        fun runSyncInBackground(callbackBefore: () -> Unit, callbackAfter: () -> Unit) {
+            callbackBefore()
+            val job = OneTimeWorkRequest.Builder(SyncWorker::class.java).build()
+            val result =
+                WorkManager.getInstance(ContextProvider.getApplicationContext()).enqueueUniqueWork(
+                    SYNC_MANAGER_WORK_TAG, ExistingWorkPolicy.KEEP, job
+                ).result
+            result.addListener(
+                { callbackAfter() }
+                , { command -> command?.run() })
         }
 
     }
 
     /**
-     * AsyncTask that runs the SyncManager in the background.
+     * Worker that runs the startSync-function in the background.
      */
-    private class SyncManagerRunner :
-        AsyncTask<Unit, Int, Unit>() {
+    class SyncWorker(
+        context: Context, params: WorkerParameters
+    ) : Worker(context, params) {
 
-        override fun doInBackground(vararg params: Unit?) {
+        override fun doWork(): Result {
             startSync()
+            return Result.success()
         }
 
     }

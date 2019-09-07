@@ -1,4 +1,4 @@
-package de.ahahn94.manhattan.database
+package de.ahahn94.manhattan.model
 
 import androidx.room.Room
 import de.ahahn94.manhattan.utils.ContextProvider

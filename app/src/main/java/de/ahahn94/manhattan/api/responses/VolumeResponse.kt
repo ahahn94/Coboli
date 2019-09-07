@@ -1,6 +1,6 @@
 package de.ahahn94.manhattan.api.responses
 
-import de.ahahn94.manhattan.database.Volume
+import de.ahahn94.manhattan.model.entities.VolumeEntity
 
 /**
  * Data class for datasets received from the /volumes resource.
@@ -8,8 +8,8 @@ import de.ahahn94.manhattan.database.Volume
  */
 class VolumeResponse(
     responseStatus: ResponseStatus,
-    responseContent: Volume?
-) : ApiResponse<Volume?>(responseStatus, responseContent) {
+    responseContent: VolumeEntity?
+) : ApiResponse<VolumeEntity?>(responseStatus, responseContent) {
 
     /**
      * Data class for the list of volumes received from the /volumes and /publisher/{id}/volumes
@@ -17,7 +17,7 @@ class VolumeResponse(
      */
     class List(
         responseStatus: ResponseStatus,
-        responseContent: kotlin.collections.List<Volume>?
-    ) : ApiResponse<kotlin.collections.List<Volume>?>(responseStatus, responseContent)
+        responseContent: kotlin.collections.List<VolumeEntity>?
+    ) : ApiResponse<kotlin.collections.List<VolumeEntity>?>(responseStatus, responseContent)
 
 }

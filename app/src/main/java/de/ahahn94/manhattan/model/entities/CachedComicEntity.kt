@@ -1,21 +1,21 @@
-package de.ahahn94.manhattan.database
+package de.ahahn94.manhattan.model.entities
 
 import androidx.annotation.NonNull
 import androidx.room.*
 import java.util.*
 
 /**
- * Data class for cached comics on the database.
+ * Entity data class for cached comics on the database.
  */
 @Entity(
     tableName = "CachedComics",
     foreignKeys = [ForeignKey(
-        entity = Issue::class,
+        entity = IssueEntity::class,
         parentColumns = ["ID"],
         childColumns = ["IssueID"]
     )]
 )
-data class CachedComic(
+data class CachedComicEntity(
 
     @ColumnInfo(name = "IssueID")
     @PrimaryKey
@@ -41,7 +41,7 @@ data class CachedComic(
     companion object {
 
         // Constants.
-        val readableFormats = arrayOf("cbr", "cbz") // List of the file formats the app can open.
+        private val readableFormats = arrayOf("cbr", "cbz") // List of the file formats the app can open.
 
         /**
          * Check if a file can be unpacked for reading inside the app.
@@ -60,19 +60,19 @@ data class CachedComic(
     @Dao
     interface CachedComicsDao {
         @Insert(onConflict = OnConflictStrategy.ABORT)
-        fun insert(cachedComic: CachedComic)
+        fun insert(cachedComicEntity: CachedComicEntity)
 
         @Update
-        fun update(vararg cachedComic: CachedComic)
+        fun update(vararg cachedComicEntity: CachedComicEntity)
 
         @Query("SELECT * FROM CachedComics")
-        fun getAll(): Array<CachedComic>
+        fun getAll(): Array<CachedComicEntity>
 
         @Query("SELECT * FROM CachedComics WHERE IssueID = :issueID")
-        fun get(issueID: String) : CachedComic?
+        fun get(issueID: String): CachedComicEntity?
 
         @Delete
-        fun delete(vararg cachedComic: CachedComic)
+        fun delete(vararg cachedComicEntity: CachedComicEntity)
     }
 
 }

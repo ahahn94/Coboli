@@ -1,4 +1,4 @@
-package de.ahahn94.manhattan.database
+package de.ahahn94.manhattan.model.entities
 
 import androidx.annotation.NonNull
 import androidx.room.*
@@ -6,18 +6,18 @@ import com.google.gson.annotations.SerializedName
 import de.ahahn94.manhattan.api.responses.IssueReadStatus
 
 /**
- * Data class for issue datasets.
+ * Entity data class for issue datasets.
  */
 @Entity(
     tableName = "Issues",
     foreignKeys = [ForeignKey(
-        entity = Volume::class,
+        entity = VolumeEntity::class,
         parentColumns = ["ID"],
         childColumns = ["VolumeID"]
     )],
     indices = [Index(value = ["VolumeID"], unique = false)]
 )
-data class Issue(
+data class IssueEntity(
 
     @SerializedName("ID")
     @ColumnInfo(name = "ID")
@@ -47,7 +47,7 @@ data class Issue(
 
     @SerializedName("Name")
     @ColumnInfo(name = "Name")
-    var name: String = "",
+    var name: String? = "",
 
     @SerializedName("ReadStatus")
     @Embedded
@@ -60,7 +60,7 @@ data class Issue(
 ) {
 
     /**
-     * Data class for the comic file part of the Issue.
+     * Data class for the comic file part of the IssueEntity.
      */
     data class ComicFile(
         @SerializedName("FileName")
@@ -73,7 +73,7 @@ data class Issue(
     )
 
     /**
-     * Data class for the read-status part of the Issue.
+     * Data class for the read-status part of the IssueEntity.
      */
     data class ReadStatus(
         @SerializedName("IsRead")
@@ -94,7 +94,7 @@ data class Issue(
     )
 
     /**
-     * Data class for the volume part of the Issue.
+     * Data class for the volume part of the IssueEntity.
      */
     data class Volume(
         @SerializedName("VolumeID")
@@ -114,22 +114,22 @@ data class Issue(
     interface IssuesDao {
 
         @Insert(onConflict = OnConflictStrategy.ABORT)
-        fun insert(issue: Issue)
+        fun insert(issueEntity: IssueEntity)
 
         @Update
-        fun update(vararg issue: Issue)
+        fun update(vararg issueEntity: IssueEntity)
 
         @Query("SELECT * FROM Issues WHERE ID = :issueID")
-        fun get(issueID: String): Issue?
+        fun get(issueID: String): IssueEntity?
 
         @Query("SELECT * FROM Issues")
-        fun getAll(): Array<Issue>
+        fun getAll(): Array<IssueEntity>
 
         @Query("SELECT * FROM Issues WHERE VolumeID = :volumeID")
-        fun getByVolume(volumeID: String): Array<Issue>
+        fun getByVolume(volumeID: String): Array<IssueEntity>
 
         @Delete
-        fun delete(vararg issue: Issue)
+        fun delete(vararg issueEntity: IssueEntity)
     }
 
 }

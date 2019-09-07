@@ -1,8 +1,8 @@
 package de.ahahn94.manhattan.api.repos
 
 import de.ahahn94.manhattan.api.responses.*
-import de.ahahn94.manhattan.database.Issue
-import de.ahahn94.manhattan.database.Volume
+import de.ahahn94.manhattan.model.entities.IssueEntity
+import de.ahahn94.manhattan.model.views.VolumeReadStatusView
 import de.ahahn94.manhattan.utils.network.TrustedCertificatesClientFactory
 import de.ahahn94.manhattan.utils.security.Authentication
 import de.ahahn94.manhattan.utils.settings.Credentials
@@ -86,7 +86,7 @@ class ComicLibAPI(url: String) {
      */
     fun putIssueReadStatus(
         issueID: String,
-        issueReadStatus: Issue.ReadStatus
+        issueReadStatus: IssueEntity.ReadStatus
     ): Response<IssueReadStatus?> {
         return instance.putIssueReadStatus(bearerTokenAuthentication, issueID, issueReadStatus)
             .execute()
@@ -145,7 +145,7 @@ class ComicLibAPI(url: String) {
      */
     fun putVolumeReadStatus(
         volumeID: String,
-        volumeReadStatus: Volume.ReadStatus
+        volumeReadStatus: VolumeReadStatusView
     ): Response<VolumeReadStatus?> {
         return instance.putVolumeReadStatus(bearerTokenAuthentication, volumeID, volumeReadStatus)
             .execute()
@@ -207,7 +207,7 @@ class ComicLibAPI(url: String) {
         @PUT("issues/{issueID}/readstatus")
         fun putIssueReadStatus(
             @Header("Authorization") authorization: String, @Path("issueID") issueID: String,
-            @Body issueReadStatus: Issue.ReadStatus
+            @Body issueReadStatus: IssueEntity.ReadStatus
         ): Call<IssueReadStatus?>
 
         @PUT("issues/{issueID}/readstatus")
@@ -231,7 +231,7 @@ class ComicLibAPI(url: String) {
         @PUT("volumes/{volumeID}/readstatus")
         fun putVolumeReadStatus(
             @Header("Authorization") authorization: String, @Path("volumeID") volumeID: String,
-            @Body volumeReadStatus: Volume.ReadStatus
+            @Body volumeReadStatus: VolumeReadStatusView
         ): Call<VolumeReadStatus?>
 
         @PUT("volumes/{volumeID}/readstatus")

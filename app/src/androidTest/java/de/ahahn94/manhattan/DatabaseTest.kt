@@ -3,8 +3,8 @@ package de.ahahn94.manhattan
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import de.ahahn94.manhattan.api.repos.ComicLibAPI
-import de.ahahn94.manhattan.database.Database
-import de.ahahn94.manhattan.database.ManhattanDatabase
+import de.ahahn94.manhattan.model.Database
+import de.ahahn94.manhattan.model.ManhattanDatabase
 import de.ahahn94.manhattan.utils.ContextProvider
 import de.ahahn94.manhattan.utils.Logging
 import de.ahahn94.manhattan.utils.replaceNull
@@ -99,5 +99,4 @@ class DatabaseTest {
             assertTrue(fromDatabase.isNotEmpty())
         }
     }
-
 }

@@ -2,8 +2,8 @@ package de.ahahn94.manhattan.cache
 
 import android.os.AsyncTask
 import de.ahahn94.manhattan.api.repos.ComicLibComics
-import de.ahahn94.manhattan.database.CachedComic
-import de.ahahn94.manhattan.database.Database
+import de.ahahn94.manhattan.model.entities.CachedComicEntity
+import de.ahahn94.manhattan.model.Database
 import de.ahahn94.manhattan.utils.ContextProvider
 import de.ahahn94.manhattan.utils.Logging
 import de.ahahn94.manhattan.utils.replaceNull
@@ -98,10 +98,10 @@ class ComicsCache {
             val response = comicLibComics.getComicFile(issueID)
             if (response != null) {
                 response.saveFile(getInstance())
-                val cachedComic = CachedComic(
+                val cachedComic = CachedComicEntity(
                     issueID,
                     response.filename,
-                    CachedComic.isReadable(response.filename)
+                    CachedComicEntity.isReadable(response.filename)
                 )
                 Database.getInstance().cachedComicsDao()
                     .insert(cachedComic)

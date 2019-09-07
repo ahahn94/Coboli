@@ -1,6 +1,6 @@
 package de.ahahn94.manhattan.api.responses
 
-import de.ahahn94.manhattan.database.Publisher
+import de.ahahn94.manhattan.model.entities.PublisherEntity
 
 /**
  * Data class for datasets received from the /publishers resource.
@@ -8,15 +8,15 @@ import de.ahahn94.manhattan.database.Publisher
  */
 class PublisherResponse(
     responseStatus: ResponseStatus,
-    responseContent: Publisher?
-) : ApiResponse<Publisher?>(responseStatus, responseContent) {
+    responseContent: PublisherEntity?
+) : ApiResponse<PublisherEntity?>(responseStatus, responseContent) {
 
     /**
      * Data class for the list of publishers received from the /publishers resource.
      */
     class List(
         responseStatus: ResponseStatus,
-        responseContent: kotlin.collections.List<Publisher>?
-    ) : ApiResponse<kotlin.collections.List<Publisher>?>(responseStatus, responseContent)
+        responseContent: kotlin.collections.List<PublisherEntity>?
+    ) : ApiResponse<kotlin.collections.List<PublisherEntity>?>(responseStatus, responseContent)
 
 }

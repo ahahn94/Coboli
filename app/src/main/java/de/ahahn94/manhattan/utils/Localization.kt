@@ -9,9 +9,11 @@ class Localization {
 
         /**
          * Get the localized version of a string.
+         * Takes the resource-id of the string and (optionally) the parameters for the
+         * placeholders inside the string (if any).
          */
-        fun getLocalizedString(id: Int): String {
-            return ContextProvider.getApplicationContext().getString(id)
+        fun getLocalizedString(id: Int, vararg args: Any?): String {
+            return ContextProvider.getApplicationContext().getString(id, *args)
         }
 
     }

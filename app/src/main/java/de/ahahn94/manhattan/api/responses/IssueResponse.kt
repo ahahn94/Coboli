@@ -1,6 +1,6 @@
 package de.ahahn94.manhattan.api.responses
 
-import de.ahahn94.manhattan.database.Issue
+import de.ahahn94.manhattan.model.entities.IssueEntity
 
 /**
  * Data class for datasets received from the /issues resource.
@@ -8,17 +8,17 @@ import de.ahahn94.manhattan.database.Issue
  */
 class IssueResponse(
     responseStatus: ResponseStatus?,
-    responseContent: de.ahahn94.manhattan.database.Issue?
+    responseContent: IssueEntity?
 ) :
-    ApiResponse<Issue?>(responseStatus, responseContent) {
+    ApiResponse<IssueEntity?>(responseStatus, responseContent) {
 
     /**
      * Data class for the list of issues received from the /issues and /volume{id}/issues resources.
      */
     class List(
         responseStatus: ResponseStatus?,
-        responseContent: kotlin.collections.List<Issue>?
+        responseContent: kotlin.collections.List<IssueEntity>?
     ) :
-        ApiResponse<kotlin.collections.List<Issue>?>(responseStatus, responseContent)
+        ApiResponse<kotlin.collections.List<IssueEntity>?>(responseStatus, responseContent)
 
 }

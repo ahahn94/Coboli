@@ -21,6 +21,10 @@
     <string name="trust_certificate_valid_until">Until:</string>
     <string name="trust_certificate_button_yes">Yes</string>
     <string name="trust_certificate_button_no">No</string>
-    <string name="connected_starting_sync">Connected. Starting sync...</string>
+    <string name="connected_starting_sync">Connected. Starting sync…</string>
     <string name="no_connection">No connection to the server</string>
+    <string name="issues_number">%1$s Issue(s)</string>
+    <string name="sync_in_progress">Synchronizing with the server. Please wait…</string>
+    <string name="volumes_number">%1$d Volume(s)</string>
+    <string name="badge_new">NEW</string>
 </resources>

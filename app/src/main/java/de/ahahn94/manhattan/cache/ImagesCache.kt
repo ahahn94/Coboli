@@ -56,14 +56,25 @@ class ImagesCache {
          * Get a list of the files contained in the cache.
          */
         fun getFilesList(): Array<File>? {
-            return instance.listFiles()
+            return getInstance().listFiles()
         }
 
         /**
          * Get a list of the file names in the cache.
          */
         fun getFilesNames(): Array<String>? {
-            return instance.list()
+            return getInstance().list()
+        }
+
+        /**
+         * Get the absolute path of a cached image file.
+         * Takes the API URL of an image file.
+         * Returns the absolute path if the file exists or null if not.
+         */
+        fun getImageFilePath(imageURL : String): String? {
+            val fileName = imageURL.split("/").last()
+            val file = File(getInstance(), fileName)
+            return if (file.exists()) file.absolutePath else null
         }
 
         /**
