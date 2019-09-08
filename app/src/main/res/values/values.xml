@@ -4,6 +4,7 @@
     <dimen name="margin_login_small">5dp</dimen>
     <dimen name="margin_small">5dp</dimen>
     <dimen name="margin_medium">10dp</dimen>
+    <dimen name="margin_login_icon">20dp</dimen>
     <dimen name="padding_edittext">5dp</dimen>
     <dimen name="padding_small">5dp</dimen>
     <dimen name="radius_corners_cards_small">5dp</dimen>

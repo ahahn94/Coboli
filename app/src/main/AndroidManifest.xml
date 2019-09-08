@@ -25,6 +25,7 @@
         </activity>
         <activity android:name=".activities.VolumesOverviewActivity" />
         <activity android:name=".activities.PublishersOverviewActivity" />
+        <activity android:name=".activities.SyncActivity" />
     </application>
 
 </manifest>

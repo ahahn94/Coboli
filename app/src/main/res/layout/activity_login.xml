@@ -1,53 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:background="@drawable/background" android:gravity="center">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:gravity="center|top"
+        android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_login_icon"
+                android:layout_weight="1" />
+
+        <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_login_icon"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:tint="@color/colorLight"
+                app:srcCompat="@android:drawable/ic_lock_lock" />
+
+        <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_login_icon"
+                android:layout_weight="1" />
+    </LinearLayout>
+
     <TextView
+            android:id="@+id/LoginTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/login_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/LoginTitle"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2" android:textAlignment="center"
-            android:textColor="@color/colorTextLight"/>
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textColor="@color/colorTextLight" />
+
     <EditText
+            android:id="@+id/LoginUsername"
+            style="@style/Widget.AppCompat.EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/LoginUsername" style="@style/Widget.AppCompat.EditText"
-            android:hint="@string/login_username" android:layout_marginLeft="@dimen/margin_login"
-            android:layout_marginRight="@dimen/margin_login" android:layout_marginTop="@dimen/margin_login_small"
-            android:layout_marginBottom="@dimen/margin_login_small"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:background="@android:drawable/edit_text" android:autofillHints="username"
-            android:importantForAutofill="yes"/>
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:ems="10"
-            android:id="@+id/LoginPassword" android:hint="@string/login_password"
-            style="@style/Widget.AppCompat.EditText" android:layout_marginLeft="@dimen/margin_login"
-            android:layout_marginRight="@dimen/margin_login" android:layout_marginTop="@dimen/margin_login_small"
-            android:layout_marginBottom="@dimen/margin_login_small"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:background="@android:drawable/edit_text" android:autofillHints="password"
-            android:importantForAutofill="yes"/>
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/LoginServerAddress" style="@style/Widget.AppCompat.EditText"
-            android:layout_marginLeft="@dimen/margin_login" android:layout_marginRight="@dimen/margin_login"
+            android:layout_marginLeft="@dimen/margin_login"
             android:layout_marginTop="@dimen/margin_login_small"
+            android:layout_marginRight="@dimen/margin_login"
+            android:layout_marginBottom="@dimen/margin_login_small"
+            android:autofillHints="username"
+            android:background="@android:drawable/edit_text"
+            android:ems="10"
+            android:hint="@string/login_username"
+            android:importantForAutofill="yes"
+            android:inputType="textPersonName"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <EditText
+            android:id="@+id/LoginPassword"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_login"
+            android:layout_marginTop="@dimen/margin_login_small"
+            android:layout_marginRight="@dimen/margin_login"
+            android:layout_marginBottom="@dimen/margin_login_small"
+            android:autofillHints="password"
+            android:background="@android:drawable/edit_text"
+            android:ems="10"
+            android:hint="@string/login_password"
+            android:importantForAutofill="yes"
+            android:inputType="textPassword"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <EditText
+            android:id="@+id/LoginServerAddress"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_login"
+            android:layout_marginTop="@dimen/margin_login_small"
+            android:layout_marginRight="@dimen/margin_login"
             android:layout_marginBottom="@dimen/margin_login_small"
             android:background="@android:drawable/edit_text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" android:hint="@string/login_url_to_server"
-            android:importantForAutofill="no"/>
+            android:ems="10"
+            android:hint="@string/login_url_to_server"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <Button
             android:id="@+id/LoginButton"

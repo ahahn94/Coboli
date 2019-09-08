@@ -1,5 +1,6 @@
 package de.ahahn94.manhattan.activities
 
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
@@ -23,6 +24,13 @@ import java.lang.ref.WeakReference
  * Class that handles the login activity.
  */
 class LoginActivity : AppCompatActivity() {
+
+    companion object {
+
+        // Constants.
+        private const val SYNC_REQUEST_CODE = 1
+
+    }
 
     // AutofillManager and Credentials for password autofill and saving.
     private lateinit var autofillManager: AutofillManager
@@ -116,8 +124,8 @@ class LoginActivity : AppCompatActivity() {
                 // Commit autofill credentials.
                 commitAutofillCredentials()
 
-                // Close activity and go back to previous activity.
-                finish()
+                // Sync database with ComicLib server. Shows a new activity.
+                startActivityForResult(Intent(this, SyncActivity::class.java), SYNC_REQUEST_CODE)
             }
             PARAM_ERROR ->
                 // Show AlertDialog with error message.
@@ -134,6 +142,18 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    /**
+     * Handle results from activities created by this class.
+     */
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            SYNC_REQUEST_CODE -> {
+                // Sync finished. Close LoginActivity.
+                finish()
+            }
+        }
     }
 
     /**

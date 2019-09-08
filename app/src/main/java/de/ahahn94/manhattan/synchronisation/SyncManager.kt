@@ -1,6 +1,8 @@
 package de.ahahn94.manhattan.synchronisation
 
 import android.content.Context
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.work.*
 import de.ahahn94.manhattan.api.repos.ComicLibAPI
 import de.ahahn94.manhattan.cache.ComicsCache
@@ -353,19 +355,25 @@ class SyncManager {
 
         /**
          * Run the startSync-function in the background.
-         * Runs callbackBefore function before running background job.
-         * Runs callbackAfter function after background job is done.
+         * Runs callback function after background job is done.
          */
-        fun runSyncInBackground(callbackBefore: () -> Unit, callbackAfter: () -> Unit) {
-            callbackBefore()
+        fun runSyncInBackground(owner: LifecycleOwner, callback: () -> Unit) {
             val job = OneTimeWorkRequest.Builder(SyncWorker::class.java).build()
-            val result =
-                WorkManager.getInstance(ContextProvider.getApplicationContext()).enqueueUniqueWork(
-                    SYNC_MANAGER_WORK_TAG, ExistingWorkPolicy.KEEP, job
-                ).result
-            result.addListener(
-                { callbackAfter() }
-                , { command -> command?.run() })
+            WorkManager.getInstance(ContextProvider.getApplicationContext()).enqueueUniqueWork(
+                SYNC_MANAGER_WORK_TAG, ExistingWorkPolicy.KEEP, job
+            )
+
+            // Register callback for end of job.
+            WorkManager.getInstance(ContextProvider.getApplicationContext())
+                .getWorkInfosForUniqueWorkLiveData(
+                    SYNC_MANAGER_WORK_TAG
+                ).observe(owner, Observer {
+                    if (it.isNotEmpty()) {
+                        if (it.first()?.state == WorkInfo.State.SUCCEEDED) {
+                            callback()
+                        }
+                    }
+                })
         }
 
     }
