@@ -28,4 +28,5 @@
     <string name="sync_in_progress">Synchronisiere mit dem Server. Bitte warten…</string>
     <string name="volumes_number">%1$d Serie(n)</string>
     <string name="badge_new">NEU</string>
+    <string name="sync">Sync</string>
 </resources>

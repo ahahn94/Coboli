@@ -1,7 +1,6 @@
 package de.ahahn94.manhattan.activities
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +12,7 @@ import de.ahahn94.manhattan.viewModels.PublishersOverviewViewModel
 /**
  * Class to handle the publishers overview activity.
  */
-class PublishersOverviewActivity : AppCompatActivity() {
+class PublishersOverviewActivity : ToolbarActivity() {
 
     private lateinit var recyclerView: RecyclerView
 

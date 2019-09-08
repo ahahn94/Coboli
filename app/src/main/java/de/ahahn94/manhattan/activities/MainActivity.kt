@@ -3,7 +3,6 @@ package de.ahahn94.manhattan.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.utils.ContextProvider
 import de.ahahn94.manhattan.utils.settings.Credentials
@@ -11,7 +10,7 @@ import de.ahahn94.manhattan.utils.settings.Credentials
 /**
  * Class to handle the main activity.
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : ToolbarActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

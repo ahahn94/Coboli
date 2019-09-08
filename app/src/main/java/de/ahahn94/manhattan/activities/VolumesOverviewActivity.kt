@@ -1,7 +1,6 @@
 package de.ahahn94.manhattan.activities
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +12,7 @@ import de.ahahn94.manhattan.viewModels.VolumesOverviewViewModel
 /**
  * Class to handle the volumes overview activity.
  */
-class VolumesOverviewActivity : AppCompatActivity() {
+class VolumesOverviewActivity : ToolbarActivity() {
 
     private lateinit var recyclerView: RecyclerView
 

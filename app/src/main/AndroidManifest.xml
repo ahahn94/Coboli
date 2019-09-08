@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="de.ahahn94.manhattan">
+        package="de.ahahn94.manhattan">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
             android:allowBackup="false"
@@ -12,20 +12,22 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-            android:usesCleartextTraffic="true"
-    >
+            android:usesCleartextTraffic="true">
         <activity android:name=".activities.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LoginActivity"
-                  android:windowSoftInputMode="stateAlwaysVisible">
-        </activity>
+        <activity
+                android:name=".activities.LoginActivity"
+                android:theme="@style/NoActionBarTheme"
+                android:windowSoftInputMode="stateAlwaysVisible"></activity>
         <activity android:name=".activities.VolumesOverviewActivity" />
         <activity android:name=".activities.PublishersOverviewActivity" />
-        <activity android:name=".activities.SyncActivity" />
+        <activity
+                android:name=".activities.SyncActivity"
+                android:theme="@style/NoActionBarTheme" />
     </application>
 
 </manifest>
