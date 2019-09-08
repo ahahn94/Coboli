@@ -52,4 +52,11 @@ class SyncActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Ignore back-button.
+     */
+    override fun onBackPressed() {
+        // Do nothing.
+    }
+
 }
