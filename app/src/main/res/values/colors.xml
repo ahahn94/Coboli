@@ -6,4 +6,5 @@
     <color name="colorBackgroundLight">#F8F9FA</color>
     <color name="colorTextLight">#F8F9FA</color>
     <color name="colorLight">#F8F9FA</color>
+    <color name="colorPrimaryDarkTransparent">#4D343A40</color>
 </resources>

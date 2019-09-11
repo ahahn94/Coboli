@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import de.ahahn94.manhattan.repositories.PublisherRepo
 
 /**
- * Class that provides the data for the PublishersOverviewActivity as a ViewModel.
+ * Class that provides the data for the PublishersActivity as a ViewModel.
  */
-class PublishersOverviewViewModel : ViewModel() {
+class PublishersViewModel : ViewModel() {
 
     val publishers = PublisherRepo.getAll()
 

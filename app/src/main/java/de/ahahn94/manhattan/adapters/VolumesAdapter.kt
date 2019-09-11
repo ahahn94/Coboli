@@ -1,27 +1,35 @@
 package de.ahahn94.manhattan.adapters
 
+import android.content.Intent
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import de.ahahn94.manhattan.R
+import de.ahahn94.manhattan.activities.IssuesActivity
+import de.ahahn94.manhattan.menus.VolumePopupMenu
 import de.ahahn94.manhattan.model.entities.VolumeEntity
 import de.ahahn94.manhattan.utils.Localization
+import de.ahahn94.manhattan.utils.Logging
 import java.lang.ref.WeakReference
 
 /**
  * PagedListAdapter for VolumeEntity datasets.
  * Provides the data for a RecyclerView to display.
  */
-class VolumesAdapter(val volumes: LiveData<PagedList<VolumeEntity>>) :
+class VolumesAdapter(
+    private val fragmentManager: WeakReference<FragmentManager>,
+    val volumes: LiveData<PagedList<VolumeEntity>>
+) :
     PagedListAdapter<VolumeEntity, VolumesAdapter.VolumeDatasetHolder>(
 
         object : DiffUtil.ItemCallback<VolumeEntity>() {
@@ -71,6 +79,8 @@ class VolumesAdapter(val volumes: LiveData<PagedList<VolumeEntity>>) :
             // Set badge visibility.
             if (volumeEntity.readStatus?.isRead == "1") {
                 isReadBadge.visibility = View.INVISIBLE
+            } else {
+                isReadBadge.visibility = View.VISIBLE
             }
         }
     }
@@ -80,15 +90,16 @@ class VolumesAdapter(val volumes: LiveData<PagedList<VolumeEntity>>) :
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VolumeDatasetHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.volume_card_layout, parent, false)
-        return VolumeDatasetHolder(view)
+            .inflate(R.layout.volume_card, parent, false)
+        return VolumeDatasetHolder(fragmentManager, view)
     }
 
     /**
      * Holder for VolumeEntity datasets.
      * Organizes the volumes data in a CardView.
      */
-    class VolumeDatasetHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class VolumeDatasetHolder(fragmentManager: WeakReference<FragmentManager>, itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
 
         // Data object
         var volumeEntity: VolumeEntity? = null
@@ -99,24 +110,35 @@ class VolumesAdapter(val volumes: LiveData<PagedList<VolumeEntity>>) :
         val volumeName: TextView
         val volumeIssuesCount: TextView
         val isReadBadge: TextView
+        private val menuToggle: TextView
 
         init {
             volumeImage = volumeCard.findViewById(R.id.volumeImage)
             volumeName = volumeCard.findViewById(R.id.volumeName)
             volumeIssuesCount = volumeCard.findViewById(R.id.volumeIssuesCount)
             isReadBadge = volumeCard.findViewById(R.id.isReadBadge)
+            menuToggle = volumeCard.findViewById(R.id.menuToggle)
 
-            // Todo: Clickevents.
-            volumeCard.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(v: View?) {
-                    Toast.makeText(
+            // Set OnClickListener on the card to navigate to the issues of the volume.
+            volumeCard.setOnClickListener {
+                val intent = Intent(itemView.context, IssuesActivity::class.java)
+                intent.putExtra(IssuesActivity.VOLUME_ID_NAME, volumeEntity?.id)
+                itemView.context.startActivity(intent)
+            }
+
+            // Set OnClickListener on the menuToggle to show the popup menu.
+            menuToggle.setOnClickListener {
+                val menu =
+                    VolumePopupMenu(
                         itemView.context,
-                        volumeEntity?.name.toString(),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+                        menuToggle,
+                        Gravity.END,
+                        volumeEntity,
+                        fragmentManager
+                    )
+                menu.show()
+            }
 
-            })
         }
 
     }

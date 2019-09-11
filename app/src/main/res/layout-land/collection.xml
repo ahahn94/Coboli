@@ -18,5 +18,5 @@
             app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="4"
-            tools:listitem="@layout/volume_card_layout" />
+            tools:listitem="@layout/volume_card" />
 </LinearLayout>

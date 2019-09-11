@@ -6,14 +6,14 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import de.ahahn94.manhattan.model.Database
 import de.ahahn94.manhattan.model.ManhattanDatabase
-import de.ahahn94.manhattan.model.entities.VolumeEntity
+import de.ahahn94.manhattan.model.entities.IssueEntity
 import de.ahahn94.manhattan.utils.Timestamps
 
 /**
- * Repository class for the volumes.
- * Handles access to the Volumes on the database.
+ * Repository class for the issues.
+ * Handles access to the Issues on the database.
  */
-class VolumeRepo {
+class IssueRepo {
     companion object {
 
         private lateinit var database: ManhattanDatabase
@@ -30,36 +30,22 @@ class VolumeRepo {
         }
 
         /**
-         * Get all VolumeEntity datasets from the database as an observable PagedList.
+         * Get all IssueEntity datasets of a volume from the database as an observable PagedList.
          */
-        fun getAll(): LiveData<PagedList<VolumeEntity>> {
-            return LivePagedListBuilder(getDatabase().volumesDao().getAllPaged(), 10).build()
-        }
-
-        /**
-         * Get a single VolumeEntity as LiveData.
-         */
-        fun get(volumeID: String): LiveData<VolumeEntity> {
-            return getDatabase().volumesDao().getLiveData(volumeID)
-        }
-
-        /**
-         * Get all VolumeEntity datasets of a publisher from the database as an observable PagedList.
-         */
-        fun getByPublisher(publisherID: String): LiveData<PagedList<VolumeEntity>> {
+        fun getByVolume(volumeID: String): LiveData<PagedList<IssueEntity>> {
             return LivePagedListBuilder(
-                getDatabase().volumesDao().getByPublisherPaged(publisherID),
+                getDatabase().issuesDao().getByVolumePaged(volumeID),
                 10
             ).build()
         }
 
         /**
-         * Update the ReadStatus of a volume on the database.
+         * Update the ReadStatus of an issue on the database.
          */
-        fun switchReadStatus(volumeEntity: VolumeEntity) {
+        fun switchReadStatus(issueEntity: IssueEntity) {
 
             // Get new isRead.
-            val newStatus = when (volumeEntity.readStatus?.isRead ?: "0") {
+            val newStatus = when (issueEntity.readStatus.isRead) {
                 "0" -> "1"
                 "1" -> "0"
                 else -> "1"
@@ -69,7 +55,7 @@ class VolumeRepo {
 
             // Update database in background task.
             AsyncTask.execute {
-                database.volumesDao().updateReadStatus(volumeEntity.id, newStatus, changed)
+                getDatabase().issuesDao().updateReadStatus(issueEntity.id, newStatus, changed)
             }
 
         }

@@ -130,6 +130,12 @@ data class IssueEntity(
 
         @Delete
         fun delete(vararg issueEntity: IssueEntity)
+
+        @Query("SELECT * FROM Issues WHERE VolumeID = :volumeID ORDER BY IssueNumber")
+        fun getByVolumePaged(volumeID: String): androidx.paging.DataSource.Factory<Int, IssueEntity>
+
+        @Query("Update Issues SET IsRead = :isRead, Changed = :changed WHERE ID = :issueID")
+        fun updateReadStatus(issueID: String, isRead: String, changed: String)
     }
 
 }

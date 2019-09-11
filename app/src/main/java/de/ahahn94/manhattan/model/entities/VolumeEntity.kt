@@ -1,6 +1,7 @@
 package de.ahahn94.manhattan.model.entities
 
 import androidx.annotation.NonNull
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.google.gson.annotations.SerializedName
 
@@ -113,6 +114,9 @@ data class VolumeEntity(
         @Delete
         fun delete(vararg volumeEntity: VolumeEntity)
 
+        @Query("Update Issues SET IsRead = :isRead, Changed = :changed WHERE VolumeID = :volumeID")
+        fun updateReadStatus(volumeID: String, isRead: String, changed: String)
+
         /*
         Paged live data.
          */
@@ -122,6 +126,9 @@ data class VolumeEntity(
 
         @Query("SELECT * FROM VolumeView WHERE PublisherID = :publisherID")
         fun getByPublisherPaged(publisherID: String): androidx.paging.DataSource.Factory<Int, VolumeEntity>
+
+        @Query("SELECT * FROM VolumeView WHERE ID = :volumeID")
+        fun getLiveData(volumeID: String): LiveData<VolumeEntity>
 
     }
 

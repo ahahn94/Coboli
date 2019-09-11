@@ -28,4 +28,7 @@
     <string name="volumes_number">%1$d Volume(s)</string>
     <string name="badge_new">NEW</string>
     <string name="sync">Sync</string>
+    <string name="show_details">Show Details</string>
+    <string name="fa_ellipsis_v" translatable="false">\uf142</string>
+    <string name="switch_read">Mark as (un-)read</string>
 </resources>

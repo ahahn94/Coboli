@@ -41,14 +41,14 @@ class MainActivity : ToolbarActivity() {
      * OnClick-function for the volumeEntity overview button.
      */
     fun volumeOverviewClicked(view: View) {
-        startActivity(Intent(this, VolumesOverviewActivity::class.java))
+        startActivity(Intent(this, VolumesActivity::class.java))
     }
 
     /**
      * OnClick-function for the publisherEntity overview button.
      */
     fun publisherOverviewClicked(view: View) {
-        startActivity(Intent(this, PublishersOverviewActivity::class.java))
+        startActivity(Intent(this, PublishersActivity::class.java))
     }
 
     /**

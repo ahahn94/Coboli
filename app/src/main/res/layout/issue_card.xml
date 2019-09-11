@@ -7,7 +7,7 @@
         android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-            android:id="@+id/volumeCard"
+            android:id="@+id/issueCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_small"
@@ -24,7 +24,7 @@
                     android:layout_height="match_parent">
 
                 <ImageView
-                        android:id="@+id/volumeImage"
+                        android:id="@+id/issueImage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_small"
@@ -35,35 +35,36 @@
                         android:id="@+id/isReadBadge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right|top"
+                        android:layout_gravity="top|end"
                         android:background="@drawable/badge"
                         android:gravity="center"
                         android:padding="@dimen/padding_small"
                         android:text="@string/badge_new"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         android:textColor="@color/colorTextLight" />
+
             </FrameLayout>
 
             <TextView
-                    android:id="@+id/volumeName"
+                    android:id="@+id/issueName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginRight="@dimen/margin_small"
-                    android:text="TextView"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     tools:text="@sample/sampleVolumes.json/data/volumeName" />
 
             <TextView
-                    android:id="@+id/volumeIssuesCount"
+                    android:id="@+id/menuToggle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginRight="@dimen/margin_small"
-                    android:text="TextView"
-                    android:textAlignment="textEnd"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    tools:text="@sample/sampleVolumes.json/data/issueCount" />
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:fontFamily="@font/fontawesome_solid"
+                    android:paddingStart="@dimen/padding_small"
+                    android:paddingEnd="@dimen/padding_small"
+                    android:text="@string/fa_ellipsis_v"
+                    android:textAlignment="textEnd" />
 
         </LinearLayout>
 

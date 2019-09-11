@@ -1,6 +1,7 @@
 package de.ahahn94.manhattan.model.entities
 
 import androidx.annotation.NonNull
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
 import com.google.gson.annotations.SerializedName
@@ -63,6 +64,9 @@ data class PublisherEntity(
 
         @Query("SELECT * FROM PublisherView")
         fun getAllPaged(): DataSource.Factory<Int, PublisherEntity>
+
+        @Query("SELECT * FROM PublisherView WHERE ID = :publisherID")
+        fun getLiveData(publisherID: String): LiveData<PublisherEntity>
 
     }
 

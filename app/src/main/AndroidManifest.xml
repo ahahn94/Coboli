@@ -23,11 +23,12 @@
                 android:name=".activities.LoginActivity"
                 android:theme="@style/NoActionBarTheme"
                 android:windowSoftInputMode="stateAlwaysVisible"></activity>
-        <activity android:name=".activities.VolumesOverviewActivity" />
-        <activity android:name=".activities.PublishersOverviewActivity" />
+        <activity android:name=".activities.VolumesActivity" />
+        <activity android:name=".activities.PublishersActivity" />
         <activity
                 android:name=".activities.SyncActivity"
                 android:theme="@style/NoActionBarTheme" />
+        <activity android:name=".activities.IssuesActivity" />
     </application>
 
 </manifest>

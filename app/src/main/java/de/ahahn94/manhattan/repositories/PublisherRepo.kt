@@ -35,6 +35,13 @@ class PublisherRepo {
             return LivePagedListBuilder(getDatabase().publishersDao().getAllPaged(), 10).build()
         }
 
+        /**
+         * Get a single PublisherEntity as LiveData.
+         */
+        fun get(publisherID: String): LiveData<PublisherEntity> {
+            return getDatabase().publishersDao().getLiveData(publisherID)
+        }
+
     }
 
 }

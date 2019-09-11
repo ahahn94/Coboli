@@ -29,4 +29,6 @@
     <string name="volumes_number">%1$d Serie(n)</string>
     <string name="badge_new">NEU</string>
     <string name="sync">Sync</string>
+    <string name="show_details">Details</string>
+    <string name="switch_read">Als (un-)gelesen markieren</string>
 </resources>

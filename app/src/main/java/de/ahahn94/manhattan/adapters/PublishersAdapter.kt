@@ -1,18 +1,21 @@
 package de.ahahn94.manhattan.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import de.ahahn94.manhattan.R
+import de.ahahn94.manhattan.activities.VolumesActivity
+import de.ahahn94.manhattan.menus.PublisherPopupMenu
 import de.ahahn94.manhattan.model.entities.PublisherEntity
 import de.ahahn94.manhattan.utils.Localization
 import java.lang.ref.WeakReference
@@ -21,7 +24,10 @@ import java.lang.ref.WeakReference
  * PagedListAdapter for PublisherEntity datasets.
  * Provides the data for a RecyclerView to display.
  */
-class PublishersAdapter(val publishers: LiveData<PagedList<PublisherEntity>>) :
+class PublishersAdapter(
+    private val fragmentManager: WeakReference<FragmentManager>,
+    val publishers: LiveData<PagedList<PublisherEntity>>
+) :
     PagedListAdapter<PublisherEntity, PublishersAdapter.PublisherHolder>(
         object : DiffUtil.ItemCallback<PublisherEntity>() {
             override fun areItemsTheSame(
@@ -74,15 +80,16 @@ class PublishersAdapter(val publishers: LiveData<PagedList<PublisherEntity>>) :
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PublisherHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.publisher_card_layout, parent, false)
-        return PublisherHolder(view)
+            .inflate(R.layout.publisher_card, parent, false)
+        return PublisherHolder(fragmentManager, view)
     }
 
     /**
      * Holder for PublisherEntity datasets.
      * Organizes the publishers data in a CardView.
      */
-    class PublisherHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class PublisherHolder(fragmentManager: WeakReference<FragmentManager>, itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
 
         // Data object
         var publisherEntity: PublisherEntity? = null
@@ -92,23 +99,32 @@ class PublishersAdapter(val publishers: LiveData<PagedList<PublisherEntity>>) :
         val publisherImage: ImageView
         val publisherName: TextView
         val publisherVolumesCount: TextView
+        private val menuToggle: TextView
 
         init {
             publisherImage = publisherCard.findViewById(R.id.publisherImage)
             publisherName = publisherCard.findViewById(R.id.publisherName)
             publisherVolumesCount = publisherCard.findViewById(R.id.publisherVolumesCount)
+            menuToggle = publisherCard.findViewById(R.id.menuToggle)
 
-            // Todo: Clickevents.
-            publisherCard.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(v: View?) {
-                    Toast.makeText(
+            // Set OnClickListener on the card to navigate to the volumes of the publisher.
+            publisherCard.setOnClickListener {
+                val intent = Intent(itemView.context, VolumesActivity::class.java)
+                intent.putExtra(VolumesActivity.PUBLISHER_ID_NAME, publisherEntity?.id)
+                itemView.context.startActivity(intent)
+            }
+
+            // Set OnClickListener on the menuToggle to show the popup menu.
+            menuToggle.setOnClickListener {
+                val menu =
+                    PublisherPopupMenu(
                         itemView.context,
-                        publisherEntity?.name.toString(),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-
-            })
+                        menuToggle,
+                        publisherEntity,
+                        fragmentManager
+                    )
+                menu.show()
+            }
         }
 
     }
