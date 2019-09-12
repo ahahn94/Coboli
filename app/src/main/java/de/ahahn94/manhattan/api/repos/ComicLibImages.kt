@@ -1,7 +1,7 @@
 package de.ahahn94.manhattan.api.repos
 
+import de.ahahn94.manhattan.api.clients.TrustedCertificatesClientFactory
 import de.ahahn94.manhattan.api.responses.ApiFile
-import de.ahahn94.manhattan.utils.network.TrustedCertificatesClientFactory
 import okhttp3.OkHttpClient
 import okhttp3.Request
 

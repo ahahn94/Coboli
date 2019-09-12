@@ -31,4 +31,7 @@
     <string name="show_details">Show Details</string>
     <string name="fa_ellipsis_v" translatable="false">\uf142</string>
     <string name="switch_read">Mark as (un-)read</string>
+    <string name="download">Download</string>
+    <string name="download_progress">Downloading</string>
+    <string name="download_complete">Download complete</string>
 </resources>

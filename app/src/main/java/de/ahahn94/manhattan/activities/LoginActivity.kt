@@ -148,6 +148,7 @@ class LoginActivity : AppCompatActivity() {
      * Handle results from activities created by this class.
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             SYNC_REQUEST_CODE -> {
                 // Sync finished. Close LoginActivity.
@@ -198,7 +199,7 @@ class LoginActivity : AppCompatActivity() {
 
         override fun onPostExecute(result: Unit?) {
             val transaction = loginActivity.get()?.supportFragmentManager?.beginTransaction()
-            dialog.show(transaction, CertificateValidationDialog.TAG)
+            dialog.show(transaction!!, CertificateValidationDialog.TAG)
         }
     }
 

@@ -3,7 +3,7 @@ package de.ahahn94.manhattan.api.repos
 import de.ahahn94.manhattan.api.responses.*
 import de.ahahn94.manhattan.model.entities.IssueEntity
 import de.ahahn94.manhattan.model.views.VolumeReadStatusView
-import de.ahahn94.manhattan.utils.network.TrustedCertificatesClientFactory
+import de.ahahn94.manhattan.api.clients.TrustedCertificatesClientFactory
 import de.ahahn94.manhattan.utils.security.Authentication
 import de.ahahn94.manhattan.utils.settings.Credentials
 import retrofit2.Call

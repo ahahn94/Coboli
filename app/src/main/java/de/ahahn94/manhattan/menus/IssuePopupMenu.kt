@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.PopupMenu
 import androidx.fragment.app.FragmentManager
 import de.ahahn94.manhattan.R
+import de.ahahn94.manhattan.cache.ComicsCache
 import de.ahahn94.manhattan.fragments.ItemDetailFragment
 import de.ahahn94.manhattan.model.entities.IssueEntity
 import de.ahahn94.manhattan.repositories.IssueRepo
@@ -24,7 +25,7 @@ class IssuePopupMenu(
     init {
 
         // Load the menu.
-        menuInflater.inflate(R.menu.volume_popup_menu, menu)
+        menuInflater.inflate(R.menu.issue_popup_menu, menu)
 
         // Bind actions to menu entries.
         setOnMenuItemClickListener {
@@ -39,7 +40,7 @@ class IssuePopupMenu(
                         }
                     }
                     val transaction = fragmentManager.get()?.beginTransaction()
-                    dialog.show(transaction, "Details")
+                    dialog.show(transaction!!, "Details")
                     true
                 }
 
@@ -48,6 +49,11 @@ class IssuePopupMenu(
                     if (issueEntity != null) {
                         IssueRepo.switchReadStatus(issueEntity)
                     }
+                    true
+                }
+
+                R.id.action_download -> {
+                    ComicsCache.cacheComicFile(issueEntity?.id?:"")
                     true
                 }
 

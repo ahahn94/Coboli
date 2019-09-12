@@ -51,7 +51,7 @@ class ItemDetailFragment() :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Make background transparent.
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         // Add OnClickListener to the closeButton. Makes the closeButton close the DialogFragment.
         view.findViewById<ImageView>(R.id.closeButton).setOnClickListener {
@@ -67,7 +67,7 @@ class ItemDetailFragment() :
     override fun onStart() {
         super.onStart()
         // Make layout size match parent.
-        dialog.window?.setLayout(
+        dialog?.window?.setLayout(
             MATCH_PARENT,
             MATCH_PARENT
         )

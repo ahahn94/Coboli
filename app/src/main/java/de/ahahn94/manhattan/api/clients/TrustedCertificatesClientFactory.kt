@@ -1,4 +1,4 @@
-package de.ahahn94.manhattan.utils.network
+package de.ahahn94.manhattan.api.clients
 
 import de.ahahn94.manhattan.utils.security.KnownServers
 import okhttp3.OkHttpClient
@@ -20,6 +20,17 @@ class TrustedCertificatesClientFactory {
          * Returns an OkHttpClient preloaded with the certificate and hostname of the known server.
          */
         fun create(): OkHttpClient {
+            val builder =
+                createPreconfiguredBuilder()
+            return builder.build()
+        }
+
+        /**
+         * Create an OkHttpClient.Builder that is preloaded with
+         * a TrustManager and SslSocketFactory that accept the
+         * hostname and certificate of the known server.
+         */
+        fun createPreconfiguredBuilder(): OkHttpClient.Builder {
             val builder = OkHttpClient().newBuilder()
 
             // Get trusted certificate.
@@ -53,7 +64,7 @@ class TrustedCertificatesClientFactory {
 
                 builder.hostnameVerifier(hostnameVerifier)
             }
-            return builder.build()
+            return builder
         }
 
     }

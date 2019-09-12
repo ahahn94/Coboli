@@ -1,7 +1,7 @@
 package de.ahahn94.manhattan.api.repos
 
+import de.ahahn94.manhattan.api.clients.DownloadClientFactory
 import de.ahahn94.manhattan.api.responses.ApiFile
-import de.ahahn94.manhattan.utils.network.TrustedCertificatesClientFactory
 import de.ahahn94.manhattan.utils.security.Authentication
 import de.ahahn94.manhattan.utils.settings.Credentials
 import okhttp3.OkHttpClient
@@ -19,12 +19,10 @@ data class ComicLibComics(private val url: String) {
         private const val API_COMICS_FILE_PATH = "/file"
 
         // Authorization for the API calls.
-        val bearerTokenAuthentication = Authentication.generateBearerTokenHeader(Credentials.getInstance().apiKey)
+        val bearerTokenAuthentication =
+            Authentication.generateBearerTokenHeader(Credentials.getInstance().apiKey)
 
     }
-
-    // OkHttpClient for all calls to this API resource.
-    private val client: OkHttpClient = TrustedCertificatesClientFactory.create()
 
     /**
      * Download the comics file specified by issueID.
@@ -34,6 +32,13 @@ data class ComicLibComics(private val url: String) {
         val request = Request.Builder()
             .url(url + API_COMICS_BASE_PATH + issueID + API_COMICS_FILE_PATH)
             .header("Authorization", bearerTokenAuthentication).build()
+
+        val client: OkHttpClient =
+            DownloadClientFactory.create(
+                DownloadClientFactory.NotifyingProgressListener(
+                    issueID.toInt()
+                )
+            )
 
         val response = client.newCall(request).execute()
         return if (response.isSuccessful) {

@@ -37,7 +37,7 @@ class PublisherPopupMenu(
                         }
                     }
                     val transaction = fragmentManager.get()?.beginTransaction()
-                    dialog.show(transaction, "Details")
+                    dialog.show(transaction!!, "Details")
                     true
                 }
 
