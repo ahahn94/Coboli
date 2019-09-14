@@ -15,30 +15,30 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.menus.IssuePopupMenu
-import de.ahahn94.manhattan.model.entities.IssueEntity
+import de.ahahn94.manhattan.model.views.CachedIssuesView
 import java.lang.ref.WeakReference
 
 /**
- * PagedListAdapter for IssueEntity datasets.
+ * PagedListAdapter for CachedIssuesView datasets.
  * Provides the data for a RecyclerView to display.
  */
 class IssuesAdapter(
     private val fragmentManager: WeakReference<FragmentManager>,
-    val issues: LiveData<PagedList<IssueEntity>>
+    val issues: LiveData<PagedList<CachedIssuesView>>
 ) :
-    PagedListAdapter<IssueEntity, IssuesAdapter.IssueDatasetHolder>(
+    PagedListAdapter<CachedIssuesView, IssuesAdapter.IssueDatasetHolder>(
 
-        object : DiffUtil.ItemCallback<IssueEntity>() {
+        object : DiffUtil.ItemCallback<CachedIssuesView>() {
             override fun areItemsTheSame(
-                oldItem: IssueEntity,
-                newItem: IssueEntity
+                oldItem: CachedIssuesView,
+                newItem: CachedIssuesView
             ): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: IssueEntity,
-                newItem: IssueEntity
+                oldItem: CachedIssuesView,
+                newItem: CachedIssuesView
             ): Boolean {
                 return oldItem.equals(newItem)
             }
@@ -51,24 +51,24 @@ class IssuesAdapter(
      * Will set the content to display in the RecyclerView.
      */
     override fun onBindViewHolder(holder: IssueDatasetHolder, position: Int) {
-        val issueEntity = getItem(position)!!
+        val issue = getItem(position)!!
 
         with(holder) {
 
             // Add data object.
-            this.issueEntity = issueEntity
+            this.issue = issue
 
             // Load image in background.
             ImagesLoader(
-                issueEntity.imageFileURL,
+                issue.imageFileURL,
                 WeakReference(issueImage)
             ).execute()
 
             // Fill TextViews.
-            issueName.text = issueEntity.name
+            issueName.text = issue.name
 
             // Set badge visibility.
-            if (issueEntity.readStatus.isRead == "1") {
+            if (issue.readStatus.isRead == "1") {
                 isReadBadge.visibility = View.INVISIBLE
             } else {
                 isReadBadge.visibility = View.VISIBLE
@@ -86,14 +86,14 @@ class IssuesAdapter(
     }
 
     /**
-     * Holder for IssueEntity datasets.
+     * Holder for CachedIssuesView datasets.
      * Organizes the issues data in a CardView.
      */
     class IssueDatasetHolder(fragmentManager: WeakReference<FragmentManager>, itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
         // Data object
-        var issueEntity: IssueEntity? = null
+        var issue: CachedIssuesView? = null
 
         // UI elements.
         private val issueCard: CardView = itemView.findViewById(R.id.issueCard)
@@ -115,7 +115,7 @@ class IssuesAdapter(
                         itemView.context,
                         menuToggle,
                         Gravity.END,
-                        issueEntity,
+                        issue,
                         fragmentManager
                     )
                 menu.show()

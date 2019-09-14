@@ -6,7 +6,7 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import de.ahahn94.manhattan.model.Database
 import de.ahahn94.manhattan.model.ManhattanDatabase
-import de.ahahn94.manhattan.model.entities.IssueEntity
+import de.ahahn94.manhattan.model.views.CachedIssuesView
 import de.ahahn94.manhattan.utils.Timestamps
 
 /**
@@ -30,9 +30,9 @@ class IssueRepo {
         }
 
         /**
-         * Get all IssueEntity datasets of a volume from the database as an observable PagedList.
+         * Get all CachedIssuesView datasets of a volume from the database as an observable PagedList.
          */
-        fun getByVolume(volumeID: String): LiveData<PagedList<IssueEntity>> {
+        fun getAll(volumeID: String): LiveData<PagedList<CachedIssuesView>> {
             return LivePagedListBuilder(
                 getDatabase().issuesDao().getByVolumePaged(volumeID),
                 10
@@ -40,12 +40,22 @@ class IssueRepo {
         }
 
         /**
+         * Get all CachedIssuesView datasets of a volume.
+         */
+        fun getCached(volumeID: String): LiveData<PagedList<CachedIssuesView>> {
+            return LivePagedListBuilder(
+                getDatabase().issuesDao().getCachedByVolume(volumeID),
+                10
+            ).build()
+        }
+
+        /**
          * Update the ReadStatus of an issue on the database.
          */
-        fun switchReadStatus(issueEntity: IssueEntity) {
+        fun switchReadStatus(issue: CachedIssuesView) {
 
             // Get new isRead.
-            val newStatus = when (issueEntity.readStatus.isRead) {
+            val newStatus = when (issue.readStatus.isRead) {
                 "0" -> "1"
                 "1" -> "0"
                 else -> "1"
@@ -55,7 +65,7 @@ class IssueRepo {
 
             // Update database in background task.
             AsyncTask.execute {
-                getDatabase().issuesDao().updateReadStatus(issueEntity.id, newStatus, changed)
+                getDatabase().issuesDao().updateReadStatus(issue.id, newStatus, changed)
             }
 
         }

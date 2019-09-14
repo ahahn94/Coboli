@@ -1,9 +1,11 @@
 package de.ahahn94.manhattan.model.entities
 
 import androidx.annotation.NonNull
+import androidx.paging.DataSource
 import androidx.room.*
 import com.google.gson.annotations.SerializedName
 import de.ahahn94.manhattan.api.responses.IssueReadStatus
+import de.ahahn94.manhattan.model.views.CachedIssuesView
 
 /**
  * Entity data class for issue datasets.
@@ -131,11 +133,18 @@ data class IssueEntity(
         @Delete
         fun delete(vararg issueEntity: IssueEntity)
 
-        @Query("SELECT * FROM Issues WHERE VolumeID = :volumeID ORDER BY IssueNumber")
-        fun getByVolumePaged(volumeID: String): androidx.paging.DataSource.Factory<Int, IssueEntity>
-
         @Query("Update Issues SET IsRead = :isRead, Changed = :changed WHERE ID = :issueID")
         fun updateReadStatus(issueID: String, isRead: String, changed: String)
+
+        /**
+         * CachedIssuesView as PagedList for display in the RecyclerViews.
+         */
+
+        @Query("SELECT * FROM CachedIssues WHERE VolumeID = :volumeID ORDER BY IssueNumber")
+        fun getByVolumePaged(volumeID: String): DataSource.Factory<Int, CachedIssuesView>
+
+        @Query("SELECT * FROM CachedIssues WHERE VolumeID = :volumeID AND IsCached = '1'")
+        fun getCachedByVolume(volumeID: String): DataSource.Factory<Int, CachedIssuesView>
     }
 
 }

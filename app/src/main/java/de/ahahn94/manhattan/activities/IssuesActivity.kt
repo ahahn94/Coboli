@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.adapters.IssuesAdapter
 import de.ahahn94.manhattan.utils.ContextProvider
-import de.ahahn94.manhattan.utils.Logging
 import de.ahahn94.manhattan.viewModels.IssuesViewModel
 import java.lang.ref.WeakReference
 
@@ -18,7 +17,9 @@ class IssuesActivity : ToolbarActivity() {
 
     companion object {
 
+        // Extra-IDs for values passed into the activity at creation.
         const val VOLUME_ID_NAME = "volumeID"
+        const val CACHED_ISSUES = "cachedIssues"
 
     }
 
@@ -38,13 +39,16 @@ class IssuesActivity : ToolbarActivity() {
         // Get volumeID.
         val volumeID = intent.getStringExtra(VOLUME_ID_NAME)
 
+        // Only cached issues?
+        val cachedOnly = intent.getBooleanExtra(CACHED_ISSUES, false)
+
         // Bind recyclerView.
         recyclerView = this.findViewById(R.id.recyclerView)
 
         // Get viewModel that contains the data for the activity.
         viewModel = ViewModelProviders.of(
             this,
-            IssuesViewModel.Factory(this.application, volumeID)
+            IssuesViewModel.Factory(this.application, volumeID, cachedOnly)
         ).get(IssuesViewModel::class.java)
 
         // Bind the data from viewModel to the recyclerView.
@@ -65,7 +69,6 @@ class IssuesActivity : ToolbarActivity() {
         list.observe(
             this,
             Observer { changedList ->
-                Logging.logDebug("Changed")
                 adapter.submitList(changedList)
             })
 

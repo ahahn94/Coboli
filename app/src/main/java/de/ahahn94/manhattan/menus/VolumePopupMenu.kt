@@ -6,7 +6,7 @@ import android.widget.PopupMenu
 import androidx.fragment.app.FragmentManager
 import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.fragments.ItemDetailFragment
-import de.ahahn94.manhattan.model.entities.VolumeEntity
+import de.ahahn94.manhattan.model.views.CachedVolumesView
 import de.ahahn94.manhattan.repositories.VolumeRepo
 import java.lang.ref.WeakReference
 
@@ -17,7 +17,7 @@ class VolumePopupMenu(
     context: Context,
     view: View,
     gravity: Int,
-    volumeEntity: VolumeEntity?,
+    volume: CachedVolumesView?,
     fragmentManager: WeakReference<FragmentManager>
 ) :
     PopupMenu(context, view, gravity) {
@@ -33,8 +33,8 @@ class VolumePopupMenu(
                 // Show details as an overlay.
                 R.id.action_details -> {
                     val dialog = ItemDetailFragment()
-                    if (volumeEntity != null) {
-                        with(volumeEntity) {
+                    if (volume != null) {
+                        with(volume) {
                             dialog.updateContent(imageFileURL, name, description)
                         }
                     }
@@ -45,8 +45,8 @@ class VolumePopupMenu(
 
                 // Mark the volumes issues (and thus the volume) as (un-)read.
                 R.id.action_read -> {
-                    if (volumeEntity != null) {
-                        VolumeRepo.switchReadStatus(volumeEntity)
+                    if (volume != null) {
+                        VolumeRepo.switchReadStatus(volume)
                     }
                     true
                 }

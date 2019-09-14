@@ -6,7 +6,7 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import de.ahahn94.manhattan.model.Database
 import de.ahahn94.manhattan.model.ManhattanDatabase
-import de.ahahn94.manhattan.model.entities.VolumeEntity
+import de.ahahn94.manhattan.model.views.CachedVolumesView
 import de.ahahn94.manhattan.utils.Timestamps
 
 /**
@@ -30,23 +30,16 @@ class VolumeRepo {
         }
 
         /**
-         * Get all VolumeEntity datasets from the database as an observable PagedList.
+         * Get all CachedVolumesView datasets from the database as an observable PagedList.
          */
-        fun getAll(): LiveData<PagedList<VolumeEntity>> {
+        fun getAll(): LiveData<PagedList<CachedVolumesView>> {
             return LivePagedListBuilder(getDatabase().volumesDao().getAllPaged(), 10).build()
         }
 
         /**
-         * Get a single VolumeEntity as LiveData.
+         * Get all CachedVolumesView datasets of a publisher from the database as an observable PagedList.
          */
-        fun get(volumeID: String): LiveData<VolumeEntity> {
-            return getDatabase().volumesDao().getLiveData(volumeID)
-        }
-
-        /**
-         * Get all VolumeEntity datasets of a publisher from the database as an observable PagedList.
-         */
-        fun getByPublisher(publisherID: String): LiveData<PagedList<VolumeEntity>> {
+        fun getByPublisher(publisherID: String): LiveData<PagedList<CachedVolumesView>> {
             return LivePagedListBuilder(
                 getDatabase().volumesDao().getByPublisherPaged(publisherID),
                 10
@@ -54,12 +47,20 @@ class VolumeRepo {
         }
 
         /**
+         * Get all CachedVolumesView datasets that have cached comics
+         * from the database as anobservable PagedList.
+         */
+        fun getCached(): LiveData<PagedList<CachedVolumesView>> {
+            return LivePagedListBuilder(getDatabase().volumesDao().getCachedPaged(), 10).build()
+        }
+
+        /**
          * Update the ReadStatus of a volume on the database.
          */
-        fun switchReadStatus(volumeEntity: VolumeEntity) {
+        fun switchReadStatus(volume: CachedVolumesView) {
 
             // Get new isRead.
-            val newStatus = when (volumeEntity.readStatus?.isRead ?: "0") {
+            val newStatus = when (volume.readStatus?.isRead ?: "0") {
                 "0" -> "1"
                 "1" -> "0"
                 else -> "1"
@@ -69,7 +70,7 @@ class VolumeRepo {
 
             // Update database in background task.
             AsyncTask.execute {
-                database.volumesDao().updateReadStatus(volumeEntity.id, newStatus, changed)
+                database.volumesDao().updateReadStatus(volume.id, newStatus, changed)
             }
 
         }

@@ -38,7 +38,7 @@ class MainActivity : ToolbarActivity() {
     }
 
     /**
-     * OnClick-function for the volumeEntity overview button.
+     * OnClick-function for the volume overview button.
      */
     fun volumeOverviewClicked(view: View) {
         startActivity(Intent(this, VolumesActivity::class.java))
@@ -49,6 +49,15 @@ class MainActivity : ToolbarActivity() {
      */
     fun publisherOverviewClicked(view: View) {
         startActivity(Intent(this, PublishersActivity::class.java))
+    }
+
+    /**
+     * OnClick-function for the cachedVolumes button.
+     */
+    fun cachedVolumesClicked(view: View) {
+        val intent = Intent(this, VolumesActivity::class.java)
+        intent.putExtra(VolumesActivity.CACHED_VOLUMES, true)
+        startActivity(intent)
     }
 
     /**

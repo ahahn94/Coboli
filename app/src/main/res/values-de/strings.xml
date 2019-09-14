@@ -34,4 +34,5 @@
     <string name="download">Herunterladen</string>
     <string name="download_progress">Download läuft</string>
     <string name="download_complete">Download abgeschlossen</string>
+    <string name="delete_download">Download löschen</string>
 </resources>

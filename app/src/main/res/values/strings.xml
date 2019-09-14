@@ -34,4 +34,6 @@
     <string name="download">Download</string>
     <string name="download_progress">Downloading</string>
     <string name="download_complete">Download complete</string>
+    <string name="delete_download">Delete download</string>
+    <string name="fa_sign_in_alt" translatable="false">\uf2f6</string>
 </resources>

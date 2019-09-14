@@ -15,9 +15,9 @@ import androidx.room.PrimaryKey
  */
 @DatabaseView(
     value = "SELECT V.*, VRS.VolumeIsRead AS IsRead, VRS.VolumeIssueCount AS IssueCount, VRS.VolumeChanged AS Changed FROM (SELECT ID, URL, Description, ImageFileURL, Name, StartYear, IssuesURL, PublisherID, PublisherURL FROM Volumes) V JOIN VolumeReadStatus VRS ON V.ID = VRS.VolumeID",
-    viewName = "VolumeView"
+    viewName = "VolumesView"
 )
-data class VolumeView(
+data class VolumesView(
 
     @ColumnInfo(name = "ID")
     @PrimaryKey
@@ -65,7 +65,7 @@ data class VolumeView(
     )
 
     /**
-     * Data class for the publisher part of VolumeView.
+     * Data class for the publisher part of VolumesView.
      */
     data class Publisher(
         @ColumnInfo(name = "PublisherID")

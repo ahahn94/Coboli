@@ -17,32 +17,32 @@ import androidx.recyclerview.widget.RecyclerView
 import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.activities.IssuesActivity
 import de.ahahn94.manhattan.menus.VolumePopupMenu
-import de.ahahn94.manhattan.model.entities.VolumeEntity
+import de.ahahn94.manhattan.model.views.CachedVolumesView
 import de.ahahn94.manhattan.utils.Localization
-import de.ahahn94.manhattan.utils.Logging
 import java.lang.ref.WeakReference
 
 /**
- * PagedListAdapter for VolumeEntity datasets.
+ * PagedListAdapter for CachedVolumesView datasets.
  * Provides the data for a RecyclerView to display.
  */
 class VolumesAdapter(
     private val fragmentManager: WeakReference<FragmentManager>,
-    val volumes: LiveData<PagedList<VolumeEntity>>
+    private val cachedOnly: Boolean,
+    val volumes: LiveData<PagedList<CachedVolumesView>>
 ) :
-    PagedListAdapter<VolumeEntity, VolumesAdapter.VolumeDatasetHolder>(
+    PagedListAdapter<CachedVolumesView, VolumesAdapter.VolumeDatasetHolder>(
 
-        object : DiffUtil.ItemCallback<VolumeEntity>() {
+        object : DiffUtil.ItemCallback<CachedVolumesView>() {
             override fun areItemsTheSame(
-                oldItem: VolumeEntity,
-                newItem: VolumeEntity
+                oldItem: CachedVolumesView,
+                newItem: CachedVolumesView
             ): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: VolumeEntity,
-                newItem: VolumeEntity
+                oldItem: CachedVolumesView,
+                newItem: CachedVolumesView
             ): Boolean {
                 return oldItem.equals(newItem)
             }
@@ -55,29 +55,29 @@ class VolumesAdapter(
      * Will set the content to display in the RecyclerView.
      */
     override fun onBindViewHolder(holder: VolumeDatasetHolder, position: Int) {
-        val volumeEntity = getItem(position)!!
+        val volume = getItem(position)!!
 
         with(holder) {
 
             // Add data object.
-            this.volumeEntity = volumeEntity
+            this.volume = volume
 
             // Load image in background.
             ImagesLoader(
-                volumeEntity.imageFileURL,
+                volume.imageFileURL,
                 WeakReference(volumeImage)
             ).execute()
 
             // Fill TextViews.
-            volumeName.text = volumeEntity.name
+            volumeName.text = volume.name
             volumeIssuesCount.text =
                 Localization.getLocalizedString(
                     R.string.issues_number,
-                    volumeEntity.issueCount
+                    volume.issueCount
                 )
 
             // Set badge visibility.
-            if (volumeEntity.readStatus?.isRead == "1") {
+            if (volume.readStatus?.isRead == "1") {
                 isReadBadge.visibility = View.INVISIBLE
             } else {
                 isReadBadge.visibility = View.VISIBLE
@@ -91,18 +91,21 @@ class VolumesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VolumeDatasetHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.volume_card, parent, false)
-        return VolumeDatasetHolder(fragmentManager, view)
+        return VolumeDatasetHolder(fragmentManager, cachedOnly, view)
     }
 
     /**
-     * Holder for VolumeEntity datasets.
+     * Holder for CachedVolumesView datasets.
      * Organizes the volumes data in a CardView.
      */
-    class VolumeDatasetHolder(fragmentManager: WeakReference<FragmentManager>, itemView: View) :
+    class VolumeDatasetHolder(
+        fragmentManager: WeakReference<FragmentManager>,
+        cachedOnly: Boolean, itemView: View
+    ) :
         RecyclerView.ViewHolder(itemView) {
 
         // Data object
-        var volumeEntity: VolumeEntity? = null
+        var volume: CachedVolumesView? = null
 
         // UI elements.
         private val volumeCard: CardView = itemView.findViewById(R.id.volumeCard)
@@ -122,7 +125,11 @@ class VolumesAdapter(
             // Set OnClickListener on the card to navigate to the issues of the volume.
             volumeCard.setOnClickListener {
                 val intent = Intent(itemView.context, IssuesActivity::class.java)
-                intent.putExtra(IssuesActivity.VOLUME_ID_NAME, volumeEntity?.id)
+                intent.putExtra(IssuesActivity.VOLUME_ID_NAME, volume?.id)
+                if (cachedOnly) {
+                    // If only the cached volumes where shown, only show the cached issues, too.
+                    intent.putExtra(IssuesActivity.CACHED_ISSUES, true)
+                }
                 itemView.context.startActivity(intent)
             }
 
@@ -133,7 +140,7 @@ class VolumesAdapter(
                         itemView.context,
                         menuToggle,
                         Gravity.END,
-                        volumeEntity,
+                        volume,
                         fragmentManager
                     )
                 menu.show()

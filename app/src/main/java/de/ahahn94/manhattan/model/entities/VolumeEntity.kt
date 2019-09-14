@@ -1,9 +1,10 @@
 package de.ahahn94.manhattan.model.entities
 
 import androidx.annotation.NonNull
-import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.google.gson.annotations.SerializedName
+import de.ahahn94.manhattan.model.views.CachedVolumesView
 
 /**
  * Entity data class for volume datasets.
@@ -102,13 +103,13 @@ data class VolumeEntity(
         @Update
         fun update(vararg volumeEntity: VolumeEntity)
 
-        @Query("SELECT * FROM VolumeView ORDER BY Name")
+        @Query("SELECT * FROM VolumesView ORDER BY Name")
         fun getAll(): Array<VolumeEntity>
 
-        @Query("SELECT * FROM VolumeView WHERE ID = :volumeID")
+        @Query("SELECT * FROM VolumesView WHERE ID = :volumeID")
         fun get(volumeID: String): VolumeEntity?
 
-        @Query("SELECT * FROM VolumeView WHERE PublisherID = :publisherID")
+        @Query("SELECT * FROM VolumesView WHERE PublisherID = :publisherID")
         fun getByPublisher(publisherID: String): Array<VolumeEntity>
 
         @Delete
@@ -118,17 +119,17 @@ data class VolumeEntity(
         fun updateReadStatus(volumeID: String, isRead: String, changed: String)
 
         /*
-        Paged live data.
+        Paged live data of CachedVolumesView for display in the apps activities.
          */
 
-        @Query("SELECT * FROM VolumeView ORDER BY Name")
-        fun getAllPaged(): androidx.paging.DataSource.Factory<Int, VolumeEntity>
+        @Query("SELECT * FROM CachedVolumes ORDER BY Name")
+        fun getAllPaged(): DataSource.Factory<Int, CachedVolumesView>
 
-        @Query("SELECT * FROM VolumeView WHERE PublisherID = :publisherID")
-        fun getByPublisherPaged(publisherID: String): androidx.paging.DataSource.Factory<Int, VolumeEntity>
+        @Query("SELECT * FROM CachedVolumes WHERE HasCachedIssues = '1' ORDER BY Name")
+        fun getCachedPaged(): DataSource.Factory<Int, CachedVolumesView>
 
-        @Query("SELECT * FROM VolumeView WHERE ID = :volumeID")
-        fun getLiveData(volumeID: String): LiveData<VolumeEntity>
+        @Query("SELECT * FROM CachedVolumes WHERE PublisherID = :publisherID")
+        fun getByPublisherPaged(publisherID: String): DataSource.Factory<Int, CachedVolumesView>
 
     }
 

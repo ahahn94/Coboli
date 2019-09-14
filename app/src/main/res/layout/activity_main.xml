@@ -40,6 +40,15 @@
                 android:text="PublishersOverview"
                 android:textColor="@color/colorTextLight" />
 
+        <Button
+                android:id="@+id/buttonCachedVolumes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccent"
+                android:onClick="cachedVolumesClicked"
+                android:text="Cached Volumes"
+                android:textColor="@color/colorTextLight" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

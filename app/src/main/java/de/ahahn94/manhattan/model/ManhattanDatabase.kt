@@ -6,16 +6,14 @@ import de.ahahn94.manhattan.model.entities.CachedComicEntity
 import de.ahahn94.manhattan.model.entities.IssueEntity
 import de.ahahn94.manhattan.model.entities.PublisherEntity
 import de.ahahn94.manhattan.model.entities.VolumeEntity
-import de.ahahn94.manhattan.model.views.PublisherView
-import de.ahahn94.manhattan.model.views.VolumeReadStatusView
-import de.ahahn94.manhattan.model.views.VolumeView
+import de.ahahn94.manhattan.model.views.*
 
 /**
  * RoomDatabase that wraps the tables and DAOs for the app database.
  */
 @Database(
     entities = [PublisherEntity::class, VolumeEntity::class, IssueEntity::class, CachedComicEntity::class],
-    views = [VolumeReadStatusView::class, VolumeView::class, PublisherView::class],
+    views = [VolumeReadStatusView::class, VolumesView::class, PublisherView::class, CachedIssuesView::class, CachedVolumesView::class],
     version = 1
 )
 abstract class ManhattanDatabase : RoomDatabase() {

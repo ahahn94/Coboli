@@ -17,7 +17,9 @@ class VolumesActivity : ToolbarActivity() {
 
     companion object {
 
+        // Extra-IDs for the values passed into the activity at creation.
         const val PUBLISHER_ID_NAME = "publisherID"
+        const val CACHED_VOLUMES = "cachedVolumes"
 
     }
 
@@ -37,27 +39,30 @@ class VolumesActivity : ToolbarActivity() {
         // Get publisherID.
         val publisherID = intent.getStringExtra(PUBLISHER_ID_NAME) ?: ""
 
+        // Only cached volumes?
+        val cachedOnly = intent.getBooleanExtra(CACHED_VOLUMES, false)
+
         // Bind recyclerView.
         recyclerView = this.findViewById(R.id.recyclerView)
 
         // Get viewModel that contains the data for the activity.
         viewModel = ViewModelProviders.of(
             this,
-            VolumesViewModel.Factory(this.application, publisherID)
+            VolumesViewModel.Factory(this.application, publisherID, cachedOnly)
         ).get(VolumesViewModel::class.java)
 
         // Bind the data from viewModel to the recyclerView.
-        bindData()
+        bindData(cachedOnly)
     }
 
     /**
      * Bind data to the recyclerView.
      * This makes the displayed list auto-update on changes to the database.
      */
-    private fun bindData() {
+    private fun bindData(cachedOnly : Boolean) {
         // Bind data to recyclerView.
         val list = viewModel.volumes
-        val adapter = VolumesAdapter(WeakReference(supportFragmentManager), list)
+        val adapter = VolumesAdapter(WeakReference(supportFragmentManager), cachedOnly, list)
 
         // Set observer.
         list.observe(

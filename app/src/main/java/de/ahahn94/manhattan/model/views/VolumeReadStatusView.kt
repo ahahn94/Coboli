@@ -5,7 +5,7 @@ import androidx.room.DatabaseView
 
 /**
  * Data class for the read-status part of VolumeEntity.
- * VolumeReadStatusView is generated via a view that summarizes the issues of the volumeEntity into one status.
+ * VolumeReadStatusView is generated via a view that summarizes the issues of the volume into one status.
  * The "Changed" field is the date of the latest change to the volumes issue last changed.
  * The "IsRead" field is 1 if all of the volumes issues are read, else false.
  */
