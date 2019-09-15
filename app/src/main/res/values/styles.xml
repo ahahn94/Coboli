@@ -9,7 +9,7 @@
     </style>
 
     <!-- Modified version of the application theme to exclude the action bar. -->
-    <style name="NoActionBarTheme" parent="AppTheme">
+    <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

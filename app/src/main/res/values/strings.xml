@@ -36,4 +36,9 @@
     <string name="download_complete">Download complete</string>
     <string name="delete_download">Delete download</string>
     <string name="fa_sign_in_alt" translatable="false">\uf2f6</string>
+    <string name="publishers">Publishers</string>
+    <string name="volumes">Volumes</string>
+    <string name="downloaded">Downloaded</string>
+    <string name="drawer_open">Open Drawer</string>
+    <string name="drawer_close">Close Drawer</string>
 </resources>

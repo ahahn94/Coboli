@@ -11,7 +11,7 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/manhattan_icon_round"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppTheme.NoActionBar"
             android:usesCleartextTraffic="true">
         <activity android:name=".activities.MainActivity">
             <intent-filter>
@@ -21,13 +21,13 @@
         </activity>
         <activity
                 android:name=".activities.LoginActivity"
-                android:theme="@style/NoActionBarTheme"
-                android:windowSoftInputMode="stateAlwaysVisible"></activity>
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="stateAlwaysVisible" />
         <activity android:name=".activities.VolumesActivity" />
         <activity android:name=".activities.PublishersActivity" />
         <activity
                 android:name=".activities.SyncActivity"
-                android:theme="@style/NoActionBarTheme" />
+                android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.IssuesActivity" />
     </application>
 

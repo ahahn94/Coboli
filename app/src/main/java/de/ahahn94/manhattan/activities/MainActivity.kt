@@ -8,7 +8,10 @@ import de.ahahn94.manhattan.utils.ContextProvider
 import de.ahahn94.manhattan.utils.settings.Credentials
 
 /**
- * Class to handle the main activity.
+ * Class to handle the app startup:
+ * - show login if not logged in
+ * - sync database with server
+ * - start VolumesActivity
  */
 class MainActivity : ToolbarActivity() {
 
@@ -19,45 +22,15 @@ class MainActivity : ToolbarActivity() {
 
         // Load activity layout.
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         // Show login activity if no credentials have previously been saved.
         val showLogin = Credentials.getInstance().isEmpty()
         if (showLogin) switchToLoginActivity()
         else {
             // Sync database with ComicLib server at app start.
-            startActivity(Intent(this, SyncActivity::class.java))
+            startActivityForResult(Intent(this, SyncActivity::class.java), 1)
+            startActivity(Intent(this, VolumesActivity::class.java))
         }
-    }
-
-    /**
-     * OnClick-function for the login button.
-     */
-    fun loginClicked(view: View) {
-        switchToLoginActivity()
-    }
-
-    /**
-     * OnClick-function for the volume overview button.
-     */
-    fun volumeOverviewClicked(view: View) {
-        startActivity(Intent(this, VolumesActivity::class.java))
-    }
-
-    /**
-     * OnClick-function for the publisherEntity overview button.
-     */
-    fun publisherOverviewClicked(view: View) {
-        startActivity(Intent(this, PublishersActivity::class.java))
-    }
-
-    /**
-     * OnClick-function for the cachedVolumes button.
-     */
-    fun cachedVolumesClicked(view: View) {
-        val intent = Intent(this, VolumesActivity::class.java)
-        intent.putExtra(VolumesActivity.CACHED_VOLUMES, true)
-        startActivity(intent)
     }
 
     /**

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <group
+            android:id="@+id/navigationGroup"
+            android:checkableBehavior="single">
+        <item
+                android:id="@+id/navigationPublishers"
+                android:title="@string/publishers" />
+        <item
+                android:id="@+id/navigationVolumes"
+                android:title="@string/volumes" />
+        <item
+                android:id="@+id/navigationDownloaded"
+                android:title="@string/downloaded" />
+    </group>
+</menu>

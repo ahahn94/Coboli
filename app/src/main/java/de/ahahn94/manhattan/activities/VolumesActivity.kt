@@ -34,7 +34,7 @@ class VolumesActivity : ToolbarActivity() {
 
         // Load activity layout.
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.collection)
+        layoutInflater.inflate(R.layout.collection, container)
 
         // Get publisherID.
         val publisherID = intent.getStringExtra(PUBLISHER_ID_NAME) ?: ""

@@ -35,4 +35,9 @@
     <string name="download_progress">Download läuft</string>
     <string name="download_complete">Download abgeschlossen</string>
     <string name="delete_download">Download löschen</string>
+    <string name="publishers">Verlage</string>
+    <string name="volumes">Serien</string>
+    <string name="downloaded">Heruntergeladen</string>
+    <string name="drawer_open">Seitenleiste öffnen</string>
+    <string name="drawer_close">Seitenleiste schließen</string>
 </resources>

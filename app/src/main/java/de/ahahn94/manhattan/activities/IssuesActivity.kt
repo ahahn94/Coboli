@@ -34,7 +34,7 @@ class IssuesActivity : ToolbarActivity() {
 
         // Load activity layout.
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.collection)
+        layoutInflater.inflate(R.layout.collection, container)
 
         // Get volumeID.
         val volumeID = intent.getStringExtra(VOLUME_ID_NAME)

@@ -26,7 +26,7 @@ class PublishersActivity : ToolbarActivity() {
 
         // Load activity layout.
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.collection)
+        layoutInflater.inflate(R.layout.collection, container)
 
         // Bind recyclerView.
         recyclerView = this.findViewById(R.id.recyclerView)
