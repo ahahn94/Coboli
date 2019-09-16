@@ -9,11 +9,11 @@ import de.ahahn94.manhattan.model.views.CachedVolumesView
 import de.ahahn94.manhattan.repositories.VolumeRepo
 
 /**
- * Class that provides the data for the VolumesActivity as a ViewModel.
+ * Class that provides the data for the VolumesFragment as a ViewModel.
  * If publisherID is empty, volumes will be initialized with the list of all volumes.
  * Else, it will be initialized with only the volumes of the publisher with the publisherID.
  */
-class VolumesViewModel(application: Application, publisherID: String, cachedOnly: Boolean) :
+class VolumesViewModel(publisherID: String, cachedOnly: Boolean) :
     ViewModel() {
 
     val volumes: LiveData<PagedList<CachedVolumesView>> =
@@ -33,14 +33,13 @@ class VolumesViewModel(application: Application, publisherID: String, cachedOnly
      * Necessary to enable additional constructor parameters.
      */
     class Factory(
-        val application: Application,
         val publisherID: String,
         val cachedVolumes: Boolean
     ) :
         ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return VolumesViewModel(application, publisherID, cachedVolumes) as T
+            return VolumesViewModel(publisherID, cachedVolumes) as T
         }
 
     }

@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentManager
 import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.fragments.ItemDetailFragment
 import de.ahahn94.manhattan.model.entities.PublisherEntity
-import java.lang.ref.WeakReference
 
 /**
  * Class that handles the popup menu on the publisher card.
@@ -16,7 +15,7 @@ class PublisherPopupMenu(
     context: Context,
     view: View,
     publisherEntity: PublisherEntity?,
-    fragmentManager: WeakReference<FragmentManager>
+    fragmentManager: FragmentManager
 ) :
     PopupMenu(context, view) {
     init {
@@ -36,8 +35,8 @@ class PublisherPopupMenu(
                             dialog.updateContent(imageFileURL, name, description)
                         }
                     }
-                    val transaction = fragmentManager.get()?.beginTransaction()
-                    dialog.show(transaction!!, "Details")
+                    val transaction = fragmentManager.beginTransaction()
+                    dialog.show(transaction, "Details")
                     true
                 }
 

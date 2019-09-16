@@ -1,6 +1,6 @@
 package de.ahahn94.manhattan.adapters
 
-import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +14,8 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import de.ahahn94.manhattan.R
-import de.ahahn94.manhattan.activities.VolumesActivity
+import de.ahahn94.manhattan.activities.FragmentedActivity
+import de.ahahn94.manhattan.fragments.VolumesFragment
 import de.ahahn94.manhattan.menus.PublisherPopupMenu
 import de.ahahn94.manhattan.model.entities.PublisherEntity
 import de.ahahn94.manhattan.utils.Localization
@@ -25,7 +26,8 @@ import java.lang.ref.WeakReference
  * Provides the data for a RecyclerView to display.
  */
 class PublishersAdapter(
-    private val fragmentManager: WeakReference<FragmentManager>,
+    private val fragmentManager: FragmentManager,
+    private val activity: FragmentedActivity,
     val publishers: LiveData<PagedList<PublisherEntity>>
 ) :
     PagedListAdapter<PublisherEntity, PublishersAdapter.PublisherHolder>(
@@ -41,7 +43,7 @@ class PublishersAdapter(
                 oldItem: PublisherEntity,
                 newItem: PublisherEntity
             ): Boolean {
-                return oldItem.equals(newItem)
+                return oldItem == newItem
             }
 
         }
@@ -81,14 +83,18 @@ class PublishersAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PublisherHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.publisher_card, parent, false)
-        return PublisherHolder(fragmentManager, view)
+        return PublisherHolder(fragmentManager, activity, view)
     }
 
     /**
      * Holder for PublisherEntity datasets.
      * Organizes the publishers data in a CardView.
      */
-    class PublisherHolder(fragmentManager: WeakReference<FragmentManager>, itemView: View) :
+    class PublisherHolder(
+        fragmentManager: FragmentManager,
+        activity: FragmentedActivity,
+        itemView: View
+    ) :
         RecyclerView.ViewHolder(itemView) {
 
         // Data object
@@ -109,9 +115,14 @@ class PublishersAdapter(
 
             // Set OnClickListener on the card to navigate to the volumes of the publisher.
             publisherCard.setOnClickListener {
-                val intent = Intent(itemView.context, VolumesActivity::class.java)
-                intent.putExtra(VolumesActivity.PUBLISHER_ID_NAME, publisherEntity?.id)
-                itemView.context.startActivity(intent)
+
+                // Show VolumesFragment.
+                val fragment = VolumesFragment()
+                val bundle = Bundle()
+                bundle.putString(VolumesFragment.PUBLISHER_ID_NAME, publisherEntity?.id)
+                fragment.arguments = bundle
+
+                activity.replaceFragmentBackStack(fragment)
             }
 
             // Set OnClickListener on the menuToggle to show the popup menu.

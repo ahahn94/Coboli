@@ -11,21 +11,30 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import de.ahahn94.manhattan.R
+import de.ahahn94.manhattan.fragments.PublishersFragment
+import de.ahahn94.manhattan.fragments.VolumesFragment
+import de.ahahn94.manhattan.utils.ContextProvider
 
 /**
- * Activity to provide an action bar to other activities
- * via inheritance.
+ * Activity to provide an action bar and navigation drawer
+ * to other activities via inheritance.
  */
 @SuppressLint("Registered")
-open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    FragmentedActivity {
 
-    lateinit var drawer: DrawerLayout
-    lateinit var container: FrameLayout
+    private lateinit var drawer: DrawerLayout
+    private lateinit var container: FrameLayout
+    private lateinit var navigationView: NavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Save application context into ContextProvider.
+        ContextProvider.setApplicationContext(applicationContext)
 
         // Load layout.
         setContentView(R.layout.activity_toolbar)
@@ -37,7 +46,7 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val navigationView = findViewById<NavigationView>(R.id.navigationView)
+        navigationView = findViewById(R.id.navigationView)
         navigationView.setNavigationItemSelectedListener(this)
 
         // Set navigation drawer.
@@ -51,7 +60,6 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
         )
         drawer.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
-
     }
 
     /**
@@ -60,9 +68,15 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
      */
     override fun onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
+            // Drawer is open. Close drawer.
             drawer.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed()
+            if (supportFragmentManager.backStackEntryCount > 0) {
+                // Fragment BackStack is not empty. Navigate back to the previous fragment.
+                supportFragmentManager.popBackStackImmediate()
+            } else {
+                super.onBackPressed()
+            }
         }
     }
 
@@ -95,19 +109,52 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navigationVolumes -> {
-                startActivity(Intent(this, VolumesActivity::class.java))
+                val fragment = VolumesFragment()
+                replaceFragment(fragment)
+
             }
             R.id.navigationPublishers -> {
-                startActivity(Intent(this, PublishersActivity::class.java))
+                val fragment = PublishersFragment()
+                replaceFragment(fragment)
             }
             R.id.navigationDownloaded -> {
-                val intent = Intent(this, VolumesActivity::class.java)
-                intent.putExtra(VolumesActivity.CACHED_VOLUMES, true)
-                startActivity(intent)
+                val fragment = VolumesFragment()
+                val bundle = Bundle()
+                bundle.putBoolean(VolumesFragment.CACHED_VOLUMES, true)
+                fragment.arguments = bundle
+                replaceFragment(fragment)
             }
         }
         drawer.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    /**
+     * Show the default fragment inside the FrameLayout container.
+     * VolumesFragment is default.
+     */
+    fun showDefaultFragment() {
+        replaceFragment(VolumesFragment())
+        navigationView.setCheckedItem(R.id.navigationVolumes)
+    }
+
+    /**
+     * Replace the fragment inside the FrameLayout container with another.
+     */
+    override fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().replace(R.id.container, fragment).commit()
+    }
+
+    /**
+     * Replace the fragment inside the FrameLayout container with another.
+     * Register the fragment to the fragment BackStack to enable going back
+     * to the previous fragment.
+     */
+    override fun replaceFragmentBackStack(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
 }

@@ -8,7 +8,6 @@ import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.fragments.ItemDetailFragment
 import de.ahahn94.manhattan.model.views.CachedVolumesView
 import de.ahahn94.manhattan.repositories.VolumeRepo
-import java.lang.ref.WeakReference
 
 /**
  * Class that handles the popup menu on the volume card.
@@ -18,7 +17,7 @@ class VolumePopupMenu(
     view: View,
     gravity: Int,
     volume: CachedVolumesView?,
-    fragmentManager: WeakReference<FragmentManager>
+    fragmentManager: FragmentManager
 ) :
     PopupMenu(context, view, gravity) {
     init {
@@ -38,8 +37,8 @@ class VolumePopupMenu(
                             dialog.updateContent(imageFileURL, name, description)
                         }
                     }
-                    val transaction = fragmentManager.get()?.beginTransaction()
-                    dialog.show(transaction!!, "Details")
+                    val transaction = fragmentManager.beginTransaction()
+                    dialog.show(transaction, "Details")
                     true
                 }
 

@@ -1,23 +1,26 @@
-package de.ahahn94.manhattan.activities
+package de.ahahn94.manhattan.fragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.adapters.IssuesAdapter
-import de.ahahn94.manhattan.utils.ContextProvider
 import de.ahahn94.manhattan.viewModels.IssuesViewModel
 import java.lang.ref.WeakReference
 
 /**
- * Class to handle the issues activity.
+ * Class to handle the issues fragment.
  */
-class IssuesActivity : ToolbarActivity() {
+class IssuesFragment : Fragment() {
 
     companion object {
 
-        // Extra-IDs for values passed into the activity at creation.
+        // Bundle-IDs for values passed into the fragment at creation.
         const val VOLUME_ID_NAME = "volumeID"
         const val CACHED_ISSUES = "cachedIssues"
 
@@ -27,32 +30,39 @@ class IssuesActivity : ToolbarActivity() {
 
     private lateinit var viewModel: IssuesViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-        // Save application context into ContextProvider.
-        ContextProvider.setApplicationContext(applicationContext)
-
-        // Load activity layout.
-        super.onCreate(savedInstanceState)
-        layoutInflater.inflate(R.layout.collection, container)
+    /**
+     * OnCreateView-function.
+     * Customizations:
+     * - Load layout
+     * - Init ViewModel
+     * - Bind data to RecyclerView.
+     */
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Load fragment layout.
+        val view = inflater.inflate(R.layout.collection, container, false)
 
         // Get volumeID.
-        val volumeID = intent.getStringExtra(VOLUME_ID_NAME)
+        val volumeID = arguments?.getString(VOLUME_ID_NAME) ?: ""
 
         // Only cached issues?
-        val cachedOnly = intent.getBooleanExtra(CACHED_ISSUES, false)
+        val cachedOnly = arguments?.getBoolean(CACHED_ISSUES, false) ?: false
 
         // Bind recyclerView.
-        recyclerView = this.findViewById(R.id.recyclerView)
+        recyclerView = view.findViewById(R.id.recyclerView)
 
-        // Get viewModel that contains the data for the activity.
+        // Get viewModel that contains the data for the fragment.
         viewModel = ViewModelProviders.of(
             this,
-            IssuesViewModel.Factory(this.application, volumeID, cachedOnly)
+            IssuesViewModel.Factory(volumeID, cachedOnly)
         ).get(IssuesViewModel::class.java)
 
-        // Bind the data from viewModel to the recyclerView.
         bindData()
+
+        return view
     }
 
     /**
@@ -63,7 +73,7 @@ class IssuesActivity : ToolbarActivity() {
 
         // Bind data to recyclerView.
         val list = viewModel.issues
-        val adapter = IssuesAdapter(WeakReference(supportFragmentManager), list)
+        val adapter = IssuesAdapter(WeakReference(fragmentManager!!), list)
 
         // Set observer.
         list.observe(

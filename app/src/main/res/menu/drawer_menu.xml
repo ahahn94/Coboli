@@ -4,13 +4,14 @@
 
     <group
             android:id="@+id/navigationGroup"
-            android:checkableBehavior="single">
-        <item
-                android:id="@+id/navigationPublishers"
-                android:title="@string/publishers" />
+            android:checkableBehavior="single"
+            android:visible="true">
         <item
                 android:id="@+id/navigationVolumes"
                 android:title="@string/volumes" />
+        <item
+                android:id="@+id/navigationPublishers"
+                android:title="@string/publishers" />
         <item
                 android:id="@+id/navigationDownloaded"
                 android:title="@string/downloaded" />

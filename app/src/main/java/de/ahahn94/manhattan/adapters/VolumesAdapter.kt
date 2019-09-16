@@ -1,6 +1,6 @@
 package de.ahahn94.manhattan.adapters
 
-import android.content.Intent
+import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +15,8 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import de.ahahn94.manhattan.R
-import de.ahahn94.manhattan.activities.IssuesActivity
+import de.ahahn94.manhattan.activities.FragmentedActivity
+import de.ahahn94.manhattan.fragments.IssuesFragment
 import de.ahahn94.manhattan.menus.VolumePopupMenu
 import de.ahahn94.manhattan.model.views.CachedVolumesView
 import de.ahahn94.manhattan.utils.Localization
@@ -26,7 +27,8 @@ import java.lang.ref.WeakReference
  * Provides the data for a RecyclerView to display.
  */
 class VolumesAdapter(
-    private val fragmentManager: WeakReference<FragmentManager>,
+    private val fragmentManager: FragmentManager,
+    private val activity: FragmentedActivity,
     private val cachedOnly: Boolean,
     val volumes: LiveData<PagedList<CachedVolumesView>>
 ) :
@@ -44,7 +46,7 @@ class VolumesAdapter(
                 oldItem: CachedVolumesView,
                 newItem: CachedVolumesView
             ): Boolean {
-                return oldItem.equals(newItem)
+                return oldItem == newItem
             }
 
         }
@@ -91,7 +93,7 @@ class VolumesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VolumeDatasetHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.volume_card, parent, false)
-        return VolumeDatasetHolder(fragmentManager, cachedOnly, view)
+        return VolumeDatasetHolder(fragmentManager, activity, cachedOnly, view)
     }
 
     /**
@@ -99,7 +101,8 @@ class VolumesAdapter(
      * Organizes the volumes data in a CardView.
      */
     class VolumeDatasetHolder(
-        fragmentManager: WeakReference<FragmentManager>,
+        fragmentManager: FragmentManager,
+        activity: FragmentedActivity,
         cachedOnly: Boolean, itemView: View
     ) :
         RecyclerView.ViewHolder(itemView) {
@@ -124,13 +127,16 @@ class VolumesAdapter(
 
             // Set OnClickListener on the card to navigate to the issues of the volume.
             volumeCard.setOnClickListener {
-                val intent = Intent(itemView.context, IssuesActivity::class.java)
-                intent.putExtra(IssuesActivity.VOLUME_ID_NAME, volume?.id)
-                if (cachedOnly) {
-                    // If only the cached volumes where shown, only show the cached issues, too.
-                    intent.putExtra(IssuesActivity.CACHED_ISSUES, true)
-                }
-                itemView.context.startActivity(intent)
+
+                // Show IssuesFragment.
+                val fragment = IssuesFragment()
+                val bundle = Bundle()
+                bundle.putString(IssuesFragment.VOLUME_ID_NAME, volume?.id)
+                bundle.putBoolean(IssuesFragment.CACHED_ISSUES, cachedOnly)
+                fragment.arguments = bundle
+
+                activity.replaceFragmentBackStack(fragment)
+
             }
 
             // Set OnClickListener on the menuToggle to show the popup menu.

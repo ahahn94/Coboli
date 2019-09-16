@@ -23,12 +23,9 @@
                 android:name=".activities.LoginActivity"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateAlwaysVisible" />
-        <activity android:name=".activities.VolumesActivity" />
-        <activity android:name=".activities.PublishersActivity" />
         <activity
                 android:name=".activities.SyncActivity"
                 android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.IssuesActivity" />
     </application>
 
 </manifest>
