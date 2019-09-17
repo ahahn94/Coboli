@@ -27,7 +27,10 @@
                         android:id="@+id/publisherImage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:scaleType="fitXY"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="@android:dimen/thumbnail_width"
+                        android:maxHeight="@android:dimen/thumbnail_height"
+                        android:scaleType="centerCrop"
                         tools:srcCompat="@tools:sample/avatars" />
 
                 <TextView
