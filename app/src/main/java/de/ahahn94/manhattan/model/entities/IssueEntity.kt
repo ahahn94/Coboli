@@ -140,7 +140,7 @@ data class IssueEntity(
          * CachedIssuesView as PagedList for display in the RecyclerViews.
          */
 
-        @Query("SELECT * FROM CachedIssues WHERE VolumeID = :volumeID ORDER BY IssueNumber")
+        @Query("SELECT * FROM CachedIssues WHERE VolumeID = :volumeID ORDER BY IssueNumber + 0 ASC")
         fun getByVolumePaged(volumeID: String): DataSource.Factory<Int, CachedIssuesView>
 
         @Query("SELECT * FROM CachedIssues WHERE VolumeID = :volumeID AND IsCached = '1'")

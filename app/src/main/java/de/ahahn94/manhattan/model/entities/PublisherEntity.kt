@@ -62,7 +62,7 @@ data class PublisherEntity(
         @Delete
         fun delete(vararg publisherEntity: PublisherEntity)
 
-        @Query("SELECT * FROM PublisherView")
+        @Query("SELECT * FROM PublisherView ORDER BY Name")
         fun getAllPaged(): DataSource.Factory<Int, PublisherEntity>
 
         @Query("SELECT * FROM PublisherView WHERE ID = :publisherID")
