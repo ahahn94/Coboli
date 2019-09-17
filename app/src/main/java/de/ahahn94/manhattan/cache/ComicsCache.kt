@@ -90,6 +90,21 @@ class ComicsCache {
             }
         }
 
+        /**
+         * Get a file from the cache.
+         * Returns a File object of the cached comic
+         * or null if it does not exist on the cache.
+         */
+        fun getFile(fileName: String): File? {
+            if (fileName != "") {
+                val file = File(getInstance(), fileName)
+                if (file.exists()) {
+                    return file
+                }
+            }
+            return null
+        }
+
     }
 
     /**

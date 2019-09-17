@@ -41,4 +41,6 @@
     <string name="downloaded">Downloaded</string>
     <string name="drawer_open">Open Drawer</string>
     <string name="drawer_close">Close Drawer</string>
+    <string name="open_with">Open with…</string>
+    <string name="no_app_for_mime_type">No app for MIME type %s</string>
 </resources>

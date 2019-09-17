@@ -26,6 +26,17 @@
         <activity
                 android:name=".activities.SyncActivity"
                 android:theme="@style/AppTheme.NoActionBar" />
+
+        <provider
+                android:authorities="de.ahahn94.manhattan.fileprovider"
+                android:name="androidx.core.content.FileProvider"
+                android:grantUriPermissions="true"
+                android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/filepaths"
+                    ></meta-data>
+        </provider>
     </application>
 
 </manifest>

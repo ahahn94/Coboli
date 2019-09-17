@@ -40,4 +40,6 @@
     <string name="downloaded">Heruntergeladen</string>
     <string name="drawer_open">Seitenleiste öffnen</string>
     <string name="drawer_close">Seitenleiste schließen</string>
+    <string name="open_with">Öffnen mit…</string>
+    <string name="no_app_for_mime_type">Keine App für MIME Typ %s</string>
 </resources>
