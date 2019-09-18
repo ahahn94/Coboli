@@ -42,4 +42,6 @@
     <string name="drawer_close">Seitenleiste schließen</string>
     <string name="open_with">Öffnen mit…</string>
     <string name="no_app_for_mime_type">Keine App für MIME Typ %s</string>
+    <string name="search_hint">Nach Serien suchen</string>
+    <string name="search_title">Suche</string>
 </resources>

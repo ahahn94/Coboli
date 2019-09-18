@@ -13,11 +13,21 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:usesCleartextTraffic="true">
-        <activity android:name=".activities.MainActivity">
+
+        <activity
+                android:name=".activities.MainActivity"
+                android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                    android:name="android.app.searchable"
+                    android:resource="@xml/searchable" />
         </activity>
         <activity
                 android:name=".activities.LoginActivity"
@@ -28,14 +38,13 @@
                 android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
-                android:authorities="de.ahahn94.manhattan.fileprovider"
                 android:name="androidx.core.content.FileProvider"
-                android:grantUriPermissions="true"
-                android:exported="false">
+                android:authorities="de.ahahn94.manhattan.fileprovider"
+                android:exported="false"
+                android:grantUriPermissions="true">
             <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/filepaths"
-                    ></meta-data>
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/filepaths" />
         </provider>
     </application>
 

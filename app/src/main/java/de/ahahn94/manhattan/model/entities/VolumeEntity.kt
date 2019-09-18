@@ -131,6 +131,9 @@ data class VolumeEntity(
         @Query("SELECT * FROM CachedVolumes WHERE PublisherID = :publisherID")
         fun getByPublisherPaged(publisherID: String): DataSource.Factory<Int, CachedVolumesView>
 
+        @Query("SELECT * FROM CachedVolumes WHERE Name LIKE '%' || :query || '%'")
+        fun getBySearchQueryPaged(query: String): DataSource.Factory<Int, CachedVolumesView>
+
     }
 
 }

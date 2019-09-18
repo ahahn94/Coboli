@@ -48,10 +48,21 @@ class VolumeRepo {
 
         /**
          * Get all CachedVolumesView datasets that have cached comics
-         * from the database as anobservable PagedList.
+         * from the database as an observable PagedList.
          */
         fun getCached(): LiveData<PagedList<CachedVolumesView>> {
             return LivePagedListBuilder(getDatabase().volumesDao().getCachedPaged(), 10).build()
+        }
+
+        /**
+         * Get all CachedVolumesView datasets where the name is like searchQuery
+         * from the database as an observable PagedList.
+         */
+        fun getBySearchQuery(query: String): LiveData<PagedList<CachedVolumesView>> {
+            return LivePagedListBuilder(
+                getDatabase().volumesDao().getBySearchQueryPaged(query),
+                10
+            ).build()
         }
 
         /**

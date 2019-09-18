@@ -26,14 +26,10 @@ class MainActivity : ToolbarActivity() {
         if (showLogin){
             // Require login and sync database with server after successful login.
             startActivityForResult(Intent(this, LoginActivity::class.java), 1)
-            // Show default fragment.
-            showDefaultFragment()
         }
         else {
             // Sync database with ComicLib server at app start.
             startActivityForResult(Intent(this, SyncActivity::class.java), 1)
-            // Show default fragment.
-            showDefaultFragment()
         }
     }
 

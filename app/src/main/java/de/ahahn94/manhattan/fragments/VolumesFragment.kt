@@ -23,6 +23,7 @@ class VolumesFragment : Fragment() {
         // Bundle-IDs for the values passed into the fragment at creation.
         const val PUBLISHER_ID_NAME = "publisherID"
         const val CACHED_VOLUMES = "cachedVolumes"
+        const val SEARCH_QUERY = "searchQuery"
 
     }
 
@@ -52,13 +53,16 @@ class VolumesFragment : Fragment() {
         // Only cached volumes?
         val cachedOnly = arguments?.getBoolean(CACHED_VOLUMES, false) ?: false
 
+        // Get search query.
+        val searchQuery = arguments?.getString(SEARCH_QUERY) ?: ""
+
         // Bind recyclerView.
         recyclerView = view.findViewById(R.id.recyclerView)
 
         // Get viewModel that contains the data for the fragment.
         viewModel = ViewModelProviders.of(
             this,
-            VolumesViewModel.Factory(publisherID, cachedOnly)
+            VolumesViewModel.Factory(publisherID, cachedOnly, searchQuery)
         ).get(VolumesViewModel::class.java)
 
         // Bind the data from viewModel to the recyclerView.

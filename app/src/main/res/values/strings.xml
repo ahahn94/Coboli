@@ -43,4 +43,6 @@
     <string name="drawer_close">Close Drawer</string>
     <string name="open_with">Open with…</string>
     <string name="no_app_for_mime_type">No app for MIME type %s</string>
+    <string name="search_hint">Search for Volumes</string>
+    <string name="search_title">Search</string>
 </resources>
