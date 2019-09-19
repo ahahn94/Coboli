@@ -10,7 +10,6 @@ import androidx.core.app.NotificationManagerCompat
 import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.utils.ContextProvider
 import de.ahahn94.manhattan.utils.Localization
-import de.ahahn94.manhattan.utils.Logging
 import okhttp3.*
 import okio.*
 
@@ -106,7 +105,6 @@ class DownloadClientFactory {
                 previousProgress = percent
                 NotificationManagerCompat.from(applicationContext).apply {
                     if (percent == 100) {
-                        Logging.logDebug("Done")
                         builder.setContentText(Localization.getLocalizedString(R.string.download_complete))
                             .setProgress(0, 0, false)
                     } else {
@@ -157,10 +155,9 @@ class DownloadClientFactory {
                         else -> bytesRead
                     }
                     val percent: Float = when (bytesRead) {
-                        -1L -> 100f
-                        else -> ((bytesTotal.toFloat() / responseBody.contentLength().toFloat() / 100F))
+                        -1L -> 100F
+                        else -> ((bytesTotal.toFloat() / responseBody.contentLength().toFloat()) * 100F)
                     }
-
                     progressListener.updateProgress(percent.toInt())
                     return bytesRead
                 }
