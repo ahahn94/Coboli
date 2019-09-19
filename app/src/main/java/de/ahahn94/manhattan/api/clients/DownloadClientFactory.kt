@@ -85,7 +85,7 @@ class DownloadClientFactory {
                     NotificationChannel(
                         channelID,
                         channelID,
-                        NotificationManager.IMPORTANCE_DEFAULT
+                        NotificationManager.IMPORTANCE_LOW
                     )
                 notificationManager.createNotificationChannel(channel)
             }
