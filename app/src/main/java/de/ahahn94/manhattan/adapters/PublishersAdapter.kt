@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentManager
@@ -64,7 +65,8 @@ class PublishersAdapter(
             // Load image in background.
             ImagesLoader(
                 publisher.imageFileURL,
-                WeakReference(publisherImage)
+                WeakReference(publisherImage),
+                WeakReference(imageProgress)
             ).execute()
 
             // Fill TextViews.
@@ -102,12 +104,14 @@ class PublishersAdapter(
 
         // UI elements.
         private val publisherCard: CardView = itemView.findViewById(R.id.publisherCard)
+        val imageProgress : ProgressBar
         val publisherImage: ImageView
         val publisherName: TextView
         val publisherVolumesCount: TextView
         private val menuToggle: TextView
 
         init {
+            imageProgress = publisherCard.findViewById(R.id.imageProgress)
             publisherImage = publisherCard.findViewById(R.id.publisherImage)
             publisherName = publisherCard.findViewById(R.id.publisherName)
             publisherVolumesCount = publisherCard.findViewById(R.id.publisherVolumesCount)

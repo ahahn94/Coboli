@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentManager
@@ -40,7 +41,7 @@ class IssuesAdapter(
                 oldItem: CachedIssuesView,
                 newItem: CachedIssuesView
             ): Boolean {
-                return oldItem.equals(newItem)
+                return oldItem == newItem
             }
 
         }
@@ -61,7 +62,8 @@ class IssuesAdapter(
             // Load image in background.
             ImagesLoader(
                 issue.imageFileURL,
-                WeakReference(issueImage)
+                WeakReference(issueImage),
+                WeakReference(imageProgress)
             ).execute()
 
             // Fill TextViews.
@@ -98,11 +100,13 @@ class IssuesAdapter(
         // UI elements.
         private val issueCard: CardView = itemView.findViewById(R.id.issueCard)
         val issueImage: ImageView
+        val imageProgress : ProgressBar
         val issueName: TextView
         val isReadBadge: TextView
         private val menuToggle: TextView
 
         init {
+            imageProgress = issueCard.findViewById(R.id.imageProgress)
             issueImage = issueCard.findViewById(R.id.issueImage)
             issueName = issueCard.findViewById(R.id.issueName)
             isReadBadge = issueCard.findViewById(R.id.isReadBadge)

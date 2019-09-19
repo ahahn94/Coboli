@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import de.ahahn94.manhattan.R
@@ -87,15 +88,17 @@ class ItemDetailFragment() :
      * Fill the view of the fragment with the content.
      */
     private fun fillView() {
+        val imageProgress = view?.findViewById<ProgressBar>(R.id.imageProgress)
         val imageView = view?.findViewById<ImageView>(R.id.DetailImage)
         val nameTextView = view?.findViewById<TextView>(R.id.DetailName)
         val descriptionTextView = view?.findViewById<TextView>(R.id.DetailDescription)
 
         // Load image in background.
-        if (imageView != null) {
+        if (imageView != null && imageProgress != null) {
             ImagesLoader(
                 imageFilePath,
-                WeakReference(imageView)
+                WeakReference(imageView),
+                WeakReference(imageProgress)
             ).execute()
         }
 

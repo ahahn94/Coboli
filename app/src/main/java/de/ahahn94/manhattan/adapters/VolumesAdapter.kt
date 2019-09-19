@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentManager
@@ -67,7 +68,8 @@ class VolumesAdapter(
             // Load image in background.
             ImagesLoader(
                 volume.imageFileURL,
-                WeakReference(volumeImage)
+                WeakReference(volumeImage),
+                WeakReference(imageProgress)
             ).execute()
 
             // Fill TextViews.
@@ -112,6 +114,7 @@ class VolumesAdapter(
 
         // UI elements.
         private val volumeCard: CardView = itemView.findViewById(R.id.volumeCard)
+        val imageProgress: ProgressBar
         val volumeImage: ImageView
         val volumeName: TextView
         val volumeIssuesCount: TextView
@@ -119,6 +122,7 @@ class VolumesAdapter(
         private val menuToggle: TextView
 
         init {
+            imageProgress = volumeCard.findViewById(R.id.imageProgress)
             volumeImage = volumeCard.findViewById(R.id.volumeImage)
             volumeName = volumeCard.findViewById(R.id.volumeName)
             volumeIssuesCount = volumeCard.findViewById(R.id.volumeIssuesCount)
