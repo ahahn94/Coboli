@@ -74,7 +74,7 @@ class DownloadClientFactory {
         private val builder = NotificationCompat.Builder(applicationContext, channelID)
             .setContentTitle(applicationContext.getString(R.string.app_name))
             .setContentText(Localization.getLocalizedString(R.string.download_progress))
-            .setSmallIcon(R.drawable.thumb_drawable)
+            .setSmallIcon(R.drawable.manhattan_logo_light)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setContentIntent(pendingIntent)
 
@@ -100,8 +100,9 @@ class DownloadClientFactory {
         fun updateProgress(percent: Int) {
             // Only update if new value.
             // Notifications have a rate limit.
-            // Only issuing necessary updates prevents drop of changes.
-            if (percent > previousProgress) {
+            // Only issuing necessary updates and limiting to update every 5 percent
+            // prevents drop of changes.
+            if (percent > previousProgress && percent % 5 == 0) {
                 previousProgress = percent
                 NotificationManagerCompat.from(applicationContext).apply {
                     if (percent == 100) {
