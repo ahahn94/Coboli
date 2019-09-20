@@ -6,7 +6,8 @@ import androidx.room.DatabaseView
 import androidx.room.Embedded
 import androidx.room.PrimaryKey
 import de.ahahn94.manhattan.api.responses.IssueReadStatus
-import de.ahahn94.manhattan.model.entities.IssueEntity
+import de.ahahn94.manhattan.model.entities.CachedComicEntity
+import java.io.Serializable
 
 /**
  * Data class for the CachedIssues database view.
@@ -14,7 +15,7 @@ import de.ahahn94.manhattan.model.entities.IssueEntity
  * for display in the app.
  */
 @DatabaseView(
-    value = "SELECT I.ID, I.Description, I.ImageFileURL, I.IssueNumber, I.Name, I.IsRead, I.CurrentPage, I.Changed, I.ReadStatusURL, I.VolumeID, CASE WHEN EXISTS (SELECT IssueID FROM CachedComics C WHERE C.IssueID = I.ID) THEN '1' ELSE '0' END AS IsCached, C.FileName, C.Readable, C.Unpacked, C.UnpackedDirectory FROM Issues I LEFT OUTER JOIN CachedComics C ON I.ID = C.IssueID",
+    value = "SELECT I.ID, I.Description, I.ImageFileURL, I.IssueNumber, I.Name, I.IsRead, I.CurrentPage, I.Changed, I.ReadStatusURL, I.VolumeID, CASE WHEN EXISTS (SELECT IssueID FROM CachedComics C WHERE C.IssueID = I.ID) THEN '1' ELSE '0' END AS IsCached, C.FileName, C.Readable, C.Unpacked FROM Issues I LEFT OUTER JOIN CachedComics C ON I.ID = C.IssueID",
     viewName = "CachedIssues"
 )
 data class CachedIssuesView(
@@ -37,7 +38,7 @@ data class CachedIssuesView(
     var name: String? = "",
 
     @Embedded
-    var readStatus: IssueEntity.ReadStatus,
+    var readStatus: ReadStatus,
 
     @ColumnInfo(name = "VolumeID")
     val volumeID: String,
@@ -47,7 +48,20 @@ data class CachedIssuesView(
 
     @Embedded
     val cachedComic: CachedComic?
-) {
+) : Serializable {
+
+    val cachedComicEntity: CachedComicEntity?
+        get() {
+            return if (cachedComic != null) {
+
+                CachedComicEntity(
+                    id,
+                    cachedComic.fileName,
+                    cachedComic.readable,
+                    cachedComic.unpacked
+                )
+            } else null
+        }
 
     /**
      * Data class for the read-status part of an issue.
@@ -61,7 +75,7 @@ data class CachedIssuesView(
 
         @ColumnInfo(name = "Changed")
         var timestampChanged: String = ""
-    )
+    ) : Serializable
 
     /**
      * Data class for the cached comic of an issue.
@@ -77,11 +91,7 @@ data class CachedIssuesView(
 
         // Has the file been unpacked for reading?
         @ColumnInfo(name = "Unpacked")
-        var unpacked: Boolean = false,
-
-        // Directory the file has been unpacked to.
-        @ColumnInfo(name = "UnpackedDirectory")
-        var unpackedDirectory: String = ""
-    )
+        var unpacked: Boolean = false
+    ) : Serializable
 
 }

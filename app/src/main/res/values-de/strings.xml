@@ -44,4 +44,5 @@
     <string name="no_app_for_mime_type">Keine App für MIME Typ %s</string>
     <string name="search_hint">Nach Serien suchen</string>
     <string name="search_title">Suche</string>
+    <string name="open">Öffnen</string>
 </resources>

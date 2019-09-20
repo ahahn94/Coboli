@@ -2,9 +2,12 @@ package de.ahahn94.manhattan.cache
 
 import android.os.AsyncTask
 import de.ahahn94.manhattan.api.repos.ComicLibComics
+import de.ahahn94.manhattan.comicextractors.CbzExtractor
 import de.ahahn94.manhattan.model.Database
 import de.ahahn94.manhattan.model.entities.CachedComicEntity
+import de.ahahn94.manhattan.model.views.CachedIssuesView
 import de.ahahn94.manhattan.utils.ContextProvider
+import de.ahahn94.manhattan.utils.FileTypes
 import de.ahahn94.manhattan.utils.Logging
 import de.ahahn94.manhattan.utils.replaceNull
 import de.ahahn94.manhattan.utils.settings.Preferences
@@ -105,6 +108,73 @@ class ComicsCache {
             return null
         }
 
+        /**
+         * Extract a comic file.
+         * Uses a ComicExtractor to unpack the comic.
+         * Updates the CachedComicEntity on the database.
+         */
+        fun extractComic(issue: CachedIssuesView) {
+            if (issue.cachedComic != null) {
+                // Not yet unpacked. Unpack comic file and get list of filepaths.
+                val extension =
+                    FileTypes.getExtension(issue.cachedComic.fileName)
+                when (extension) {
+                    "cbz" -> {
+                        val parent = createExtractedComicDirectory(issue.id)
+                        CbzExtractor.extract(issue.cachedComic.fileName, parent)
+                        issue.cachedComic.unpacked = true
+                        updateCachedComicEntity(issue)
+                    }
+                }
+            }
+        }
+
+        /**
+         * Create a directory inside the comics cache directory
+         * for the pages of a comic. Use the issueID as the
+         * directory name.
+         */
+        fun createExtractedComicDirectory(issueID: String): File {
+            val directory = File(getInstance(), issueID)
+            if (!directory.exists()) directory.mkdir()
+            return directory
+        }
+
+        /**
+         * Get the subdirectory of the comics cache to where the
+         * pages of a comic file where extracted. Directory uses
+         * the issueID as name.
+         */
+        fun getExtractedComicDirectory(issueID: String): File {
+            return File(getInstance(), issueID)
+        }
+
+        /**
+         * Update a CachedComicEntity on the database.
+         */
+        fun updateCachedComicEntity(issue: CachedIssuesView) {
+            val cachedComicEntity = issue.cachedComicEntity
+            if (cachedComicEntity != null) {
+                Database.getInstance().cachedComicsDao().update(cachedComicEntity)
+            }
+        }
+
+        /**
+         * Get the list of files inside the directory of
+         * an unpacked comic file as a list of absolute paths.
+         * Returns an empty list if the directory could not be found.
+         */
+        fun getExtractedComic(issueID: String): List<String> {
+            val directory = getExtractedComicDirectory(issueID)
+            if (directory.isDirectory) {
+                val list = directory.listFiles().map {
+                    it.absolutePath
+                }.sorted()
+                return list
+            }
+            return listOf()
+        }
+
     }
 
     /**
@@ -150,6 +220,9 @@ class ComicsCache {
         override fun doInBackground(vararg params: String?) {
             val cachedComic = Database.getInstance().cachedComicsDao().get(issueID)
             if (cachedComic != null) {
+                // Remove extracted files if they exist.
+                val extractedFiles = getExtractedComicDirectory(issueID)
+                if (extractedFiles.exists()) extractedFiles.deleteRecursively()
                 // Delete file.
                 val comicFile = File(getInstance(), cachedComic.fileName)
                 if (comicFile.exists()) {

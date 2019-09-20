@@ -31,11 +31,7 @@ data class CachedComicEntity(
 
     // Has the file been unpacked for reading?
     @ColumnInfo(name = "Unpacked")
-    var unpacked: Boolean = false,
-
-    // Directory the file has been unpacked to.
-    @ColumnInfo(name = "UnpackedDirectory")
-    var unpackedDirectory: String = ""
+    var unpacked: Boolean = false
 ) {
 
     companion object {

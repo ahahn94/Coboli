@@ -3,17 +3,20 @@ package de.ahahn94.manhattan.menus
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentManager
 import de.ahahn94.manhattan.R
+import de.ahahn94.manhattan.activities.ReaderActivity
 import de.ahahn94.manhattan.cache.ComicsCache
 import de.ahahn94.manhattan.fragments.ItemDetailFragment
 import de.ahahn94.manhattan.model.views.CachedIssuesView
 import de.ahahn94.manhattan.repositories.IssueRepo
-import de.ahahn94.manhattan.utils.MimeTypes
+import de.ahahn94.manhattan.utils.FileTypes
 import java.lang.ref.WeakReference
 
 /**
@@ -37,10 +40,12 @@ class IssuePopupMenu(
             menu.findItem(R.id.action_download).isVisible = false
             menu.findItem(R.id.action_delete).isVisible = true
             menu.findItem(R.id.action_open_with).isVisible = true
+            menu.findItem(R.id.action_open).isVisible = issue.cachedComic?.readable == true
         } else {
             menu.findItem(R.id.action_download).isVisible = true
             menu.findItem(R.id.action_delete).isVisible = false
             menu.findItem(R.id.action_open_with).isVisible = false
+            menu.findItem(R.id.action_open).isVisible = false
         }
 
         // Bind actions to menu entries.
@@ -80,8 +85,23 @@ class IssuePopupMenu(
                     true
                 }
 
+                // Open the comic file in the ReaderActivity.
+                // Only works for a few file types (see ComicsCache).
+                R.id.action_open -> {
+                    val intent = Intent(context, ReaderActivity::class.java)
+
+                    val bundle = Bundle()
+                    bundle.putSerializable(ReaderActivity.ISSUE, issue)
+                    intent.putExtras(bundle)
+
+                    startActivity(context, intent, null)
+                    true
+                }
+
                 // Show the "open with" dialog that lets the user choose another app to open the
                 // downloaded comic file with.
+                // Which applications are shown depends on which apps are installed and whether the apps
+                // implement support for opening files with them via the "open with" action.
                 R.id.action_open_with -> {
                     // Get the file metadata.
                     val file = ComicsCache.getFile(issue?.cachedComic?.fileName ?: "")
@@ -94,7 +114,7 @@ class IssuePopupMenu(
                             )
 
                             // Get the mime type.
-                            val mime = MimeTypes.getMimeType(file.name)
+                            val mime = FileTypes.getMimeType(file.name)
 
                             // Create the activity.
                             val intent = Intent()

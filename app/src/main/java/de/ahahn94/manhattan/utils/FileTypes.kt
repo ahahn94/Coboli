@@ -7,7 +7,7 @@ import java.util.*
  * Class that stores the mime types for common
  * comic file formats.
  */
-class MimeTypes {
+class FileTypes {
 
     companion object {
 
@@ -25,6 +25,8 @@ class MimeTypes {
             "azw3" to "x-mobi8-ebook"
         )
 
+        private val imageFormats = listOf("png", "jpg", "jpeg")
+
         /**
          * Get the mime type of a file.
          * Will look up the mime type in MimeTypeMap if it is not
@@ -32,12 +34,26 @@ class MimeTypes {
          * Result may be an empty string.
          */
         fun getMimeType(fileName: String): String {
-            val extension = fileName.split(".").last().toLowerCase(Locale.getDefault())
+            val extension = getExtension(fileName)
             return if (extension in mimeTypes) {
                 "$mimeTypePrefix${mimeTypes[extension]}"
             } else {
                 MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension) ?: ""
             }
+        }
+
+        /**
+         * Get the file extension from a filename.
+         */
+        fun getExtension(fileName: String): String {
+            return fileName.split(".").last().toLowerCase(Locale.getDefault())
+        }
+
+        /**
+         * Check if a file is an image file.
+         */
+        fun isImageFile(fileName: String): Boolean {
+            return getExtension(fileName) in imageFormats
         }
 
     }

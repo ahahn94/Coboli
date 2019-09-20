@@ -36,6 +36,7 @@
         <activity
                 android:name=".activities.SyncActivity"
                 android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.ReaderActivity" />
 
         <provider
                 android:name="androidx.core.content.FileProvider"
