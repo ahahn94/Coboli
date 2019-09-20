@@ -52,6 +52,7 @@ class ReaderActivity : AppCompatActivity() {
         val adapter = PagesAdapter(this, pages.value ?: arrayListOf())
 
         viewModel.pages.observe(this, Observer {
+            if (pages.error) finish()   // Close activity if error during caching of comic.
             adapter.submitList(it)
         })
 

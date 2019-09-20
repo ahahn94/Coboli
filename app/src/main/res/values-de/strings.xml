@@ -45,4 +45,6 @@
     <string name="search_hint">Nach Serien suchen</string>
     <string name="search_title">Suche</string>
     <string name="open">Öffnen</string>
+    <string name="cbr_not_supported">Kann den Comic nicht öffnen. Die RAR-Version des Comics is zu neu (>=5).</string>
+    <string name="file_encrypted">Kann den Comic nicht öffnen. Die Datei ist verschlüsselt.</string>
 </resources>

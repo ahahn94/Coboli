@@ -14,6 +14,13 @@ class PagesLiveData(
     // Internal list of the filepaths.
     private val list = arrayListOf<String>()
 
+    // Error status of the caching operation.
+    var error : Boolean = false
+    set(error: Boolean){
+        field = error
+        value = list    // Trigger notify.
+    }
+
     /**
      * Add an item to the list and trigger the LiveData to notify
      * all Observers about the change.

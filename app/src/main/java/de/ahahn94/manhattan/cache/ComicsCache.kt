@@ -2,7 +2,10 @@ package de.ahahn94.manhattan.cache
 
 import android.os.AsyncTask
 import de.ahahn94.manhattan.api.repos.ComicLibComics
+import de.ahahn94.manhattan.comicextractors.CbrExtractor
 import de.ahahn94.manhattan.comicextractors.CbzExtractor
+import de.ahahn94.manhattan.comicextractors.ComicExtractor
+import de.ahahn94.manhattan.comicextractors.ExtractorException
 import de.ahahn94.manhattan.model.Database
 import de.ahahn94.manhattan.model.entities.CachedComicEntity
 import de.ahahn94.manhattan.model.views.CachedIssuesView
@@ -113,18 +116,22 @@ class ComicsCache {
          * Uses a ComicExtractor to unpack the comic.
          * Updates the CachedComicEntity on the database.
          */
+        @Throws(ExtractorException::class)
         fun extractComic(issue: CachedIssuesView) {
             if (issue.cachedComic != null) {
                 // Not yet unpacked. Unpack comic file and get list of filepaths.
                 val extension =
                     FileTypes.getExtension(issue.cachedComic.fileName)
-                when (extension) {
-                    "cbz" -> {
-                        val parent = createExtractedComicDirectory(issue.id)
-                        CbzExtractor.extract(issue.cachedComic.fileName, parent)
-                        issue.cachedComic.unpacked = true
-                        updateCachedComicEntity(issue)
-                    }
+                val extractor: ComicExtractor? = when (extension) {
+                    "cbz" -> CbzExtractor
+                    "cbr" -> CbrExtractor
+                    else -> null
+                }
+                if (extractor != null) {
+                    val parent = createExtractedComicDirectory(issue.id)
+                    extractor.extract(issue.cachedComic.fileName, parent)
+                    issue.cachedComic.unpacked = true
+                    updateCachedComicEntity(issue)
                 }
             }
         }

@@ -46,4 +46,6 @@
     <string name="search_hint">Search for Volumes</string>
     <string name="search_title">Search</string>
     <string name="open">Open</string>
+    <string name="cbr_not_supported">Can\'t open comic. The file\'s RAR version is too new (>=5)</string>
+    <string name="file_encrypted">Can\'t open comic. File is encrypted.</string>
 </resources>
