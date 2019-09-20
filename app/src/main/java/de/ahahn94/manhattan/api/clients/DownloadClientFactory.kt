@@ -105,6 +105,8 @@ class DownloadClientFactory {
                 previousProgress = percent
                 NotificationManagerCompat.from(applicationContext).apply {
                     if (percent == 100) {
+                        // Wait a second to make sure that the last update does not hit the rate limit.
+                        Thread.sleep(1000)
                         builder.setContentText(Localization.getLocalizedString(R.string.download_complete))
                             .setProgress(0, 0, false)
                     } else {
