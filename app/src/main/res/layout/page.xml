@@ -8,8 +8,9 @@
 
     <ImageView
             android:id="@+id/PageImage"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
             tools:srcCompat="@tools:sample/avatars" />
