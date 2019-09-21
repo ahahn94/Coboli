@@ -13,6 +13,12 @@ import de.ahahn94.manhattan.utils.settings.Credentials
  */
 class MainActivity : ToolbarActivity() {
 
+    companion object {
+
+        private var startup = true
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         // Save application context into ContextProvider.
@@ -28,8 +34,11 @@ class MainActivity : ToolbarActivity() {
             startActivityForResult(Intent(this, LoginActivity::class.java), 1)
         }
         else {
-            // Sync database with ComicLib server at app start.
-            startActivityForResult(Intent(this, SyncActivity::class.java), 1)
+            if (startup){
+                startup = false
+                // Sync database with ComicLib server at app start.
+                startActivityForResult(Intent(this, SyncActivity::class.java), 1)
+            }
         }
     }
 
