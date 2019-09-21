@@ -1,6 +1,8 @@
 package de.ahahn94.manhattan.activities
 
 import android.os.Bundle
+import android.view.View
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,6 +17,7 @@ import de.ahahn94.manhattan.viewModels.ReaderViewModel
  */
 class ReaderActivity : AppCompatActivity() {
 
+    private lateinit var loadingContainer: LinearLayout
     private lateinit var pagesContainer: ViewPager
 
     companion object {
@@ -45,6 +48,7 @@ class ReaderActivity : AppCompatActivity() {
             ReaderViewModel.Factory(issue)
         ).get(ReaderViewModel::class.java)
 
+        loadingContainer = findViewById(R.id.LoadingComicContainer)
         pagesContainer = findViewById(R.id.PagesContainer)
 
         val pages = viewModel.pages
@@ -54,6 +58,12 @@ class ReaderActivity : AppCompatActivity() {
         viewModel.pages.observe(this, Observer {
             if (pages.error) finish()   // Close activity if error during caching of comic.
             adapter.submitList(it)
+            if (it.size > 0) {
+                // List is not empty, loading is done.
+                // Hide loading screen and show comic pages.
+                pagesContainer.visibility = View.VISIBLE
+                loadingContainer.visibility = View.GONE
+            }
         })
 
         pagesContainer.adapter = adapter

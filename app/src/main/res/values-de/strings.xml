@@ -47,4 +47,5 @@
     <string name="open">Öffnen</string>
     <string name="cbr_not_supported">Kann den Comic nicht öffnen. Die RAR-Version des Comics is zu neu (>=5).</string>
     <string name="file_encrypted">Kann den Comic nicht öffnen. Die Datei ist verschlüsselt.</string>
+    <string name="unpacking_comic_file">Entpacke die Comic-Datei. Das kann einen Moment dauern, vor allem bei PDF-Dateien. Bitte warten.</string>
 </resources>
