@@ -133,8 +133,8 @@ data class IssueEntity(
         @Delete
         fun delete(vararg issueEntity: IssueEntity)
 
-        @Query("Update Issues SET IsRead = :isRead, Changed = :changed WHERE ID = :issueID")
-        fun updateReadStatus(issueID: String, isRead: String, changed: String)
+        @Query("Update Issues SET IsRead = :isRead, CurrentPage = :currentPage, Changed = :changed WHERE ID = :issueID")
+        fun updateReadStatus(issueID: String, isRead: String, currentPage: String, changed: String)
 
         /**
          * CachedIssuesView as PagedList for display in the RecyclerViews.

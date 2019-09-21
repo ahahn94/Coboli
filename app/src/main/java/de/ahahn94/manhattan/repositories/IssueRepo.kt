@@ -65,7 +65,8 @@ class IssueRepo {
 
             // Update database in background task.
             AsyncTask.execute {
-                getDatabase().issuesDao().updateReadStatus(issue.id, newStatus, changed)
+                getDatabase().issuesDao()
+                    .updateReadStatus(issue.id, newStatus, issue.readStatus.currentPage, changed)
             }
 
         }
