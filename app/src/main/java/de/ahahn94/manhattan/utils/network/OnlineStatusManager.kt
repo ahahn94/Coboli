@@ -50,8 +50,9 @@ class OnlineStatusManager {
         /**
          * Check if the device can successfully connected to the ComicLib server.
          * Return true if successfully connected, else false.
+         * Has to run in a non-UI thread.
          */
-        private fun connected(): Boolean {
+        fun connected(): Boolean {
             // Check if connected to a network. Else return false.
             return if (connectedToNetwork()) {
                 // Check if connected to the server.

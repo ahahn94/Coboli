@@ -1,6 +1,8 @@
 package de.ahahn94.manhattan.cache
 
 import android.os.AsyncTask
+import android.widget.Toast
+import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.api.repos.ComicLibComics
 import de.ahahn94.manhattan.comicextractors.*
 import de.ahahn94.manhattan.model.Database
@@ -9,6 +11,7 @@ import de.ahahn94.manhattan.model.views.CachedIssuesView
 import de.ahahn94.manhattan.utils.ContextProvider
 import de.ahahn94.manhattan.utils.FileTypes
 import de.ahahn94.manhattan.utils.Logging
+import de.ahahn94.manhattan.utils.network.OnlineStatusManager
 import de.ahahn94.manhattan.utils.replaceNull
 import de.ahahn94.manhattan.utils.settings.Preferences
 import java.io.File
@@ -188,29 +191,46 @@ class ComicsCache {
     class ComicsCacher(private val issueID: String) :
         AsyncTask<String, Int, Unit>() {
 
+        var connected = true
+
         override fun doInBackground(vararg params: String?) {
 
-            init()
-            // Check if the file already exists.
-            val cachedComicEntity = Database.getInstance().cachedComicsDao().get(issueID)
-            if (cachedComicEntity == null) {
-                // Not cached. Download and cache.
-                val response = comicLibComics.getComicFile(issueID)
-                if (response != null) {
-                    response.saveFile(getInstance())
-                    val cachedComic = CachedComicEntity(
-                        issueID,
-                        response.filename,
-                        CachedComicEntity.isReadable(response.filename)
-                    )
-                    Database.getInstance().cachedComicsDao()
-                        .insert(cachedComic)
-                    Logging.logInfo("Download and caching of issue $issueID completed.")
+            // If connected to the server, download the file.
+            if (OnlineStatusManager.connected()) {
+                init()
+                // Check if the file already exists.
+                val cachedComicEntity = Database.getInstance().cachedComicsDao().get(issueID)
+                if (cachedComicEntity == null) {
+                    // Not cached. Download and cache.
+                    val response = comicLibComics.getComicFile(issueID)
+                    if (response != null) {
+                        response.saveFile(getInstance())
+                        val cachedComic = CachedComicEntity(
+                            issueID,
+                            response.filename,
+                            CachedComicEntity.isReadable(response.filename)
+                        )
+                        Database.getInstance().cachedComicsDao()
+                            .insert(cachedComic)
+                        Logging.logInfo("Download and caching of issue $issueID completed.")
+                    } else {
+                        Logging.logError("Could not download comic file of issue $issueID!")
+                    }
                 } else {
-                    Logging.logError("Could not download comic file of issue $issueID!")
+                    Logging.logDebug("Comic file of issue $issueID is already cached.")
                 }
-            } else {
-                Logging.logDebug("Comic file of issue $issueID is already cached.")
+            } else connected =
+                false    // Not connected. Let onPostExecute handle the error message.
+        }
+
+        override fun onPostExecute(result: Unit?) {
+            // If no connection, show error message.
+            if (!connected) {
+                Logging.logDebug("Could not download file of issue $issueID! No connection to the server!")
+                Toast.makeText(
+                    ContextProvider.getApplicationContext(),
+                    R.string.download_no_connection, Toast.LENGTH_LONG
+                ).show()
             }
         }
 

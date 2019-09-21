@@ -49,4 +49,6 @@
     <string name="cbr_not_supported">Can\'t open comic. The file\'s RAR version is too new (>=5)</string>
     <string name="file_encrypted">Can\'t open comic. File is encrypted.</string>
     <string name="unpacking_comic_file">Unpacking the comic file. This may take a moment, especially with PDF files. Please wait.</string>
+    <string name="download_no_connection">Can\'t download file. No connection to the server.</string>
+    <string name="sync_no_connection">Can\'t sync to ComicLib server. No connection.</string>
 </resources>

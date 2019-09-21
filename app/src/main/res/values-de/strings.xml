@@ -48,4 +48,6 @@
     <string name="cbr_not_supported">Kann den Comic nicht öffnen. Die RAR-Version des Comics is zu neu (>=5).</string>
     <string name="file_encrypted">Kann den Comic nicht öffnen. Die Datei ist verschlüsselt.</string>
     <string name="unpacking_comic_file">Entpacke die Comic-Datei. Das kann einen Moment dauern, vor allem bei PDF-Dateien. Bitte warten.</string>
+    <string name="download_no_connection">Download fehlgeschlagen. Keine Verbindung zum Server.</string>
+    <string name="sync_no_connection">Synchronisieren fehlgeschlagen. Keine Verbindung zum Server.</string>
 </resources>

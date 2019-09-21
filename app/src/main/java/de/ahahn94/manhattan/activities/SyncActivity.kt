@@ -1,6 +1,7 @@
 package de.ahahn94.manhattan.activities
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.synchronisation.SyncManager
@@ -46,6 +47,10 @@ class SyncActivity : AppCompatActivity() {
 
             } else {
                 Logging.logDebug("No connection to the server!")
+                Toast.makeText(
+                    ContextProvider.getApplicationContext(),
+                    R.string.sync_no_connection, Toast.LENGTH_LONG
+                ).show()
                 // Go back to previous activity.
                 finish()
             }
