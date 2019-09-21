@@ -37,7 +37,7 @@ data class CachedComicEntity(
     companion object {
 
         // Constants.
-        private val readableFormats = arrayOf("cbr", "cbz") // List of the file formats the app can open.
+        private val readableFormats = arrayOf("cbr", "cbz", "pdf") // List of the file formats the app can open.
 
         /**
          * Check if a file can be unpacked for reading inside the app.

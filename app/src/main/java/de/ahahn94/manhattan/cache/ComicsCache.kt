@@ -2,10 +2,7 @@ package de.ahahn94.manhattan.cache
 
 import android.os.AsyncTask
 import de.ahahn94.manhattan.api.repos.ComicLibComics
-import de.ahahn94.manhattan.comicextractors.CbrExtractor
-import de.ahahn94.manhattan.comicextractors.CbzExtractor
-import de.ahahn94.manhattan.comicextractors.ComicExtractor
-import de.ahahn94.manhattan.comicextractors.ExtractorException
+import de.ahahn94.manhattan.comicextractors.*
 import de.ahahn94.manhattan.model.Database
 import de.ahahn94.manhattan.model.entities.CachedComicEntity
 import de.ahahn94.manhattan.model.views.CachedIssuesView
@@ -125,6 +122,7 @@ class ComicsCache {
                 val extractor: ComicExtractor? = when (extension) {
                     "cbz" -> CbzExtractor
                     "cbr" -> CbrExtractor
+                    "pdf" -> PdfExtractor
                     else -> null
                 }
                 if (extractor != null) {
