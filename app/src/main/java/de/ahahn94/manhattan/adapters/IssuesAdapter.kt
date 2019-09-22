@@ -15,6 +15,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import de.ahahn94.manhattan.R
+import de.ahahn94.manhattan.asynctasks.ImagesLoader
 import de.ahahn94.manhattan.menus.IssuePopupMenu
 import de.ahahn94.manhattan.model.views.CachedIssuesView
 import java.lang.ref.WeakReference

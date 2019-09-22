@@ -4,55 +4,90 @@
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <LinearLayout
-            android:id="@+id/LoadingComicContainer"
+    <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/background"
-            android:orientation="horizontal"
-            android:visibility="visible">
+            android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-                android:id="@+id/LoadingCardView"
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_medium"
-                android:visibility="visible"
-                app:cardCornerRadius="@dimen/radius_corners_cards_large">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="visible">
 
             <LinearLayout
+                    android:id="@+id/LoadingComicContainer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:background="@drawable/background"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
 
-                <TextView
-                        android:id="@+id/LoadingComicMessage"
+                <androidx.cardview.widget.CardView
+                        android:id="@+id/LoadingCardView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_small"
-                        android:text="@string/unpacking_comic_file"
-                        android:textAlignment="center"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-                <ProgressBar
-                        android:id="@+id/LoadingComicProgress"
-                        style="?android:attr/progressBarStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_margin="@dimen/margin_medium"
-                        android:indeterminate="true" />
+                        android:visibility="visible"
+                        app:cardCornerRadius="@dimen/radius_corners_cards_large">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:id="@+id/LoadingComicMessage"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/padding_small"
+                                android:text="@string/unpacking_comic_file"
+                                android:textAlignment="center"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+                        <ProgressBar
+                                android:id="@+id/LoadingComicProgress"
+                                style="?android:attr/progressBarStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_medium"
+                                android:indeterminate="true" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
+            <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/PagesContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
 
-    <androidx.viewpager.widget.ViewPager
-            android:id="@+id/PagesContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
+            </androidx.viewpager.widget.ViewPager>
+        </LinearLayout>
 
-    </androidx.viewpager.widget.ViewPager>
+        <FrameLayout
+                android:id="@+id/MenuFrame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#65343A40"
+                android:visibility="invisible">
+
+            <Button
+                    android:id="@+id/MenuButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_margin="@dimen/margin_small"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:fontFamily="@font/fontawesome_solid"
+                    android:minWidth="48dp"
+                    android:minHeight="48dp"
+                    android:text="@string/fa_ellipsis_v"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorTextLight" />
+        </FrameLayout>
+
+    </FrameLayout>
 
 </LinearLayout>

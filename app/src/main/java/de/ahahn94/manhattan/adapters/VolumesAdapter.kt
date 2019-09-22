@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.activities.FragmentedActivity
+import de.ahahn94.manhattan.asynctasks.ImagesLoader
 import de.ahahn94.manhattan.fragments.IssuesFragment
 import de.ahahn94.manhattan.menus.VolumePopupMenu
 import de.ahahn94.manhattan.model.views.CachedVolumesView

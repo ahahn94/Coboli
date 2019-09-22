@@ -51,4 +51,7 @@
     <string name="unpacking_comic_file">Unpacking the comic file. This may take a moment, especially with PDF files. Please wait.</string>
     <string name="download_no_connection">Can\'t download file. No connection to the server.</string>
     <string name="sync_no_connection">Can\'t sync to ComicLib server. No connection.</string>
+    <string name="jump_to_cover">Jump to cover</string>
+    <string name="pages_overview">Pages Overview</string>
+    <string name="page_number">Page %d</string>
 </resources>

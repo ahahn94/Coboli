@@ -2,7 +2,10 @@ package de.ahahn94.manhattan.activities
 
 import android.os.AsyncTask
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -10,9 +13,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.adapters.PagesAdapter
+import de.ahahn94.manhattan.fragments.PagesOverviewFragment
+import de.ahahn94.manhattan.menus.ReaderPopupMenu
 import de.ahahn94.manhattan.model.views.CachedIssuesView
 import de.ahahn94.manhattan.utils.Timestamps
 import de.ahahn94.manhattan.viewModels.ReaderViewModel
+import java.lang.ref.WeakReference
 
 /**
  * Handles the reader view that displays the pages of a comic.
@@ -21,6 +27,8 @@ class ReaderActivity : AppCompatActivity() {
 
     private lateinit var loadingContainer: LinearLayout
     private lateinit var pagesContainer: ViewPager
+    private lateinit var menuFrame: FrameLayout
+    private lateinit var menuButton: Button
 
     companion object {
 
@@ -50,12 +58,15 @@ class ReaderActivity : AppCompatActivity() {
             ReaderViewModel.Factory(issue)
         ).get(ReaderViewModel::class.java)
 
+        // Bind layout elements.
         loadingContainer = findViewById(R.id.LoadingComicContainer)
         pagesContainer = findViewById(R.id.PagesContainer)
+        menuFrame = findViewById(R.id.MenuFrame)
+        menuButton = findViewById(R.id.MenuButton)
 
         val pages = viewModel.pages
 
-        val adapter = PagesAdapter(this, pages.value ?: arrayListOf())
+        val adapter = PagesAdapter(this, menuFrame, pages.value ?: arrayListOf())
 
         viewModel.pages.observe(this, Observer {
             if (pages.error) finish()   // Close activity if error during caching of comic.
@@ -115,6 +126,41 @@ class ReaderActivity : AppCompatActivity() {
             }
 
         })
+
+        // Add popup menu to the menu button.
+        menuButton.setOnClickListener {
+            val menu = ReaderPopupMenu(this, menuButton, Gravity.END)
+            menu.setOnMenuItemClickListener {
+                when (it.itemId) {
+
+                    R.id.ActionJumpToCover -> {
+                        // Jump to the cover page.
+                        pagesContainer.currentItem = 0
+                        menuFrame.visibility = View.INVISIBLE
+                        true
+                    }
+
+                    R.id.ActionPagesOverview -> {
+                        // Show the pages overview.
+                        val transaction = supportFragmentManager.beginTransaction()
+                        val dialog = PagesOverviewFragment(
+                            viewModel.thumbnails,
+                            pagesContainer.currentItem,
+                            WeakReference(pagesContainer)
+                        )
+                        dialog.show(transaction, "Pages Overview")
+                        menuFrame.visibility = View.INVISIBLE
+                        true
+                    }
+
+                    else -> {
+                        false
+                    }
+
+                }
+            }
+            menu.show()
+        }
     }
 
 }

@@ -15,7 +15,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import de.ahahn94.manhattan.R
-import de.ahahn94.manhattan.adapters.ImagesLoader
+import de.ahahn94.manhattan.asynctasks.ImagesLoader
 import java.lang.ref.WeakReference
 
 /**

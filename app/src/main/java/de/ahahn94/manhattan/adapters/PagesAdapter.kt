@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
 import de.ahahn94.manhattan.R
@@ -12,7 +13,8 @@ import de.ahahn94.manhattan.R
 /**
  * Adapter to provide comic pages to the ReaderActivity.
  */
-class PagesAdapter(val context: Context, var list: List<String>) : PagerAdapter() {
+class PagesAdapter(val context: Context, val menuFrame: FrameLayout, var list: List<String>) :
+    PagerAdapter() {
 
     /**
      * Submit a changed list to the adapter.
@@ -52,6 +54,13 @@ class PagesAdapter(val context: Context, var list: List<String>) : PagerAdapter(
         val imageView = view.findViewById<ImageView>(R.id.PageImage)
         imageView.setImageBitmap(bitmap)
         container.addView(view)
+        imageView.setOnClickListener {
+            // On click on a page, show/hide the menu overlay.
+            when (menuFrame.visibility) {
+                View.VISIBLE -> menuFrame.visibility = View.INVISIBLE
+                View.INVISIBLE -> menuFrame.visibility = View.VISIBLE
+            }
+        }
         return view
     }
 

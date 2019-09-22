@@ -1,4 +1,4 @@
-package de.ahahn94.manhattan.adapters
+package de.ahahn94.manhattan.asynctasks
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

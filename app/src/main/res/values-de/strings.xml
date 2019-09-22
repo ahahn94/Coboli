@@ -50,4 +50,7 @@
     <string name="unpacking_comic_file">Entpacke die Comic-Datei. Das kann einen Moment dauern, vor allem bei PDF-Dateien. Bitte warten.</string>
     <string name="download_no_connection">Download fehlgeschlagen. Keine Verbindung zum Server.</string>
     <string name="sync_no_connection">Synchronisieren fehlgeschlagen. Keine Verbindung zum Server.</string>
+    <string name="jump_to_cover">Zum Cover springen</string>
+    <string name="pages_overview">Seitenübersicht</string>
+    <string name="page_number">Seite %d</string>
 </resources>

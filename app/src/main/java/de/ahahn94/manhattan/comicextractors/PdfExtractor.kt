@@ -1,6 +1,8 @@
 package de.ahahn94.manhattan.comicextractors
 
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.pdf.PdfRenderer
 import android.os.ParcelFileDescriptor
 import de.ahahn94.manhattan.cache.ComicsCache
@@ -55,13 +57,20 @@ class PdfExtractor {
                             val height = (width / ratio).toInt()
 
                             // Get filename and render content from PDF page.
-                            val name = "${i.toString().padStart(padding, '0')}.png"
+                            val name = "${i.toString().padStart(padding, '0')}.jpg"
                             val bitmap =
                                 Bitmap.createBitmap(
                                     width,
                                     height,
                                     Bitmap.Config.ARGB_8888
                                 )
+
+                            // Give the bitmap a white background so compressing to jpeg does not
+                            // turn transparency into black.
+                            val canvas = Canvas(bitmap)
+                            canvas.drawColor(Color.WHITE)
+                            canvas.drawBitmap(bitmap, 0F, 0F, null)
+
                             page.render(
                                 bitmap,
                                 null,
@@ -73,7 +82,7 @@ class PdfExtractor {
                             val imageFile = File(parentFolder, name)
                             if (!imageFile.exists()) {
                                 val outputStream = ByteArrayOutputStream()
-                                bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream)
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
                                 imageFile.writeBytes(outputStream.toByteArray())
                             }
 
