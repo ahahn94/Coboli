@@ -17,6 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import de.ahahn94.manhattan.R
+import de.ahahn94.manhattan.fragments.IssuesFragment
 import de.ahahn94.manhattan.fragments.PublishersFragment
 import de.ahahn94.manhattan.fragments.VolumesFragment
 import de.ahahn94.manhattan.utils.ContextProvider
@@ -169,6 +170,13 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
                 val fragment = VolumesFragment()
                 val bundle = Bundle()
                 bundle.putBoolean(VolumesFragment.CACHED_VOLUMES, true)
+                fragment.arguments = bundle
+                replaceFragmentBackStack(fragment)
+            }
+            R.id.navigationReadingList -> {
+                val fragment = IssuesFragment()
+                val bundle = Bundle()
+                bundle.putBoolean(IssuesFragment.READING_LIST, true)
                 fragment.arguments = bundle
                 replaceFragmentBackStack(fragment)
             }

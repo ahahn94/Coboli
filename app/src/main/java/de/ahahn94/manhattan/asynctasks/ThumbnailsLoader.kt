@@ -28,11 +28,13 @@ class ThumbnailsLoader(
         val options = BitmapFactory.Options()
         options.inSampleSize = 10   // Lower values lead to longer loading times and bigger bitmaps.
 
-        // Load bitmaps.
-        files.forEachIndexed { i, it ->
-            val bitmap = BitmapFactory.decodeFile(it, options)
-            thumbnails.set(i, bitmap)
+        // Load bitmaps. Stop immediately if task is cancelled.
+        val iterator = files.iterator().withIndex()
+        while (!isCancelled && iterator.hasNext()) {
+            val it = iterator.next()
+            val bitmap = BitmapFactory.decodeFile(it.value, options)
+            thumbnails.set(it.index, bitmap)
         }
-    }
 
+    }
 }

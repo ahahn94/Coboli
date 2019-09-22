@@ -50,6 +50,20 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         android:textColor="@color/colorTextLight" />
 
+                <TextView
+                        android:id="@+id/isCloudBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|top"
+                        android:background="@drawable/badge"
+                        android:backgroundTint="#80343A40"
+                        android:fontFamily="@font/fontawesome_solid"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_small"
+                        android:text="@string/fa_cloud"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/colorTextLight" />
+
             </FrameLayout>
 
             <TextView

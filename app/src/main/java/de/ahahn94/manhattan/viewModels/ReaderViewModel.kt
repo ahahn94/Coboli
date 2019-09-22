@@ -19,12 +19,16 @@ class ReaderViewModel(val issue: CachedIssuesView) : ViewModel() {
     // LiveData of the thumbnails of the pages.
     val thumbnails = ThumbnailsLiveData(issue)
 
+    // AsyncTask loading the thumbnails. Exposing this to the activity so it can be cancelled
+    // if the activity gets destroyed.
+    val thumbnailsLoader = ThumbnailsLoader(thumbnails)
+
     /**
      * Default constructor.
      * Load the pages, extracting the comic file if necessary.
      */
     init {
-        PagesLoader(pages, ThumbnailsLoader(thumbnails)).execute()
+        PagesLoader(pages, thumbnailsLoader).execute()
     }
 
     /**

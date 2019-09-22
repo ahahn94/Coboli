@@ -54,4 +54,6 @@
     <string name="jump_to_cover">Jump to cover</string>
     <string name="pages_overview">Pages Overview</string>
     <string name="page_number">Page %d</string>
+    <string name="reading_list">Reading List</string>
+    <string name="fa_cloud" translatable="false">\uf0c2</string>
 </resources>

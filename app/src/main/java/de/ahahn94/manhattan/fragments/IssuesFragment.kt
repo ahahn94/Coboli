@@ -23,6 +23,7 @@ class IssuesFragment : Fragment() {
         // Bundle-IDs for values passed into the fragment at creation.
         const val VOLUME_ID_NAME = "volumeID"
         const val CACHED_ISSUES = "cachedIssues"
+        const val READING_LIST = "readingList"
 
     }
 
@@ -51,13 +52,16 @@ class IssuesFragment : Fragment() {
         // Only cached issues?
         val cachedOnly = arguments?.getBoolean(CACHED_ISSUES, false) ?: false
 
+        // Get the reading list?
+        val readingList = arguments?.getBoolean(READING_LIST, false) ?: false
+
         // Bind recyclerView.
         recyclerView = view.findViewById(R.id.recyclerView)
 
         // Get viewModel that contains the data for the fragment.
         viewModel = ViewModelProviders.of(
             this,
-            IssuesViewModel.Factory(volumeID, cachedOnly)
+            IssuesViewModel.Factory(volumeID, cachedOnly, readingList)
         ).get(IssuesViewModel::class.java)
 
         bindData()

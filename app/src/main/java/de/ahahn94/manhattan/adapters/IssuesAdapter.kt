@@ -70,11 +70,18 @@ class IssuesAdapter(
             // Fill TextViews.
             issueName.text = issue.name
 
-            // Set badge visibility.
+            // Set isRead badge visibility.
             if (issue.readStatus.isRead == "1") {
                 isReadBadge.visibility = View.INVISIBLE
             } else {
                 isReadBadge.visibility = View.VISIBLE
+            }
+
+            // Set badge visibility.
+            if (issue.isCached == "1") {
+                isCloudBadge.visibility = View.INVISIBLE
+            } else {
+                isCloudBadge.visibility = View.VISIBLE
             }
         }
     }
@@ -104,6 +111,7 @@ class IssuesAdapter(
         val imageProgress : ProgressBar
         val issueName: TextView
         val isReadBadge: TextView
+        val isCloudBadge: TextView
         private val menuToggle: TextView
 
         init {
@@ -111,6 +119,7 @@ class IssuesAdapter(
             issueImage = issueCard.findViewById(R.id.issueImage)
             issueName = issueCard.findViewById(R.id.issueName)
             isReadBadge = issueCard.findViewById(R.id.isReadBadge)
+            isCloudBadge = issueCard.findViewById(R.id.isCloudBadge)
             menuToggle = issueCard.findViewById(R.id.menuToggle)
 
             // Set OnClickListener on the menuToggle to show the popup menu.

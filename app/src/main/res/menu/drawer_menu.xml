@@ -15,5 +15,8 @@
         <item
                 android:id="@+id/navigationDownloaded"
                 android:title="@string/downloaded" />
+        <item
+                android:id="@+id/navigationReadingList"
+                android:title="@string/reading_list" />
     </group>
 </menu>

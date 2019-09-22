@@ -15,7 +15,7 @@ import java.io.Serializable
  * for display in the app.
  */
 @DatabaseView(
-    value = "SELECT I.ID, I.Description, I.ImageFileURL, I.IssueNumber, I.Name, I.IsRead, I.CurrentPage, I.Changed, I.ReadStatusURL, I.VolumeID, CASE WHEN EXISTS (SELECT IssueID FROM CachedComics C WHERE C.IssueID = I.ID) THEN '1' ELSE '0' END AS IsCached, C.FileName, C.Readable, C.Unpacked FROM Issues I LEFT OUTER JOIN CachedComics C ON I.ID = C.IssueID",
+    value = "SELECT I.ID, I.Description, I.ImageFileURL, I.IssueNumber, I.Name, I.IsRead, I.CurrentPage, I.Changed, I.ReadStatusURL, I.VolumeID, CASE WHEN EXISTS (SELECT IssueID FROM CachedComics C WHERE C.IssueID = I.ID) THEN '1' ELSE '0' END AS IsCached, C.FileName, C.Readable, C.Unpacked, (SELECT V.Name FROM Volumes V WHERE I.VolumeID = V.ID) AS VolumeName FROM Issues I LEFT OUTER JOIN CachedComics C ON I.ID = C.IssueID",
     viewName = "CachedIssues"
 )
 data class CachedIssuesView(
@@ -24,6 +24,9 @@ data class CachedIssuesView(
     @PrimaryKey
     @NonNull
     var id: String = "",
+
+    @ColumnInfo(name = "VolumeName")
+    var volumeName: String = "",
 
     @ColumnInfo(name = "Description")
     var description: String = "",

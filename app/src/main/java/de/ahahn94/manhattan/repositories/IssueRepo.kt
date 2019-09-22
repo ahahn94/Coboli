@@ -50,6 +50,17 @@ class IssueRepo {
         }
 
         /**
+         * Get all CachedIssuesView datasets where isRead == false and currentPage != 0.
+         */
+        fun getReadingList(): LiveData<PagedList<CachedIssuesView>> {
+            return LivePagedListBuilder(
+                getDatabase().issuesDao().getReading(),
+                10
+            ).build()
+        }
+
+
+        /**
          * Update the ReadStatus of an issue on the database.
          */
         fun switchReadStatus(issue: CachedIssuesView) {

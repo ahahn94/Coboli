@@ -12,12 +12,14 @@ import de.ahahn94.manhattan.repositories.IssueRepo
  * If volumeID is empty, issues will be initialized with the list of all issues.
  * Else, it will be initialized with only the issues of the volumes with the volumeID.
  */
-class IssuesViewModel(volumeID: String, cachedOnly: Boolean) :
+class IssuesViewModel(volumeID: String, cachedOnly: Boolean, readingList: Boolean) :
     ViewModel() {
 
     val issues: LiveData<PagedList<CachedIssuesView>> =
         if (cachedOnly) {
             IssueRepo.getCached(volumeID)
+        } else if (readingList) {
+            IssueRepo.getReadingList()
         } else {
             IssueRepo.getAll(volumeID)
         }
@@ -26,11 +28,11 @@ class IssuesViewModel(volumeID: String, cachedOnly: Boolean) :
      * Factory to create IssuesViewModel.
      * Necessary to enable additional constructor parameters.
      */
-    class Factory(val volumeID: String, val cachedOnly: Boolean) :
+    class Factory(val volumeID: String, val cachedOnly: Boolean, val readingList: Boolean) :
         ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return IssuesViewModel(volumeID, cachedOnly) as T
+            return IssuesViewModel(volumeID, cachedOnly, readingList) as T
         }
 
     }

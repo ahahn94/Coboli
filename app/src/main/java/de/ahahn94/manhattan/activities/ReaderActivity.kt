@@ -37,6 +37,8 @@ class ReaderActivity : AppCompatActivity() {
 
     }
 
+    private lateinit var viewModel: ReaderViewModel
+
     /**
      * OnCreate-function.
      * Customizations:
@@ -53,7 +55,7 @@ class ReaderActivity : AppCompatActivity() {
         // Get issue.
         val issue = intent.getSerializableExtra(ISSUE) as CachedIssuesView
 
-        val viewModel = ViewModelProviders.of(
+        viewModel = ViewModelProviders.of(
             this,
             ReaderViewModel.Factory(issue)
         ).get(ReaderViewModel::class.java)
@@ -113,7 +115,13 @@ class ReaderActivity : AppCompatActivity() {
              */
             override fun onPageSelected(position: Int) {
                 // If reaching the last page, set IsRead to true. Else false.
-                issue.readStatus.isRead = if (position == (adapter.count) - 1) "1" else "0"
+                issue.readStatus.isRead = if (
+                    position == (adapter.count) - 1 &&
+                    // The "resume previous reading session"-function is triggered as soon as the
+                    // required page is loaded, which makes it the (temp.) last page and triggers
+                    // the "mark as read" part. The following line prevents this.
+                    position != issue.readStatus.currentPage.toInt()
+                ) "1" else "0"
                 AsyncTask.execute {
                     de.ahahn94.manhattan.model.Database.getInstance().issuesDao()
                         .updateReadStatus(
@@ -161,6 +169,16 @@ class ReaderActivity : AppCompatActivity() {
             }
             menu.show()
         }
+    }
+
+    /**
+     * Destroy activity.
+     * Triggered by finish().
+     */
+    override fun onDestroy() {
+        // Stop loading thumbnails if task is still running.
+        viewModel.thumbnailsLoader.cancel(true)
+        super.onDestroy()
     }
 
 }

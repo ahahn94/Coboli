@@ -145,6 +145,9 @@ data class IssueEntity(
 
         @Query("SELECT * FROM CachedIssues WHERE VolumeID = :volumeID AND IsCached = '1'")
         fun getCachedByVolume(volumeID: String): DataSource.Factory<Int, CachedIssuesView>
+
+        @Query("SELECT * FROM CachedIssues WHERE IsRead != '1' AND CurrentPage != '0' ORDER BY VolumeName, IssueNumber")
+        fun getReading(): DataSource.Factory<Int, CachedIssuesView>
     }
 
 }
