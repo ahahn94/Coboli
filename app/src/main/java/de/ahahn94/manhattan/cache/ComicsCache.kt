@@ -202,13 +202,13 @@ class ComicsCache {
                 val cachedComicEntity = Database.getInstance().cachedComicsDao().get(issueID)
                 if (cachedComicEntity == null) {
                     // Not cached. Download and cache.
-                    val response = comicLibComics.getComicFile(issueID)
+                    val response = comicLibComics.getComicFile(issueID, getInstance())
                     if (response != null) {
-                        response.saveFile(getInstance())
+                        // Download successful. Add infos to database.
                         val cachedComic = CachedComicEntity(
                             issueID,
-                            response.filename,
-                            CachedComicEntity.isReadable(response.filename)
+                            response.file.name,
+                            CachedComicEntity.isReadable(response.file.name)
                         )
                         Database.getInstance().cachedComicsDao()
                             .insert(cachedComic)

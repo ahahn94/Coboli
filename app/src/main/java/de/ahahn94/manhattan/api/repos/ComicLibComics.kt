@@ -1,11 +1,13 @@
 package de.ahahn94.manhattan.api.repos
 
 import de.ahahn94.manhattan.api.clients.DownloadClientFactory
-import de.ahahn94.manhattan.api.responses.ApiFile
+import de.ahahn94.manhattan.api.responses.ComicFile
 import de.ahahn94.manhattan.utils.security.Authentication
 import de.ahahn94.manhattan.utils.settings.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.io.File
+import java.io.FileOutputStream
 
 /**
  * Class that handles the comic files part of the ComicLib API.
@@ -26,9 +28,8 @@ data class ComicLibComics(private val url: String) {
 
     /**
      * Download the comics file specified by issueID.
-     * Will return an ApiFile containing the files bytes or null if not found/other error.
      */
-    fun getComicFile(issueID: String): ApiFile? {
+    fun getComicFile(issueID: String, parent: File): ComicFile? {
         val request = Request.Builder()
             .url(url + API_COMICS_BASE_PATH + issueID + API_COMICS_FILE_PATH)
             .header("Authorization", bearerTokenAuthentication).build()
@@ -42,15 +43,24 @@ data class ComicLibComics(private val url: String) {
 
         val response = client.newCall(request).execute()
         return if (response.isSuccessful) {
-            val byteStream = response.body?.byteStream()
-            val content = byteStream?.readBytes()
-            byteStream?.close()
 
+            // Get filename.
             val extension = response.header("Content-Disposition")?.split(".")?.last()
             val filename = "$issueID.$extension"
 
-            val comicFile = ApiFile(filename, content)
-            comicFile
+            // Get input-/outputstreams.
+            val file = File(parent, filename)
+            val outputStream = FileOutputStream(file, false)    // Overwrite if exists.
+            val inputStream = response.body?.byteStream()
+
+            // Download to file.
+            inputStream?.copyTo(outputStream)
+
+            // Close streams.
+            inputStream?.close()
+            outputStream.close()
+
+            ComicFile(file)
         } else {
             null
         }
