@@ -63,16 +63,21 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Small"
                             tools:text="@string/volumes_number" />
 
-                    <TextView
-                            android:id="@+id/menuToggle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/fontawesome_solid"
-                            android:paddingEnd="@dimen/padding_small"
-                            android:text="@string/fa_ellipsis_v"
-                            android:textAlignment="textEnd" />
                 </LinearLayout>
             </LinearLayout>
+
+            <TextView
+                    android:id="@+id/menuToggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:fontFamily="@font/fontawesome_solid"
+                    android:paddingStart="@dimen/padding_large"
+                    android:paddingTop="@dimen/padding_large"
+                    android:paddingEnd="@dimen/padding_large"
+                    android:paddingBottom="@dimen/padding_medium"
+                    android:text="@string/fa_ellipsis_v"
+                    android:textAlignment="textEnd" />
 
         </FrameLayout>
 

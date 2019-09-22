@@ -13,82 +13,91 @@
             android:layout_margin="@dimen/margin_small"
             app:cardCornerRadius="@dimen/radius_corners_cards_small">
 
-        <LinearLayout
+        <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/padding_small">
-
-            <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                <ProgressBar
-                        android:id="@+id/imageProgress"
-                        style="?android:attr/progressBarStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:indeterminate="true" />
-
-                <ImageView
-                        android:id="@+id/volumeImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small"
-                        android:scaleType="fitXY"
-                        tools:srcCompat="@tools:sample/avatars" />
-
-                <TextView
-                        android:id="@+id/isReadBadge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|top"
-                        android:background="@drawable/badge"
-                        android:gravity="center"
-                        android:padding="@dimen/padding_small"
-                        android:text="@string/badge_new"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                        android:textColor="@color/colorTextLight" />
-
-            </FrameLayout>
-
-            <TextView
-                    android:id="@+id/volumeName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    tools:text="@sample/sampleVolumes.json/data/volumeName" />
+                android:layout_height="match_parent">
 
             <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_small">
+
+                <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <ProgressBar
+                            android:id="@+id/imageProgress"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:indeterminate="true" />
+
+                    <ImageView
+                            android:id="@+id/volumeImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_small"
+                            android:scaleType="fitXY"
+                            tools:srcCompat="@tools:sample/avatars" />
+
+                    <TextView
+                            android:id="@+id/isReadBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|top"
+                            android:background="@drawable/badge"
+                            android:gravity="center"
+                            android:padding="@dimen/padding_small"
+                            android:text="@string/badge_new"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                            android:textColor="@color/colorTextLight" />
+
+                </FrameLayout>
 
                 <TextView
-
-                        android:id="@+id/volumeIssuesCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="viewStart"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        tools:text="@string/issues_number" />
-
-                <TextView
-                        android:id="@+id/menuToggle"
+                        android:id="@+id/volumeName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/fontawesome_solid"
-                        android:paddingStart="@dimen/padding_small"
-                        android:paddingEnd="@dimen/padding_small"
-                        android:text="@string/fa_ellipsis_v"
-                        android:textAlignment="textEnd" />
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        tools:text="@sample/sampleVolumes.json/data/volumeName" />
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:orientation="horizontal">
+
+                    <TextView
+
+                            android:id="@+id/volumeIssuesCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="viewStart"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            tools:text="@string/issues_number" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
-        </LinearLayout>
+            <TextView
+                    android:id="@+id/menuToggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:fontFamily="@font/fontawesome_solid"
+                    android:paddingStart="@dimen/padding_large"
+                    android:paddingTop="@dimen/padding_large"
+                    android:paddingEnd="@dimen/padding_large"
+                    android:paddingBottom="@dimen/padding_medium"
+                    android:text="@string/fa_ellipsis_v"
+                    android:textAlignment="textEnd" />
+        </FrameLayout>
 
     </androidx.cardview.widget.CardView>
 </LinearLayout>

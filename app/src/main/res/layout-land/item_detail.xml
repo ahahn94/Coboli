@@ -28,6 +28,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|top"
+                        android:layout_margin="@dimen/margin_small"
                         android:background="@android:drawable/ic_delete"
                         android:backgroundTint="@color/colorPrimaryDarkTransparent"
                         android:gravity="center" />
