@@ -54,4 +54,5 @@
     <string name="pages_overview">Seitenübersicht</string>
     <string name="page_number">Seite %d</string>
     <string name="reading_list">Leseliste</string>
+    <string name="share">Teilen</string>
 </resources>

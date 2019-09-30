@@ -3,6 +3,7 @@ package de.ahahn94.manhattan.menus
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.PopupMenu
@@ -35,17 +36,19 @@ class IssuePopupMenu(
         // Load the menu.
         menuInflater.inflate(R.menu.issue_popup_menu, menu)
 
-        // Show download/delete/open actions based on current caching status.
+        // Show download/delete/open/share actions based on current caching status.
         if (issue?.isCached == "1") {
             menu.findItem(R.id.action_download).isVisible = false
             menu.findItem(R.id.action_delete).isVisible = true
             menu.findItem(R.id.action_open_with).isVisible = true
             menu.findItem(R.id.action_open).isVisible = issue.cachedComic?.readable == true
+            menu.findItem(R.id.action_share).isVisible = true
         } else {
             menu.findItem(R.id.action_download).isVisible = true
             menu.findItem(R.id.action_delete).isVisible = false
             menu.findItem(R.id.action_open_with).isVisible = false
             menu.findItem(R.id.action_open).isVisible = false
+            menu.findItem(R.id.action_share).isVisible = false
         }
 
         // Bind actions to menu entries.
@@ -122,6 +125,46 @@ class IssuePopupMenu(
                             intent.setDataAndType(uri, mime)
                             // Grant read-only permissions to the activity/app.
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            try {
+                                startActivity(intent)
+                            } catch (exception: ActivityNotFoundException) {
+                                Toast.makeText(
+                                    context,
+                                    getString(R.string.no_app_for_mime_type, mime),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                    }
+                    true
+                }
+
+                // Show the "share" dialog that lets the user choose another app to share the
+                // downloaded comic file with (e.g. e-mail app, Google Drive).
+                // Which applications are shown depends on which apps are installed and whether the apps
+                // implement support for sharing files with them via the "send" action.
+                R.id.action_share -> {
+                    // Get the file metadata.
+                    val fileName = issue?.cachedComic?.fileName ?: ""
+                    val file = ComicsCache.getFile(fileName)
+                    if (file != null) {
+                        with(context) {
+                            // Get the URI of the file.
+                            val uri = FileProvider.getUriForFile(
+                                this,
+                                "de.ahahn94.manhattan.fileprovider", file
+                            )
+
+                            // Get the mime type.
+                            val mime = FileTypes.getMimeType(file.name)
+
+                            // Create the activity.
+                            val intent = Intent()
+                            intent.action = Intent.ACTION_SEND
+                            intent.setType(mime)
+                            intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(uri.toString()))
+                            intent.putExtra(Intent.EXTRA_SUBJECT, fileName)
+                            intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share))
                             try {
                                 startActivity(intent)
                             } catch (exception: ActivityNotFoundException) {

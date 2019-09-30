@@ -56,4 +56,5 @@
     <string name="page_number">Page %d</string>
     <string name="reading_list">Reading List</string>
     <string name="fa_cloud" translatable="false">\uf0c2</string>
+    <string name="share">Share</string>
 </resources>

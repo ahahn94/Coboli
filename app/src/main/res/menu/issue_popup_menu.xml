@@ -23,4 +23,9 @@
     <item
             android:id="@+id/action_open_with"
             android:title="@string/open_with" />
+    <item
+            android:id="@+id/action_share"
+            android:icon="@android:drawable/ic_menu_share"
+            android:title="@string/share"
+            app:showAsAction="never" />
 </menu>
