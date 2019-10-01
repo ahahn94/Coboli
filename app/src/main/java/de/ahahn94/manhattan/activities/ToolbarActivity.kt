@@ -15,12 +15,14 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.google.android.material.navigation.NavigationView
 import de.ahahn94.manhattan.R
 import de.ahahn94.manhattan.fragments.IssuesFragment
 import de.ahahn94.manhattan.fragments.PublishersFragment
 import de.ahahn94.manhattan.fragments.VolumesFragment
 import de.ahahn94.manhattan.utils.ContextProvider
+import de.ahahn94.manhattan.utils.network.OnlineStatusManager
 
 /**
  * Activity to provide an action bar and navigation drawer
@@ -39,6 +41,9 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
 
         // Save application context into ContextProvider.
         ContextProvider.setApplicationContext(applicationContext)
+
+        // Start online status monitor.
+        OnlineStatusManager.startOnlineStatusMonitor()
 
         // Load layout.
         setContentView(R.layout.activity_toolbar)
@@ -133,6 +138,18 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
         (menu?.findItem(R.id.ActionSearch)?.actionView as SearchView).apply {
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
+
+        // Enable the sync button if connected, else disable.
+        val syncButton = menu.findItem(R.id.ActionSync)
+        OnlineStatusManager.connectionStatus.observe(this, Observer {
+            if (it) {
+                syncButton.icon.alpha = 255
+                syncButton.isEnabled = true
+            } else {
+                syncButton.icon.alpha = 128
+                syncButton.isEnabled = false
+            }
+        })
 
         return true
     }
