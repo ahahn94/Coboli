@@ -19,6 +19,7 @@ import de.ahahn94.manhattan.utils.network.ConnectionTester
 import de.ahahn94.manhattan.utils.settings.Credentials
 import de.ahahn94.manhattan.utils.settings.Preferences
 import java.lang.ref.WeakReference
+import java.util.*
 
 /**
  * Class that handles the login activity.
@@ -84,6 +85,31 @@ class LoginActivity : AppCompatActivity() {
         val password = inputPassword.text.toString().trim()
         val serverAddress = inputServerAddress.text.toString().trim()
 
+        // Show a warning message if trying to use HTTP instead of HTTPS.
+        // User may proceed with HTTP or cancel to change the server address.
+        if (serverAddress.split(":").first().toLowerCase(Locale.getDefault()) == "http") {
+            val dialogBuilder = AlertDialog.Builder(this)
+            dialogBuilder.setTitle(getString(R.string.http_warning_title))
+                .setMessage(R.string.http_warning_message)
+                .setPositiveButton(android.R.string.yes) { dialog, _ ->
+                    dialog.dismiss()
+                    testCredentials(username, password, serverAddress)
+                }
+                .setNegativeButton(android.R.string.no) { dialog, _ ->
+                    dialog.cancel()
+                }
+            val dialog = dialogBuilder.create()
+            dialog.show()
+        } else {
+            // If HTTPS, just test the credentials.
+            testCredentials(username, password, serverAddress)
+        }
+    }
+
+    /**
+     * Test if the credentials and server address are valid.
+     */
+    private fun testCredentials(username: String, password: String, serverAddress: String) {
         // Update credentials with input.
         credentials.username = username
         credentials.password = password
@@ -93,7 +119,6 @@ class LoginActivity : AppCompatActivity() {
 
         // Check connection in an AsyncTask.
         ConnectionChecker(WeakReference(this)).execute()
-
     }
 
     /**
