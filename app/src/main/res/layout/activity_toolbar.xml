@@ -36,6 +36,31 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:headerLayout="@layout/navigation_header"
-            app:menu="@menu/drawer_menu" />
+            app:menu="@menu/drawer_menu" >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="vertical">
+
+            <Button
+                    android:id="@+id/logoutButton"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_login"
+                    android:layout_marginTop="@dimen/margin_login_small"
+                    android:layout_marginRight="@dimen/margin_login"
+                    android:layout_marginBottom="@dimen/margin_login_small"
+                    android:backgroundTint="@color/colorAccent"
+                    android:onClick="loginButtonClicked"
+                    android:text="@string/logout"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="14sp" />
+
+        </LinearLayout>
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

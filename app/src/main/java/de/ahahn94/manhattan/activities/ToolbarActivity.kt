@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.SearchView
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -23,6 +24,7 @@ import de.ahahn94.manhattan.fragments.PublishersFragment
 import de.ahahn94.manhattan.fragments.VolumesFragment
 import de.ahahn94.manhattan.utils.ContextProvider
 import de.ahahn94.manhattan.utils.network.OnlineStatusManager
+import de.ahahn94.manhattan.utils.settings.Credentials
 
 /**
  * Activity to provide an action bar and navigation drawer
@@ -69,6 +71,18 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
         )
         drawer.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
+
+        // Bind logout button.
+        val logoutButton = findViewById<Button>(R.id.logoutButton)
+        logoutButton.setOnClickListener {
+            with(Credentials.getInstance()) {
+                username = ""
+                password = ""
+                apiKey = ""
+            }
+            Credentials.saveInstance()
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
 
         // Show default fragment.
         showDefaultFragment()

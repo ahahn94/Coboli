@@ -194,6 +194,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     /**
+     * Do nothing if back button is pressed.
+     */
+    override fun onBackPressed() {
+    }
+
+    /**
      * AsyncTask to check the connection in the background and show the result after that via callback.
      */
     class ConnectionChecker(private val loginActivity: WeakReference<LoginActivity>) :
