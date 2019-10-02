@@ -1,5 +1,6 @@
 package de.ahahn94.manhattan.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -33,26 +34,35 @@ class SyncActivity : AppCompatActivity() {
      * If connected to the server, sync the collections in the background.
      * Show a loading screen while updating the local collection to prevent
      * changes to the database by the user.
+     * Show the LoginActivity if the connection fails due to authorization error.
      */
     private fun syncWithServer() {
         OnlineStatusManager.executeIfConnected {
-            if (it) {
-                Logging.logDebug("Connected to the ComicLib server.")
-
-                SyncManager.runSyncInBackground(this) {
-
-                    // Go back to previous activity after sync has finished.
+            when (it) {
+                OnlineStatusManager.SimpleStatus.OK -> {
+                    Logging.logDebug("Connected to the ComicLib server.")
+                    SyncManager.runSyncInBackground(this) {
+                        // Go back to previous activity after sync has finished.
+                        finish()
+                    }
+                }
+                OnlineStatusManager.SimpleStatus.NO_CONNECTION -> {
+                    Logging.logDebug("No connection to the server!")
+                    Toast.makeText(
+                        ContextProvider.getApplicationContext(),
+                        R.string.sync_no_connection, Toast.LENGTH_LONG
+                    ).show()
+                    // Go back to previous activity.
                     finish()
                 }
-
-            } else {
-                Logging.logDebug("No connection to the server!")
-                Toast.makeText(
-                    ContextProvider.getApplicationContext(),
-                    R.string.sync_no_connection, Toast.LENGTH_LONG
-                ).show()
-                // Go back to previous activity.
-                finish()
+                OnlineStatusManager.SimpleStatus.UNAUTHORIZED -> {
+                    Toast.makeText(
+                        ContextProvider.getApplicationContext(),
+                        R.string.login_failed, Toast.LENGTH_LONG
+                    ).show()
+                    startActivityForResult(Intent(this, LoginActivity::class.java), 1)
+                    finish()
+                }
             }
         }
     }

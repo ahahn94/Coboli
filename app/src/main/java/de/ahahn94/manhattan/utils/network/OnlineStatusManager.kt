@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import de.ahahn94.manhattan.api.clients.TrustedCertificatesClientFactory
 import de.ahahn94.manhattan.utils.ContextProvider
+import de.ahahn94.manhattan.utils.Logging
 import de.ahahn94.manhattan.utils.settings.Credentials
 import de.ahahn94.manhattan.utils.settings.Preferences
 import okhttp3.Request
@@ -42,10 +43,11 @@ class OnlineStatusManager {
 
         /**
          * Check if the device can successfully establish a connection to the ComicLib server.
-         * Return true if successfully connected, else false.
+         * Return OK if successfully connected, NO_CONNECTION if no connection and
+         * UNAUTHORIZED if authorization failed..
          * Will update the API key if successfully connected and API key changed.
          */
-        private fun connectedToTokensResource(): Boolean {
+        private fun connectedToTokensResource(): SimpleStatus {
             // Check if the status type is OK. Else error (connection, https or authentication).
             val status = ConnectionTester.test()
             return if (status.statusType == ConnectionStatusType.OK) {
@@ -55,8 +57,21 @@ class OnlineStatusManager {
                     Credentials.getInstance().apiKey = apiKeyFromServer
                     Credentials.saveInstance()
                 }
-                true
-            } else false
+                SimpleStatus.OK
+            } else if (status.code == 401) {
+                // Authentication failed. Password has probably changed.
+                Logging.logDebug("Authorization failed.")
+                // Reset credentials and show LoginActivity.
+                with(Credentials.getInstance()) {
+                    username = ""
+                    password = ""
+                    apiKey = ""
+                }
+                Credentials.saveInstance()
+                return SimpleStatus.UNAUTHORIZED
+            } else {
+                SimpleStatus.NO_CONNECTION
+            }
         }
 
         /**
@@ -88,15 +103,15 @@ class OnlineStatusManager {
         /**
          * Check if the device can successfully connect to the ComicLib server.
          * Will update the saved API token if it has changed.
-         * Return true if successfully connected, else false.
+         * Return OK if successfully connected, else NO_CONNECTION or UNAUTHORIZED.
          * Has to run in a non-UI thread.
          */
-        fun connected(): Boolean {
+        fun connected(): SimpleStatus {
             // Check if connected to a network. Else return false.
             return if (connectedToNetwork()) {
                 // Check if connected to the server.
                 connectedToTokensResource()
-            } else false
+            } else SimpleStatus.NO_CONNECTION
         }
 
         /**
@@ -116,7 +131,7 @@ class OnlineStatusManager {
         /**
          * Run the passed function if successfully connected to the server.
          */
-        fun executeIfConnected(function: (isConnected: Boolean) -> Unit) {
+        fun executeIfConnected(function: (isConnected: SimpleStatus) -> Unit) {
             OnlineStatusChecker(function).execute()
         }
 
@@ -138,17 +153,26 @@ class OnlineStatusManager {
      * AsyncTask that runs the connected()-function in the background and executes the passed
      * function with the result.
      */
-    private class OnlineStatusChecker(val function: (isConnected: Boolean) -> Unit) :
-        AsyncTask<(Boolean) -> Unit, Int, Boolean>() {
+    private class OnlineStatusChecker(val function: (isConnected: SimpleStatus) -> Unit) :
+        AsyncTask<(Boolean) -> Unit, Int, SimpleStatus>() {
 
-        override fun doInBackground(vararg params: ((isConnected: Boolean) -> Unit)?): Boolean {
+        override fun doInBackground(vararg params: ((isConnected: Boolean) -> Unit)?): SimpleStatus {
             return connected()
         }
 
-        override fun onPostExecute(result: Boolean?) {
+        override fun onPostExecute(result: SimpleStatus?) {
             function(result!!)
         }
 
+    }
+
+    /**
+     * Possible results for the connectedToTokensResource function.
+     */
+    enum class SimpleStatus {
+        OK,
+        UNAUTHORIZED,
+        NO_CONNECTION
     }
 
 }

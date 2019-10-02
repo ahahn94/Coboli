@@ -57,4 +57,5 @@
     <string name="share">Teilen</string>
     <string name="http_warning_title">Verbinden ohne Verschlüsselung</string>
     <string name="http_warning_message">Die Server-Adresse verwendet HTTP. Die Verbindung wird nicht verschlüsselt sein. Das ist ein Sicherheitsrisiko. Bitte verwenden Sie stattdessen HTTPS. Möchten Sie dennoch fortfahren?</string>
+    <string name="download_auth_failed">Download fehlgeschlagen. Fehler bei der Authentifizierung.</string>
 </resources>
