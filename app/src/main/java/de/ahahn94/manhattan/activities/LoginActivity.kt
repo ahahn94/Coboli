@@ -194,9 +194,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     /**
-     * Do nothing if back button is pressed.
+     * Go back to the home screen if the back button is pressed.
      */
     override fun onBackPressed() {
+        val intent = Intent(Intent.ACTION_MAIN)
+        intent.addCategory(Intent.CATEGORY_HOME)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
     }
 
     /**
