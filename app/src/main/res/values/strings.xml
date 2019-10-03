@@ -61,4 +61,7 @@
     <string name="http_warning_message">Your server address uses HTTP. The connection will not be encrypted. This is dangerous. Please use HTTPS instead. Do you really want to continue without encryption?</string>
     <string name="download_auth_failed">Can\'t download file. Authorization failed.</string>
     <string name="logout">Logout</string>
+    <string name="about">About</string>
+    <string name="label_libraries">Manhattan makes use of some libraries to provide its features.</string>
+    <string name="button_license">Show License</string>
 </resources>

@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.SearchView
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -19,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.navigation.NavigationView
 import de.ahahn94.manhattan.R
+import de.ahahn94.manhattan.fragments.AboutFragment
 import de.ahahn94.manhattan.fragments.IssuesFragment
 import de.ahahn94.manhattan.fragments.PublishersFragment
 import de.ahahn94.manhattan.fragments.VolumesFragment
@@ -72,18 +72,6 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
         drawer.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
 
-        // Bind logout button.
-        val logoutButton = findViewById<Button>(R.id.logoutButton)
-        logoutButton.setOnClickListener {
-            with(Credentials.getInstance()) {
-                username = ""
-                password = ""
-                apiKey = ""
-            }
-            Credentials.saveInstance()
-            startActivity(Intent(this, LoginActivity::class.java))
-        }
-
         // Show default fragment.
         showDefaultFragment()
     }
@@ -125,14 +113,14 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
                             ) == true
                         ) {
                             // Downloaded volumes.
-                            navigationView.setCheckedItem(R.id.navigationDownloaded)
+                            navigationView.setCheckedItem(R.id.item_downloaded)
                         } else {
                             // All volumes.
-                            navigationView.setCheckedItem(R.id.navigationVolumes)
+                            navigationView.setCheckedItem(R.id.item_volumes)
                         }
                     }
                     PublishersFragment::class.java -> {
-                        navigationView.setCheckedItem(R.id.navigationPublishers)
+                        navigationView.setCheckedItem(R.id.item_publishers)
                     }
                 }
             } else {
@@ -188,28 +176,59 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
      */
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.navigationVolumes -> {
+
+            /*
+            Top section.
+             */
+            R.id.item_volumes -> {
+                // Show the volumes overview.
                 val fragment = VolumesFragment()
                 replaceFragmentBackStack(fragment)
 
             }
-            R.id.navigationPublishers -> {
+
+            R.id.item_publishers -> {
+                // Show the publishers overview.
                 val fragment = PublishersFragment()
                 replaceFragmentBackStack(fragment)
             }
-            R.id.navigationDownloaded -> {
+
+            R.id.item_downloaded -> {
+                // Show the downloaded volumes overview.
                 val fragment = VolumesFragment()
                 val bundle = Bundle()
                 bundle.putBoolean(VolumesFragment.CACHED_VOLUMES, true)
                 fragment.arguments = bundle
                 replaceFragmentBackStack(fragment)
             }
-            R.id.navigationReadingList -> {
+
+            R.id.item_reading -> {
+                // Show the reading list.
                 val fragment = IssuesFragment()
                 val bundle = Bundle()
                 bundle.putBoolean(IssuesFragment.READING_LIST, true)
                 fragment.arguments = bundle
                 replaceFragmentBackStack(fragment)
+            }
+
+            /*
+            Bottom section.
+             */
+            R.id.item_about -> {
+                // Show the AboutFragment.
+                val fragment = AboutFragment()
+                replaceFragmentBackStack(fragment)
+            }
+
+            R.id.item_logout -> {
+                // Logout from Manhattan. Deletes credentials and starts LoginActivity.
+                with(Credentials.getInstance()) {
+                    username = ""
+                    password = ""
+                    apiKey = ""
+                }
+                Credentials.saveInstance()
+                startActivity(Intent(this, LoginActivity::class.java))
             }
         }
         drawer.closeDrawer(GravityCompat.START)
@@ -225,7 +244,7 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
         bundle.putString(VolumesFragment.SEARCH_QUERY, query)
         fragment.arguments = bundle
         replaceFragmentBackStack(fragment)
-        navigationView.setCheckedItem(R.id.navigationVolumes)
+        navigationView.setCheckedItem(R.id.item_volumes)
     }
 
     /**
@@ -234,7 +253,7 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
      */
     private fun showDefaultFragment() {
         replaceFragment(VolumesFragment())
-        navigationView.setCheckedItem(R.id.navigationVolumes)
+        navigationView.setCheckedItem(R.id.item_volumes)
     }
 
     /**

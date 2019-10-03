@@ -1,0 +1,25 @@
+{
+  "App": {
+    "Name": "Manhattan",
+    "Copyright": "Copyright (c) 2019 André Hahn.\nManhattan is licensed under the GNU General Public License, Version 2.",
+    "LicenseName": "GNU General Public License Version 2"
+  },
+  "Libraries": [
+    {
+      "Name": "Gson",
+      "LicenseName": "Apache License Version 2.0"
+    },
+    {
+      "Name": "okHttp",
+      "LicenseName": "Apache License Version 2.0"
+    },
+    {
+      "Name": "Retrofit 2",
+      "LicenseName": "Apache License Version 2.0"
+    },
+    {
+      "Name": "junrar",
+      "LicenseName": "UnRAR License"
+    }
+  ]
+}

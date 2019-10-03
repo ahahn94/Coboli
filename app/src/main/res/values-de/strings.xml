@@ -59,4 +59,7 @@
     <string name="http_warning_message">Die Server-Adresse verwendet HTTP. Die Verbindung wird nicht verschlüsselt sein. Das ist ein Sicherheitsrisiko. Bitte verwenden Sie stattdessen HTTPS. Möchten Sie dennoch fortfahren?</string>
     <string name="download_auth_failed">Download fehlgeschlagen. Fehler bei der Authentifizierung.</string>
     <string name="logout">Abmelden</string>
+    <string name="about">Über</string>
+    <string name="label_libraries">Manhattan nutzt ein paar Bibliotheken, um seine Funktionen bereitstellen zu können.</string>
+    <string name="button_license">Lizenz anzeigen</string>
 </resources>
