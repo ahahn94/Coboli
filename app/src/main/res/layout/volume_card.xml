@@ -90,7 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
-                    android:fontFamily="@font/fontawesome_solid"
+                    android:fontFamily="@font/font_fontawesome_solid"
                     android:paddingStart="@dimen/padding_large"
                     android:paddingTop="@dimen/padding_large"
                     android:paddingEnd="@dimen/padding_large"

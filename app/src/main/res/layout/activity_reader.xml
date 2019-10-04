@@ -80,7 +80,7 @@
                     android:layout_gravity="end"
                     android:layout_margin="@dimen/margin_small"
                     android:background="?android:attr/selectableItemBackground"
-                    android:fontFamily="@font/fontawesome_solid"
+                    android:fontFamily="@font/font_fontawesome_solid"
                     android:minWidth="48dp"
                     android:minHeight="48dp"
                     android:text="@string/fa_ellipsis_v"
