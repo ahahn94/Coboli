@@ -3,10 +3,10 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:id="@+id/ActionJumpToCover"
+            android:id="@+id/action_jump_to_cover"
             android:title="@string/jump_to_cover"
             app:showAsAction="never" />
     <item
-            android:id="@+id/ActionPagesOverview"
+            android:id="@+id/action_pages_overview"
             android:title="@string/pages_overview" />
 </menu>

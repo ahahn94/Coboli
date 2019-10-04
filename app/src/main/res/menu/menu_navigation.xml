@@ -7,24 +7,24 @@
             android:checkableBehavior="single"
             android:visible="true">
         <item
-                android:id="@+id/item_volumes"
+                android:id="@+id/action_volumes"
                 android:title="@string/volumes" />
         <item
-                android:id="@+id/item_publishers"
+                android:id="@+id/action_publishers"
                 android:title="@string/publishers" />
         <item
-                android:id="@+id/item_downloaded"
+                android:id="@+id/action_downloaded"
                 android:title="@string/downloaded" />
         <item
-                android:id="@+id/item_reading"
+                android:id="@+id/action_reading"
                 android:title="@string/reading_list" />
     </group>
     <group android:checkableBehavior="none">
         <item
-                android:id="@+id/item_about"
+                android:id="@+id/action_about"
                 android:title="@string/about" />
         <item
-                android:id="@+id/item_logout"
+                android:id="@+id/action_logout"
                 android:title="@string/logout" />
     </group>
 </menu>

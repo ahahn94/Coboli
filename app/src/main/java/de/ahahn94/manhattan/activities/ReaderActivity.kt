@@ -141,14 +141,14 @@ class ReaderActivity : AppCompatActivity() {
             menu.setOnMenuItemClickListener {
                 when (it.itemId) {
 
-                    R.id.ActionJumpToCover -> {
+                    R.id.action_jump_to_cover -> {
                         // Jump to the cover page.
                         pagesContainer.currentItem = 0
                         menuFrame.visibility = View.INVISIBLE
                         true
                     }
 
-                    R.id.ActionPagesOverview -> {
+                    R.id.action_pages_overview -> {
                         // Show the pages overview.
                         val transaction = supportFragmentManager.beginTransaction()
                         val dialog = PagesOverviewFragment(

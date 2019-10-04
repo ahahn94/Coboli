@@ -23,7 +23,7 @@ class VolumePopupMenu(
     init {
 
         // Load the menu.
-        menuInflater.inflate(R.menu.volume_popup_menu, menu)
+        menuInflater.inflate(R.menu.menu_volume_popup, menu)
 
         // Bind actions to menu entries.
         setOnMenuItemClickListener {

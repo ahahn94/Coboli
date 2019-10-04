@@ -113,14 +113,14 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
                             ) == true
                         ) {
                             // Downloaded volumes.
-                            navigationView.setCheckedItem(R.id.item_downloaded)
+                            navigationView.setCheckedItem(R.id.action_downloaded)
                         } else {
                             // All volumes.
-                            navigationView.setCheckedItem(R.id.item_volumes)
+                            navigationView.setCheckedItem(R.id.action_volumes)
                         }
                     }
                     PublishersFragment::class.java -> {
-                        navigationView.setCheckedItem(R.id.item_publishers)
+                        navigationView.setCheckedItem(R.id.action_publishers)
                     }
                 }
             } else {
@@ -133,16 +133,16 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
      * Inflate the main menu into the action bar.
      */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.action_bar_menu, menu)
+        menuInflater.inflate(R.menu.menu_action_bar, menu)
 
         // bind searchable config to SearchView.
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        (menu?.findItem(R.id.ActionSearch)?.actionView as SearchView).apply {
+        (menu?.findItem(R.id.action_search)?.actionView as SearchView).apply {
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
 
         // Enable the sync button if connected, else disable.
-        val syncButton = menu.findItem(R.id.ActionSync)
+        val syncButton = menu.findItem(R.id.action_sync)
         OnlineStatusManager.connectionStatus.observe(this, Observer {
             if (it) {
                 syncButton.icon.alpha = 255
@@ -161,7 +161,7 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
      */
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
-            R.id.ActionSync -> {
+            R.id.action_sync -> {
                 startActivity(Intent(this, SyncActivity::class.java))
                 true
             }
@@ -180,20 +180,20 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
             /*
             Top section.
              */
-            R.id.item_volumes -> {
+            R.id.action_volumes -> {
                 // Show the volumes overview.
                 val fragment = VolumesFragment()
                 replaceFragmentBackStack(fragment)
 
             }
 
-            R.id.item_publishers -> {
+            R.id.action_publishers -> {
                 // Show the publishers overview.
                 val fragment = PublishersFragment()
                 replaceFragmentBackStack(fragment)
             }
 
-            R.id.item_downloaded -> {
+            R.id.action_downloaded -> {
                 // Show the downloaded volumes overview.
                 val fragment = VolumesFragment()
                 val bundle = Bundle()
@@ -202,7 +202,7 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
                 replaceFragmentBackStack(fragment)
             }
 
-            R.id.item_reading -> {
+            R.id.action_reading -> {
                 // Show the reading list.
                 val fragment = IssuesFragment()
                 val bundle = Bundle()
@@ -214,13 +214,13 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
             /*
             Bottom section.
              */
-            R.id.item_about -> {
+            R.id.action_about -> {
                 // Show the AboutFragment.
                 val fragment = AboutFragment()
                 replaceFragmentBackStack(fragment)
             }
 
-            R.id.item_logout -> {
+            R.id.action_logout -> {
                 // Logout from Manhattan. Deletes credentials and starts LoginActivity.
                 with(Credentials.getInstance()) {
                     username = ""
@@ -244,7 +244,7 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
         bundle.putString(VolumesFragment.SEARCH_QUERY, query)
         fragment.arguments = bundle
         replaceFragmentBackStack(fragment)
-        navigationView.setCheckedItem(R.id.item_volumes)
+        navigationView.setCheckedItem(R.id.action_volumes)
     }
 
     /**
@@ -253,7 +253,7 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
      */
     private fun showDefaultFragment() {
         replaceFragment(VolumesFragment())
-        navigationView.setCheckedItem(R.id.item_volumes)
+        navigationView.setCheckedItem(R.id.action_volumes)
     }
 
     /**

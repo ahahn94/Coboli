@@ -34,7 +34,7 @@ class IssuePopupMenu(
     init {
 
         // Load the menu.
-        menuInflater.inflate(R.menu.issue_popup_menu, menu)
+        menuInflater.inflate(R.menu.menu_issue_popup, menu)
 
         // Show download/delete/open/share actions based on current caching status.
         if (issue?.isCached == "1") {

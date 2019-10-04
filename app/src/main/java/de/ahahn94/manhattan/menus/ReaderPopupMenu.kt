@@ -17,6 +17,6 @@ class ReaderPopupMenu(
     init {
 
         // Load the menu.
-        menuInflater.inflate(R.menu.reader_popup_menu, menu)
+        menuInflater.inflate(R.menu.menu_reader_popup, menu)
     }
 }

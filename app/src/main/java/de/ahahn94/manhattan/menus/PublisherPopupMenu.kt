@@ -21,7 +21,7 @@ class PublisherPopupMenu(
     init {
 
         // Load the menu.
-        menuInflater.inflate(R.menu.publisher_popup_menu, menu)
+        menuInflater.inflate(R.menu.menu_publisher_popup, menu)
 
         // Bind actions to menu entries.
         setOnMenuItemClickListener {
