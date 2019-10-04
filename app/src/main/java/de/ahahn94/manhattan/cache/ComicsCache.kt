@@ -40,14 +40,12 @@ class ComicsCache {
                 instance = File(ContextProvider.getApplicationContext().filesDir, COMICS_CACHE_PATH)
                 instance.mkdirs()
             }
-            if (!this::comicLibComics.isInitialized) {
-                val serverAddress =
-                    Preferences.getInstance().getString(
-                        Preferences.SERVER_ADDRESS_KEY,
-                        ""
-                    ) replaceNull ""
-                comicLibComics = ComicLibComics(serverAddress)
-            }
+            val serverAddress =
+                Preferences.getInstance().getString(
+                    Preferences.SERVER_ADDRESS_KEY,
+                    ""
+                ) replaceNull ""
+            comicLibComics = ComicLibComics(serverAddress)
         }
 
         /**
@@ -269,8 +267,6 @@ class ComicsCache {
                 } else {
                     Logging.logInfo("Could not delete comic file of issue $issueID! File does not exist.")
                 }
-            } else {
-                Logging.logError("Could not delete comic file of issue $issueID! File is not on database.")
             }
         }
 

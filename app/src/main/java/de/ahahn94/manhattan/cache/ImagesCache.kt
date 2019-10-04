@@ -31,14 +31,12 @@ class ImagesCache {
                 instance = File(ContextProvider.getApplicationContext().filesDir, IMAGE_CACHE_PATH)
                 instance.mkdirs()
             }
-            if (!this::comicLibImages.isInitialized) {
-                val serverAddress =
-                    Preferences.getInstance().getString(
-                        Preferences.SERVER_ADDRESS_KEY,
-                        ""
-                    ) replaceNull ""
-                comicLibImages = ComicLibImages(serverAddress)
-            }
+            val serverAddress =
+                Preferences.getInstance().getString(
+                    Preferences.SERVER_ADDRESS_KEY,
+                    ""
+                ) replaceNull ""
+            comicLibImages = ComicLibImages(serverAddress)
         }
 
         /**
@@ -71,7 +69,7 @@ class ImagesCache {
          * Takes the API URL of an image file.
          * Returns the absolute path if the file exists or null if not.
          */
-        fun getImageFilePath(imageURL : String): String? {
+        fun getImageFilePath(imageURL: String): String? {
             val fileName = imageURL.split("/").last()
             val file = File(getInstance(), fileName)
             return if (file.exists()) file.absolutePath else null

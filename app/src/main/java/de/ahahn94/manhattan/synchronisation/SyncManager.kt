@@ -34,17 +34,16 @@ class SyncManager {
         private const val SYNC_MANAGER_WORK_TAG = "ManhattanSyncManager"
 
         /**
-         * Initialize comicLibApi and database if necessary.
+         * Initialize comicLibApi, and database if necessary.
          */
         fun init() {
-            if (!this::comicLibApi.isInitialized) {
-                comicLibApi = ComicLibAPI(
-                    Preferences.getInstance().getString(
-                        Preferences.SERVER_ADDRESS_KEY,
-                        ""
-                    ) replaceNull ""
-                )
-            }
+            comicLibApi = ComicLibAPI(
+                Preferences.getInstance().getString(
+                    Preferences.SERVER_ADDRESS_KEY,
+                    ""
+                ) replaceNull ""
+            )
+
             if (!this::database.isInitialized) {
                 database = Database.getInstance()
             }
