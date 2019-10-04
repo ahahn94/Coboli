@@ -95,7 +95,7 @@ class VolumesAdapter(
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VolumeDatasetHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.volume_card, parent, false)
+            .inflate(R.layout.fragment_card_volume, parent, false)
         return VolumeDatasetHolder(fragmentManager, activity, cachedOnly, view)
     }
 
@@ -114,7 +114,7 @@ class VolumesAdapter(
         var volume: CachedVolumesView? = null
 
         // UI elements.
-        private val volumeCard: CardView = itemView.findViewById(R.id.volumeCard)
+        private val volumeCard: CardView = itemView.findViewById(R.id.card_volume)
         val imageProgress: ProgressBar
         val volumeImage: ImageView
         val volumeName: TextView
@@ -123,12 +123,12 @@ class VolumesAdapter(
         private val menuToggle: TextView
 
         init {
-            imageProgress = volumeCard.findViewById(R.id.imageProgress)
-            volumeImage = volumeCard.findViewById(R.id.volumeImage)
-            volumeName = volumeCard.findViewById(R.id.volumeName)
-            volumeIssuesCount = volumeCard.findViewById(R.id.volumeIssuesCount)
-            isReadBadge = volumeCard.findViewById(R.id.isReadBadge)
-            menuToggle = volumeCard.findViewById(R.id.menuToggle)
+            imageProgress = volumeCard.findViewById(R.id.progress_image)
+            volumeImage = volumeCard.findViewById(R.id.image_cover)
+            volumeName = volumeCard.findViewById(R.id.label_name)
+            volumeIssuesCount = volumeCard.findViewById(R.id.label_issues_count)
+            isReadBadge = volumeCard.findViewById(R.id.badge_is_read)
+            menuToggle = volumeCard.findViewById(R.id.button_menu)
 
             // Set OnClickListener on the card to navigate to the issues of the volume.
             volumeCard.setOnClickListener {

@@ -9,13 +9,13 @@
         android:theme="@style/AppTheme">
 
     <ImageView
-            android:id="@+id/appIcon"
+            android:id="@+id/image_app_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@mipmap/manhattan_icon_round" />
 
     <TextView
-            android:id="@+id/appName"
+            android:id="@+id/label_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_small"

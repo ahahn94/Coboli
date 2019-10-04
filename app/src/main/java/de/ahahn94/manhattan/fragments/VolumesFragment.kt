@@ -45,7 +45,7 @@ class VolumesFragment : Fragment() {
     ): View? {
 
         // Load fragment layout.
-        val view = layoutInflater.inflate(R.layout.collection, container, false)
+        val view = layoutInflater.inflate(R.layout.fragment_recycler, container, false)
 
         // Get publisherID.
         val publisherID = arguments?.getString(PUBLISHER_ID_NAME) ?: ""
@@ -57,7 +57,7 @@ class VolumesFragment : Fragment() {
         val searchQuery = arguments?.getString(SEARCH_QUERY) ?: ""
 
         // Bind recyclerView.
-        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView = view.findViewById(R.id.recycler)
 
         // Get viewModel that contains the data for the fragment.
         viewModel = ViewModelProviders.of(

@@ -61,9 +61,9 @@ class LoginActivity : AppCompatActivity() {
             autofillManager = getSystemService(AutofillManager::class.java) as AutofillManager
         }
 
-        inputUsername = findViewById(R.id.LoginUsername)
-        inputPassword = findViewById(R.id.LoginPassword)
-        inputServerAddress = findViewById(R.id.LoginServerAddress)
+        inputUsername = findViewById(R.id.edit_username)
+        inputPassword = findViewById(R.id.edit_password)
+        inputServerAddress = findViewById(R.id.edit_server_address)
 
         // If server address in settings, autofill address.
         val serverAddressFromPreferences =

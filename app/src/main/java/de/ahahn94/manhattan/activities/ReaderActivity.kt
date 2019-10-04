@@ -61,10 +61,10 @@ class ReaderActivity : AppCompatActivity() {
         ).get(ReaderViewModel::class.java)
 
         // Bind layout elements.
-        loadingContainer = findViewById(R.id.LoadingComicContainer)
-        pagesContainer = findViewById(R.id.PagesContainer)
-        menuFrame = findViewById(R.id.MenuFrame)
-        menuButton = findViewById(R.id.MenuButton)
+        loadingContainer = findViewById(R.id.container_loading_comic)
+        pagesContainer = findViewById(R.id.pager_pages)
+        menuFrame = findViewById(R.id.frame_menu)
+        menuButton = findViewById(R.id.button_menu)
 
         val pages = viewModel.pages
 

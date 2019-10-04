@@ -35,10 +35,10 @@ class PublishersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Load fragment layout.
-        val view = layoutInflater.inflate(R.layout.collection, container, false)
+        val view = layoutInflater.inflate(R.layout.fragment_recycler, container, false)
 
         // Bind recyclerView.
-        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView = view.findViewById(R.id.recycler)
 
         // Get viewModel that contains the data for the fragment.
         viewModel = ViewModelProviders.of(this).get(PublishersViewModel::class.java)

@@ -101,7 +101,7 @@ class PagesOverviewAdapter(
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PageHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.page_card, parent, false)
+            .inflate(R.layout.fragment_card_page, parent, false)
         return PageHolder(view)
     }
 
@@ -111,10 +111,10 @@ class PagesOverviewAdapter(
     class PageHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
-        val pageCard: CardView = itemView.findViewById(R.id.PageCard)
-        val cardFrame: FrameLayout = itemView.findViewById(R.id.CardFrame)
-        val pageNumber: TextView = itemView.findViewById(R.id.PageNumber)
-        val pageImage: ImageView = itemView.findViewById(R.id.PageImage)
+        val pageCard: CardView = itemView.findViewById(R.id.card_page)
+        val cardFrame: FrameLayout = itemView.findViewById(R.id.frame_card)
+        val pageNumber: TextView = itemView.findViewById(R.id.label_page_number)
+        val pageImage: ImageView = itemView.findViewById(R.id.image_page)
 
         var bitmap: Bitmap? = null
         var number: Int = -1

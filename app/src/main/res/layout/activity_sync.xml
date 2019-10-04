@@ -14,7 +14,7 @@
             android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
-                android:id="@+id/syncCardView"
+                android:id="@+id/card_sync"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
@@ -27,7 +27,7 @@
                     android:orientation="vertical">
 
                 <TextView
-                        android:id="@+id/sync_message"
+                        android:id="@+id/label_sync"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
@@ -36,7 +36,7 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
                 <ProgressBar
-                        android:id="@+id/sync_progress"
+                        android:id="@+id/progress_sync"
                         style="?android:attr/progressBarStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

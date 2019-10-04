@@ -15,7 +15,7 @@
                 android:visibility="visible">
 
             <LinearLayout
-                    android:id="@+id/LoadingComicContainer"
+                    android:id="@+id/container_loading_comic"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/image_background"
@@ -23,7 +23,7 @@
                     android:visibility="visible">
 
                 <androidx.cardview.widget.CardView
-                        android:id="@+id/LoadingCardView"
+                        android:id="@+id/card_loading"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -37,7 +37,7 @@
                             android:orientation="vertical">
 
                         <TextView
-                                android:id="@+id/LoadingComicMessage"
+                                android:id="@+id/label_comic_loading"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/padding_small"
@@ -46,7 +46,7 @@
                                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
                         <ProgressBar
-                                android:id="@+id/LoadingComicProgress"
+                                android:id="@+id/progress_comic_loading"
                                 style="?android:attr/progressBarStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             </LinearLayout>
 
             <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/PagesContainer"
+                    android:id="@+id/pager_pages"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone">
@@ -67,14 +67,14 @@
         </LinearLayout>
 
         <FrameLayout
-                android:id="@+id/MenuFrame"
+                android:id="@+id/frame_menu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#65343A40"
                 android:visibility="invisible">
 
             <Button
-                    android:id="@+id/MenuButton"
+                    android:id="@+id/button_menu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"

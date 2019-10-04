@@ -19,7 +19,7 @@
                 android:layout_weight="1" />
 
         <ImageView
-                android:id="@+id/login_logo"
+                android:id="@+id/image_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_login"
@@ -38,7 +38,7 @@
     </LinearLayout>
 
     <TextView
-            android:id="@+id/LoginTitle"
+            android:id="@+id/label_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/login_login"
@@ -47,7 +47,7 @@
             android:textColor="@color/colorTextLight" />
 
     <EditText
-            android:id="@+id/LoginUsername"
+            android:id="@+id/edit_username"
             style="@style/Widget.AppCompat.EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <EditText
-            android:id="@+id/LoginPassword"
+            android:id="@+id/edit_password"
             style="@style/Widget.AppCompat.EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <EditText
-            android:id="@+id/LoginServerAddress"
+            android:id="@+id/edit_server_address"
             style="@style/Widget.AppCompat.EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <Button
-            android:id="@+id/LoginButton"
+            android:id="@+id/button_login"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

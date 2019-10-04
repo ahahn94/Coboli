@@ -64,7 +64,7 @@ class CertificateValidationDialog :
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.trust_certificate_layout, container, false)
+        return inflater.inflate(R.layout.fragment_trust_certificate, container, false)
     }
 
     /**
@@ -126,27 +126,27 @@ class CertificateValidationDialog :
 
         // Fill TextViews with certificate details.
 
-        this.view?.findViewById<TextView>(R.id.IssuedToCNValue)?.text =
+        this.view?.findViewById<TextView>(R.id.text_issued_to_cn)?.text =
             certificateDetails.subjectCN
-        this.view?.findViewById<TextView>(R.id.IssuedToOValue)
+        this.view?.findViewById<TextView>(R.id.text_issued_to_o)
             ?.text = certificateDetails.subjectO
-        this.view?.findViewById<TextView>(R.id.IssuedToOUValue)?.text =
+        this.view?.findViewById<TextView>(R.id.text_issued_to_ou)?.text =
             certificateDetails.subjectOU
 
-        this.view?.findViewById<TextView>(R.id.IssuedByCNValue)?.text =
+        this.view?.findViewById<TextView>(R.id.text_issued_by_cn)?.text =
             certificateDetails.issuerCN
-        this.view?.findViewById<TextView>(R.id.IssuedByOValue)?.text =
+        this.view?.findViewById<TextView>(R.id.text_issued_by_o)?.text =
             certificateDetails.issuerO
-        this.view?.findViewById<TextView>(R.id.IssuedByOUValue)?.text =
+        this.view?.findViewById<TextView>(R.id.text_issued_by_ou)?.text =
             certificateDetails.issuerOU
 
-        this.view?.findViewById<TextView>(R.id.ValidityFromValue)?.text =
+        this.view?.findViewById<TextView>(R.id.text_valid_from)?.text =
             certificateDetails.validFrom
-        this.view?.findViewById<TextView>(R.id.ValidityUntilValue)?.text =
+        this.view?.findViewById<TextView>(R.id.text_label_until)?.text =
             certificateDetails.validUntil
 
-        this.view?.findViewById<Button>(R.id.No)?.setOnClickListener(noListener)
-        this.view?.findViewById<Button>(R.id.Yes)?.setOnClickListener(yesListener)
+        this.view?.findViewById<Button>(R.id.button_no)?.setOnClickListener(noListener)
+        this.view?.findViewById<Button>(R.id.button_yes)?.setOnClickListener(yesListener)
 
     }
 

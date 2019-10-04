@@ -40,10 +40,10 @@ class PagesOverviewFragment(
         savedInstanceState: Bundle?
     ): View? {
         // Load fragment layout.
-        val view = inflater.inflate(R.layout.collection, container, false)
+        val view = inflater.inflate(R.layout.fragment_recycler, container, false)
 
         // Bind recyclerView.
-        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView = view.findViewById(R.id.recycler)
 
         recyclerView.layoutManager = GridLayoutManager(context, 4)
 

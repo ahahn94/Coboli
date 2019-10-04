@@ -11,7 +11,7 @@
         <TextView
                 android:text="@string/trust_certificate_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/Title"
+                android:layout_height="wrap_content" android:id="@+id/label_title"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:textStyle="bold"
                 android:textAlignment="center" android:textAllCaps="false"
                 android:layout_marginLeft="@dimen/margin_login_small"
@@ -19,7 +19,7 @@
         <TextView
                 android:text="@string/trust_certificate_details"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/CertificateDetails"
+                android:layout_height="wrap_content" android:id="@+id/label_certificate_details"
                 android:layout_marginLeft="@dimen/margin_login_small"
                 android:layout_marginRight="@dimen/margin_login_small" android:textAlignment="center"
                 android:textStyle="bold"/>
@@ -35,100 +35,100 @@
             <TextView
                     android:text="@string/trust_certificate_issued_to"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/IssuedTo"
+                    android:layout_height="wrap_content" android:id="@+id/label_issued_to"
                     android:textStyle="bold"
             />
             <TextView
                     android:text="@string/trust_certificate_common_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/IssuedToCNLabel"
+                    android:id="@+id/label_issued_to_cn"
             />
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/IssuedToCNValue"
+                    android:id="@+id/text_issued_to_cn"
             />
             <TextView
                     android:text="@string/trust_certificate_organization"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/IssuedToOLabel"
+                    android:id="@+id/label_issued_to_o"
             />
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/IssuedToOValue"
+                    android:id="@+id/text_issued_to_o"
             />
             <TextView
                     android:text="@string/trust_certificate_organizational_unit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/IssuedToOULabel"
+                    android:id="@+id/label_issued_to_ou"
             />
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/IssuedToOUValue"
+                    android:id="@+id/text_issued_to_ou"
             />
             <TextView
                     android:text="@string/trust_certificate_issued_by"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/IssuedBy"
+                    android:layout_height="wrap_content" android:id="@+id/label_issued_by"
                     android:textStyle="bold"
             />
             <TextView
                     android:text="@string/trust_certificate_common_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/IssuedByCNLabel"
+                    android:id="@+id/label_issued_by_cn"
             />
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/IssuedByCNValue"
+                    android:id="@+id/text_issued_by_cn"
             />
             <TextView
                     android:text="@string/trust_certificate_organization"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/IssuedByOLabel"
+                    android:id="@+id/label_issued_by_o"
             />
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/IssuedByOValue"
+                    android:id="@+id/text_issued_by_o"
             />
             <TextView
                     android:text="@string/trust_certificate_organizational_unit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/IssuedByOULabel"
+                    android:id="@+id/label_issued_by_ou"
             />
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/IssuedByOUValue"
+                    android:id="@+id/text_issued_by_ou"
             />
             <TextView
                     android:text="@string/trust_certificate_validity"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/Validity"
+                    android:layout_height="wrap_content" android:id="@+id/label_validity"
                     android:textStyle="bold"/>
             <TextView
                     android:text="@string/trust_certificate_valid_from"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/ValidityFromLabel"/>
+                    android:layout_height="wrap_content" android:id="@+id/label_valid_from"/>
             <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/ValidityFromValue"/>
+                    android:layout_height="wrap_content" android:id="@+id/text_valid_from"/>
             <TextView
                     android:text="@string/trust_certificate_valid_until"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/ValidityUntilLabel"/>
+                    android:layout_height="wrap_content" android:id="@+id/label_valid_until"/>
             <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/ValidityUntilValue"/>
+                    android:layout_height="wrap_content" android:id="@+id/text_label_until"/>
         </LinearLayout>
     </ScrollView>
     <LinearLayout
@@ -138,7 +138,7 @@
         <TextView
                 android:text="@string/trust_certificate_question"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/Question"
+                android:layout_height="wrap_content" android:id="@+id/label_question"
                 android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:layout_marginLeft="@dimen/margin_login_small"
@@ -150,12 +150,12 @@
             <Button
                     android:text="@string/trust_certificate_button_yes"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/Yes"
+                    android:layout_height="wrap_content" android:id="@+id/button_yes"
             />
             <Button
                     android:text="@string/trust_certificate_button_no"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/No"
+                    android:layout_height="wrap_content" android:id="@+id/button_no"
             />
         </LinearLayout>
     </LinearLayout>

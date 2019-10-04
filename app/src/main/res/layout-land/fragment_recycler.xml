@@ -7,7 +7,7 @@
         android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbarSize="10dp"
@@ -18,5 +18,5 @@
             app:fastScrollVerticalTrackDrawable="@drawable/drawable_line"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="4"
-            tools:listitem="@layout/volume_card" />
+            tools:listitem="@layout/fragment_card_volume" />
 </LinearLayout>

@@ -39,7 +39,7 @@ class ItemDetailFragment() :
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        val view = inflater.inflate(R.layout.item_detail, container, false)
+        val view = inflater.inflate(R.layout.fragment_item_detail, container, false)
         return view
     }
 
@@ -55,7 +55,7 @@ class ItemDetailFragment() :
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         // Add OnClickListener to the closeButton. Makes the closeButton close the DialogFragment.
-        view.findViewById<ImageView>(R.id.closeButton).setOnClickListener {
+        view.findViewById<ImageView>(R.id.button_close).setOnClickListener {
             dismiss()
         }
         fillView()
@@ -88,10 +88,10 @@ class ItemDetailFragment() :
      * Fill the view of the fragment with the content.
      */
     private fun fillView() {
-        val imageProgress = view?.findViewById<ProgressBar>(R.id.imageProgress)
-        val imageView = view?.findViewById<ImageView>(R.id.DetailImage)
-        val nameTextView = view?.findViewById<TextView>(R.id.DetailName)
-        val descriptionTextView = view?.findViewById<TextView>(R.id.DetailDescription)
+        val imageProgress = view?.findViewById<ProgressBar>(R.id.progress_image)
+        val imageView = view?.findViewById<ImageView>(R.id.image_detail)
+        val nameTextView = view?.findViewById<TextView>(R.id.label_name)
+        val descriptionTextView = view?.findViewById<TextView>(R.id.text_description)
 
         // Load image in background.
         if (imageView != null && imageProgress != null) {

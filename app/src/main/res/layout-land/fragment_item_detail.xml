@@ -8,7 +8,7 @@
         android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-            android:id="@+id/CollectionDetailCard"
+            android:id="@+id/card_item_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_login"
@@ -24,7 +24,7 @@
                     android:layout_height="match_parent">
 
                 <ImageView
-                        android:id="@+id/closeButton"
+                        android:id="@+id/button_close"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|top"
@@ -33,14 +33,23 @@
                         android:backgroundTint="@color/colorPrimaryDarkTransparent"
                         android:gravity="center" />
 
+            </FrameLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
                 <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:orientation="horizontal">
 
                         <Space
@@ -49,7 +58,7 @@
                                 android:layout_weight="1" />
 
                         <ProgressBar
-                                android:id="@+id/imageProgress"
+                                android:id="@+id/progress_image"
                                 style="?android:attr/progressBarStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -58,11 +67,13 @@
                                 android:maxHeight="@android:dimen/thumbnail_height"/>
 
                         <ImageView
-                                android:id="@+id/DetailImage"
+                                android:id="@+id/image_detail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/margin_small"
+                                android:layout_weight="1"
                                 android:adjustViewBounds="true"
+                                android:cropToPadding="false"
                                 android:maxWidth="@android:dimen/thumbnail_width"
                                 android:maxHeight="@android:dimen/thumbnail_height"
                                 android:scaleType="fitXY"
@@ -76,47 +87,47 @@
                     </LinearLayout>
 
                     <TextView
-                            android:id="@+id/DetailName"
+                            android:id="@+id/label_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/margin_small"
                             android:layout_marginRight="@dimen/margin_small"
+                            android:layout_weight="2"
                             android:textAlignment="center"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             tools:text="@sample/sampleVolumes.json/data/volumeName" />
 
                 </LinearLayout>
 
-            </FrameLayout>
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                <ScrollView
+                <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:visibility="visible">
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <LinearLayout
+                    <ScrollView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:layout_height="match_parent"
+                            android:visibility="visible">
 
-                        <TextView
-                                android:id="@+id/DetailDescription"
+                        <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_small"
-                                android:layout_marginRight="@dimen/margin_small"
-                                android:text=""
-                                android:textAlignment="textStart"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                                tools:text="@tools:sample/lorem/random" />
-                    </LinearLayout>
-                </ScrollView>
+                                android:orientation="vertical">
+
+                            <TextView
+                                    android:id="@+id/text_description"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/margin_small"
+                                    android:layout_marginRight="@dimen/margin_small"
+                                    android:text=""
+                                    android:textAlignment="textStart"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                                    tools:text="@tools:sample/lorem/random" />
+                        </LinearLayout>
+                    </ScrollView>
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

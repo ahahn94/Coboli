@@ -50,8 +50,8 @@ class PagesAdapter(val context: Context, val menuFrame: FrameLayout, var list: L
      */
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val bitmap = BitmapFactory.decodeFile(list[position])
-        val view = LayoutInflater.from(context).inflate(R.layout.page, null)
-        val imageView = view.findViewById<ImageView>(R.id.PageImage)
+        val view = LayoutInflater.from(context).inflate(R.layout.fragment_comic_page, null)
+        val imageView = view.findViewById<ImageView>(R.id.image_page)
         imageView.setImageBitmap(bitmap)
         container.addView(view)
         imageView.setOnClickListener {

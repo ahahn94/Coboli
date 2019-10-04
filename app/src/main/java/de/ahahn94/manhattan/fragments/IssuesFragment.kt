@@ -44,7 +44,7 @@ class IssuesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Load fragment layout.
-        val view = inflater.inflate(R.layout.collection, container, false)
+        val view = inflater.inflate(R.layout.fragment_recycler, container, false)
 
         // Get volumeID.
         val volumeID = arguments?.getString(VOLUME_ID_NAME) ?: ""
@@ -56,7 +56,7 @@ class IssuesFragment : Fragment() {
         val readingList = arguments?.getBoolean(READING_LIST, false) ?: false
 
         // Bind recyclerView.
-        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView = view.findViewById(R.id.recycler)
 
         // Get viewModel that contains the data for the fragment.
         viewModel = ViewModelProviders.of(

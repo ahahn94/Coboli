@@ -51,17 +51,17 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
         setContentView(R.layout.activity_toolbar)
 
         // Bind container for activity content.
-        container = findViewById(R.id.container)
+        container = findViewById(R.id.frame_fragments)
 
         // Use toolbar as ActionBar.
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        navigationView = findViewById(R.id.navigationView)
+        navigationView = findViewById(R.id.navigation)
         navigationView.setNavigationItemSelectedListener(this)
 
         // Set navigation drawer.
-        drawer = findViewById(R.id.drawerLayout)
+        drawer = findViewById(R.id.drawer)
         val drawerToggle = ActionBarDrawerToggle(
             this,
             drawer,
@@ -104,7 +104,7 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
                 supportFragmentManager.popBackStackImmediate()
 
                 // Set the navigationView checked item to match the displayed collection.
-                val currentFragment = supportFragmentManager.findFragmentById(R.id.container)
+                val currentFragment = supportFragmentManager.findFragmentById(R.id.frame_fragments)
                 when (currentFragment?.javaClass) {
                     VolumesFragment::class.java -> {
                         if (currentFragment.arguments?.getBoolean(
@@ -260,7 +260,7 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
      * Replace the fragment inside the FrameLayout container with another.
      */
     override fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(R.id.container, fragment).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.frame_fragments, fragment).commit()
     }
 
     /**
@@ -270,7 +270,7 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
      */
     override fun replaceFragmentBackStack(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, fragment)
+        transaction.replace(R.id.frame_fragments, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
     }

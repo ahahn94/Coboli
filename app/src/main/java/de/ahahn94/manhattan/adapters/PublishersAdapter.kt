@@ -85,7 +85,7 @@ class PublishersAdapter(
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PublisherHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.publisher_card, parent, false)
+            .inflate(R.layout.fragment_card_publisher, parent, false)
         return PublisherHolder(fragmentManager, activity, view)
     }
 
@@ -104,7 +104,7 @@ class PublishersAdapter(
         var publisherEntity: PublisherEntity? = null
 
         // UI elements.
-        private val publisherCard: CardView = itemView.findViewById(R.id.publisherCard)
+        private val publisherCard: CardView = itemView.findViewById(R.id.card_publisher)
         val imageProgress : ProgressBar
         val publisherImage: ImageView
         val publisherName: TextView
@@ -112,11 +112,11 @@ class PublishersAdapter(
         private val menuToggle: TextView
 
         init {
-            imageProgress = publisherCard.findViewById(R.id.imageProgress)
-            publisherImage = publisherCard.findViewById(R.id.publisherImage)
-            publisherName = publisherCard.findViewById(R.id.publisherName)
-            publisherVolumesCount = publisherCard.findViewById(R.id.publisherVolumesCount)
-            menuToggle = publisherCard.findViewById(R.id.menuToggle)
+            imageProgress = publisherCard.findViewById(R.id.progress_image)
+            publisherImage = publisherCard.findViewById(R.id.image_logo)
+            publisherName = publisherCard.findViewById(R.id.label_name)
+            publisherVolumesCount = publisherCard.findViewById(R.id.label_volumes_count)
+            menuToggle = publisherCard.findViewById(R.id.button_menu)
 
             // Set OnClickListener on the card to navigate to the volumes of the publisher.
             publisherCard.setOnClickListener {

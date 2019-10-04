@@ -91,7 +91,7 @@ class IssuesAdapter(
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IssueDatasetHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.issue_card, parent, false)
+            .inflate(R.layout.fragment_card_issue, parent, false)
         return IssueDatasetHolder(fragmentManager, view)
     }
 
@@ -106,7 +106,7 @@ class IssuesAdapter(
         var issue: CachedIssuesView? = null
 
         // UI elements.
-        private val issueCard: CardView = itemView.findViewById(R.id.issueCard)
+        private val issueCard: CardView = itemView.findViewById(R.id.card_issue)
         val issueImage: ImageView
         val imageProgress : ProgressBar
         val issueName: TextView
@@ -115,12 +115,12 @@ class IssuesAdapter(
         private val menuToggle: TextView
 
         init {
-            imageProgress = issueCard.findViewById(R.id.imageProgress)
-            issueImage = issueCard.findViewById(R.id.issueImage)
-            issueName = issueCard.findViewById(R.id.issueName)
-            isReadBadge = issueCard.findViewById(R.id.isReadBadge)
-            isCloudBadge = issueCard.findViewById(R.id.isCloudBadge)
-            menuToggle = issueCard.findViewById(R.id.menuToggle)
+            imageProgress = issueCard.findViewById(R.id.progress_image)
+            issueImage = issueCard.findViewById(R.id.image_cover)
+            issueName = issueCard.findViewById(R.id.label_name)
+            isReadBadge = issueCard.findViewById(R.id.badge_is_read)
+            isCloudBadge = issueCard.findViewById(R.id.badge_is_cloud)
+            menuToggle = issueCard.findViewById(R.id.button_menu)
 
             // Set OnClickListener on the menuToggle to show the popup menu.
             menuToggle.setOnClickListener {
