@@ -74,7 +74,7 @@ class DownloadClientFactory {
         private val builder = NotificationCompat.Builder(applicationContext, channelID)
             .setContentTitle(applicationContext.getString(R.string.app_name))
             .setContentText(Localization.getLocalizedString(R.string.download_progress))
-            .setSmallIcon(R.drawable.manhattan_logo_light)
+            .setSmallIcon(R.drawable.ic_manhattan_logo_light)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setContentIntent(pendingIntent)
 
