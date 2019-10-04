@@ -7,9 +7,9 @@
 
     <application
             android:allowBackup="false"
-            android:icon="@mipmap/manhattan_icon"
+            android:icon="@mipmap/ic_manhattan_logo"
             android:label="@string/app_name"
-            android:roundIcon="@mipmap/manhattan_icon_round"
+            android:roundIcon="@mipmap/ic_manhattan_logo_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:usesCleartextTraffic="true">

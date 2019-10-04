@@ -45,7 +45,7 @@ class ThumbnailsLiveData(
      */
     private fun loadDummy(): Bitmap? {
         val drawable =
-            ContextProvider.getApplicationContext().getDrawable(R.mipmap.manhattan_icon_round)!!
+            ContextProvider.getApplicationContext().getDrawable(R.mipmap.ic_manhattan_logo_round)!!
 
         val bitmap = Bitmap.createBitmap(
             drawable.intrinsicWidth,

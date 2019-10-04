@@ -24,7 +24,7 @@
                 android:maxWidth="@android:dimen/thumbnail_width"
                 android:maxHeight="@android:dimen/thumbnail_height"
                 android:scaleType="fitXY"
-                app:srcCompat="@mipmap/manhattan_icon" />
+                app:srcCompat="@mipmap/ic_manhattan_logo" />
 
         <TextView
                 android:id="@+id/label_app_name"
