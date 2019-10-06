@@ -1,6 +1,6 @@
 # Naming Conventions
 
-Manhattan uses the following naming conventions:
+Coboli uses the following naming conventions:
 
 ## File naming
 

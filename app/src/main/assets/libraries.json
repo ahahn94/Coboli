@@ -1,7 +1,7 @@
 {
   "App": {
-    "Name": "Manhattan",
-    "Copyright": "Copyright (c) 2019 André Hahn.\nManhattan is licensed under the GNU General Public License, Version 2.",
+    "Name": "Coboli",
+    "Copyright": "Copyright (c) 2019 André Hahn.\nCoboli is licensed under the GNU General Public License, Version 2.",
     "LicenseName": "GNU General Public License Version 2"
   },
   "Libraries": [

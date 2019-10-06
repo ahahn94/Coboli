@@ -12,7 +12,7 @@
             android:id="@+id/image_app_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/ic_manhattan_logo_round" />
+            app:srcCompat="@mipmap/ic_coboli_round" />
 
     <TextView
             android:id="@+id/label_app_name"

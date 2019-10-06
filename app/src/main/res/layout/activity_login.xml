@@ -28,7 +28,7 @@
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:maxHeight="@android:dimen/thumbnail_height"
-                app:srcCompat="@drawable/ic_manhattan_logo_light" />
+                app:srcCompat="@drawable/ic_coboli_logo_light" />
 
         <Space
                 android:layout_width="wrap_content"
