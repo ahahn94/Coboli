@@ -73,7 +73,9 @@ class AboutRepo {
         @SerializedName("LicenseName")
         val licenseName: String,
         @SerializedName("LicenseText")
-        var licenseText: String
+        var licenseText: String,
+        @SerializedName("ProjectWebsite")
+        val website: String
     )
 
     /**
@@ -82,6 +84,8 @@ class AboutRepo {
     data class Library(
         @SerializedName("Name")
         val name: String,
+        @SerializedName("ProjectWebsite")
+        val website: String,
         @SerializedName("LicenseName")
         val licenseName: String,
         @SerializedName("LicenseText")

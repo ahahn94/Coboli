@@ -66,4 +66,6 @@
     <string name="button_license">Show License</string>
     <string name="action_mark_read">Mark as read</string>
     <string name="action_mark_in_progress">Mark as in progress</string>
+    <string name="fa_globe_europe">\uf7a2</string>
+    <string name="toast_broken_url">Cannot open URL.</string>
 </resources>

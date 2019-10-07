@@ -1,10 +1,15 @@
 package de.ahahn94.coboli.adapters
 
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
@@ -19,7 +24,8 @@ import de.ahahn94.coboli.repositories.AboutRepo.Library
  * Provides the data for a RecyclerView to display.
  */
 class LibrariesAdapter(
-    private val fragmentManager: FragmentManager
+    private val fragmentManager: FragmentManager,
+    private val context: Context
 ) :
     ListAdapter<Library, LibrariesAdapter.LibraryHolder>(
         object : DiffUtil.ItemCallback<Library>() {
@@ -64,7 +70,7 @@ class LibrariesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LibraryHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_card_library, parent, false)
-        return LibraryHolder(fragmentManager, view)
+        return LibraryHolder(fragmentManager, view, context)
     }
 
     /**
@@ -73,7 +79,8 @@ class LibrariesAdapter(
      */
     class LibraryHolder(
         fragmentManager: FragmentManager,
-        itemView: View
+        itemView: View,
+        context: Context
     ) :
         RecyclerView.ViewHolder(itemView) {
 
@@ -82,6 +89,7 @@ class LibrariesAdapter(
 
         // UI elements.
         private val libraryCard: CardView = itemView.findViewById(R.id.card_library)
+        private val websiteButton: TextView = itemView.findViewById(R.id.button_website)
         val name: TextView
         val licenseName: TextView
 
@@ -98,6 +106,25 @@ class LibrariesAdapter(
                 dialog.arguments = bundle
                 val transaction = fragmentManager.beginTransaction()
                 dialog.show(transaction, LicenseFragment.TAG)
+            }
+
+            // Set OnClickListener on the button_website to open the project website in a web browser.
+            websiteButton.setOnClickListener {
+                val website = library?.website
+                if (website != null) {
+                    with(context) {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(website))
+                        try {
+                            startActivity(intent)
+                        } catch (exception: ActivityNotFoundException) {
+                            Toast.makeText(
+                                context,
+                                getString(R.string.toast_broken_url),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                }
             }
 
         }

@@ -64,4 +64,6 @@
     <string name="button_license">Lizenz anzeigen</string>
     <string name="action_mark_read">Als gelesen markieren</string>
     <string name="action_mark_in_progress">Als angelesen markieren</string>
+    <string name="fa_globe_europe">\uf7a2</string>
+    <string name="toast_broken_url">Kann die URL nicht öffnen.</string>
 </resources>

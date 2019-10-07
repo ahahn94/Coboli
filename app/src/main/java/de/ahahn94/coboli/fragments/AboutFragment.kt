@@ -1,10 +1,14 @@
 package de.ahahn94.coboli.fragments
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -50,10 +54,12 @@ class AboutFragment : Fragment() {
         // Bind the copyright notice and license button.
         val copyrightLabel = view.findViewById<TextView>(R.id.label_copyright)
         val licenseButton = view.findViewById<TextView>(R.id.button_license)
+        val websiteButton = view.findViewById<TextView>(R.id.button_website)
 
-        // Add data to copyrightLabel and licenseButton.
+        // Add data to copyrightLabel and buttons.
         viewModel.app.observe(this, Observer { changedAppInfo ->
             copyrightLabel.text = changedAppInfo.copyright
+
             licenseButton.setOnClickListener {
                 // Show LicenseFragment as a dialog.
                 val dialog = LicenseFragment()
@@ -62,6 +68,23 @@ class AboutFragment : Fragment() {
                 dialog.arguments = bundle
                 val transaction = fragmentManager!!.beginTransaction()
                 dialog.show(transaction, LicenseFragment.TAG)
+            }
+
+            // Set OnClickListener on the button_website to open the project website in a web browser.
+            websiteButton.setOnClickListener {
+                val website = changedAppInfo?.website
+                if (website != null) {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(website))
+                    try {
+                        startActivity(intent)
+                    } catch (exception: ActivityNotFoundException) {
+                        Toast.makeText(
+                            context,
+                            getString(R.string.toast_broken_url),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
             }
         })
 
@@ -77,7 +100,7 @@ class AboutFragment : Fragment() {
      */
     private fun bindData() {
         val list = viewModel.libraries
-        val adapter = LibrariesAdapter(fragmentManager!!)
+        val adapter = LibrariesAdapter(fragmentManager!!, this.context!!)
 
         // Set observer.
         list.observe(

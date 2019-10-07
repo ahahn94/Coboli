@@ -1,28 +1,34 @@
 {
   "App": {
     "Name": "Coboli",
+    "ProjectWebsite": "https://github.com/ahahn94/Coboli",
     "Copyright": "Copyright (c) 2019 André Hahn.\nCoboli is licensed under the GNU General Public License, Version 2.",
     "LicenseName": "GNU General Public License Version 2"
   },
   "Libraries": [
     {
       "Name": "Gson",
+      "ProjectWebsite": "https://github.com/google/gson",
       "LicenseName": "Apache License Version 2.0"
     },
     {
       "Name": "okHttp",
+      "ProjectWebsite": "https://square.github.io/okhttp/",
       "LicenseName": "Apache License Version 2.0"
     },
     {
       "Name": "Retrofit 2",
+      "ProjectWebsite": "https://square.github.io/retrofit/",
       "LicenseName": "Apache License Version 2.0"
     },
     {
       "Name": "junrar",
+      "ProjectWebsite": "https://github.com/edmund-wagner/junrar",
       "LicenseName": "UnRAR License"
     },
     {
       "Name": "FontAwesome 4",
+      "ProjectWebsite": "https://fontawesome.com/",
       "LicenseName": "SIL OFL 1.1 License"
     }
   ]
