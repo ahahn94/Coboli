@@ -63,25 +63,44 @@ class IssueRepo {
         /**
          * Update the ReadStatus of an issue on the database.
          */
-        fun switchReadStatus(issue: CachedIssuesView) {
+        fun switchReadStatus(issue: CachedIssuesView, newStatus: ReadStatus) {
 
             // Get new isRead.
-            val newStatus = when (issue.readStatus.isRead) {
-                "0" -> "1"
-                "1" -> "0"
-                else -> "1"
+            val newIsRead = when (newStatus) {
+                ReadStatus.UNREAD -> "0"
+                ReadStatus.IN_PROGRESS -> "0"
+                ReadStatus.READ -> "1"
             }
+
+            // Get new currentPage.
+            val newCurrentPage = when(newStatus){
+                ReadStatus.UNREAD -> "0"
+                ReadStatus.IN_PROGRESS -> when (issue.readStatus.currentPage){
+                    "0" -> "1"
+                    else -> issue.readStatus.currentPage
+                }
+                ReadStatus.READ -> issue.readStatus.currentPage
+            }
+
             // Get current UTC timestamp.
             val changed = Timestamps.nowToUtcTimestamp()
 
             // Update database in background task.
             AsyncTask.execute {
                 getDatabase().issuesDao()
-                    .updateReadStatus(issue.id, newStatus, issue.readStatus.currentPage, changed)
+                    .updateReadStatus(issue.id, newIsRead, newCurrentPage, changed)
             }
 
         }
     }
 
+    /**
+     * Enum class for the readStatus of issues.
+     */
+    enum class ReadStatus {
+        UNREAD,
+        IN_PROGRESS,
+        READ
+    }
 
 }

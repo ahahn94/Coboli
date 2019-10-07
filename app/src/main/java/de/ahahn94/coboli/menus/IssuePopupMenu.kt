@@ -51,6 +51,30 @@ class IssuePopupMenu(
             menu.findItem(R.id.action_share).isVisible = false
         }
 
+        // Show mark as unread/in progress/read based on current readStatus.
+        when (issue?.readStatus?.isRead) {
+            "0" -> {
+                // Not read or in progress.
+                if (issue.readStatus.currentPage == "0") {
+                    // Unread. Show mark as in progress & read.
+                    menu.findItem(R.id.action_read).isVisible = true
+                    menu.findItem(R.id.action_in_progress).isVisible = true
+                    menu.findItem(R.id.action_unread).isVisible = false
+                } else {
+                    // In progress. Show mark as unread & read.
+                    menu.findItem(R.id.action_read).isVisible = true
+                    menu.findItem(R.id.action_in_progress).isVisible = false
+                    menu.findItem(R.id.action_unread).isVisible = true
+                }
+            }
+            "1" -> {
+                // Is read. Show mark as unread & in progress.
+                menu.findItem(R.id.action_read).isVisible = false
+                menu.findItem(R.id.action_in_progress).isVisible = true
+                menu.findItem(R.id.action_unread).isVisible = true
+            }
+        }
+
         // Bind actions to menu entries.
         setOnMenuItemClickListener {
             when (it.itemId) {
@@ -68,10 +92,26 @@ class IssuePopupMenu(
                     true
                 }
 
-                // Mark the issues as (un-)read.
+                // Mark the issues as read.
                 R.id.action_read -> {
                     if (issue != null) {
-                        IssueRepo.switchReadStatus(issue)
+                        IssueRepo.switchReadStatus(issue, IssueRepo.ReadStatus.READ)
+                    }
+                    true
+                }
+
+                // Mark the issues as in progress.
+                R.id.action_in_progress -> {
+                    if (issue != null) {
+                        IssueRepo.switchReadStatus(issue, IssueRepo.ReadStatus.IN_PROGRESS)
+                    }
+                    true
+                }
+
+                // Mark the issues as unread.
+                R.id.action_unread -> {
+                    if (issue != null) {
+                        IssueRepo.switchReadStatus(issue, IssueRepo.ReadStatus.UNREAD)
                     }
                     true
                 }
@@ -161,7 +201,7 @@ class IssuePopupMenu(
                             // Create the activity.
                             val intent = Intent()
                             intent.action = Intent.ACTION_SEND
-                            intent.setType(mime)
+                            intent.type = mime
                             intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(uri.toString()))
                             intent.putExtra(Intent.EXTRA_SUBJECT, fileName)
                             intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share))

@@ -25,6 +25,20 @@ class VolumePopupMenu(
         // Load the menu.
         menuInflater.inflate(R.menu.menu_volume_popup, menu)
 
+        // Show mark as unread/read based on current readStatus.
+        when (volume?.readStatus?.isRead) {
+            "0" -> {
+                // Unread. Show mark as read.
+                menu.findItem(R.id.action_read).isVisible = true
+                menu.findItem(R.id.action_unread).isVisible = false
+            }
+            "1" -> {
+                // Is read. Show mark as unread.
+                menu.findItem(R.id.action_read).isVisible = false
+                menu.findItem(R.id.action_unread).isVisible = true
+            }
+        }
+
         // Bind actions to menu entries.
         setOnMenuItemClickListener {
             when (it.itemId) {
@@ -42,13 +56,22 @@ class VolumePopupMenu(
                     true
                 }
 
-                // Mark the volumes issues (and thus the volume) as (un-)read.
+                // Mark the volumes issues (and thus the volume) as read.
                 R.id.action_read -> {
                     if (volume != null) {
-                        VolumeRepo.switchReadStatus(volume)
+                        VolumeRepo.switchReadStatus(volume, VolumeRepo.ReadStatus.READ)
                     }
                     true
                 }
+
+                // Mark the volumes issues (and thus the volume) as unread.
+                R.id.action_unread -> {
+                    if (volume != null) {
+                        VolumeRepo.switchReadStatus(volume, VolumeRepo.ReadStatus.UNREAD)
+                    }
+                    true
+                }
+
 
                 // Else do nothing.
                 else -> {

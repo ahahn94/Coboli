@@ -30,7 +30,7 @@
     <string name="sync">Sync</string>
     <string name="show_details">Show Details</string>
     <string name="fa_ellipsis_v" translatable="false">\uf142</string>
-    <string name="switch_read">Mark as (un-)read</string>
+    <string name="action_mark_unread">Mark as unread</string>
     <string name="download">Download</string>
     <string name="download_progress">Downloading</string>
     <string name="download_complete">Download complete</string>
@@ -64,4 +64,6 @@
     <string name="about">About</string>
     <string name="label_libraries">Coboli makes use of some libraries to provide its features.</string>
     <string name="button_license">Show License</string>
+    <string name="action_mark_read">Mark as read</string>
+    <string name="action_mark_in_progress">Mark as in progress</string>
 </resources>

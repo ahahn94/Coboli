@@ -68,24 +68,31 @@ class VolumeRepo {
         /**
          * Update the ReadStatus of a volume on the database.
          */
-        fun switchReadStatus(volume: CachedVolumesView) {
+        fun switchReadStatus(volume: CachedVolumesView, newStatus : ReadStatus) {
 
             // Get new isRead.
-            val newStatus = when (volume.readStatus?.isRead ?: "0") {
-                "0" -> "1"
-                "1" -> "0"
-                else -> "1"
+            val newIsRead = when (newStatus) {
+                ReadStatus.UNREAD -> "0"
+                ReadStatus.READ -> "1"
             }
+
             // Get current UTC timestamp.
             val changed = Timestamps.nowToUtcTimestamp()
 
             // Update database in background task.
             AsyncTask.execute {
-                database.volumesDao().updateReadStatus(volume.id, newStatus, changed)
+                database.volumesDao().updateReadStatus(volume.id, newIsRead, changed)
             }
 
         }
     }
 
+    /**
+     * Enum class for the readStatus of volumes.
+     */
+    enum class ReadStatus{
+        UNREAD,
+        READ
+    }
 
 }

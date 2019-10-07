@@ -30,7 +30,7 @@
     <string name="badge_new">NEU</string>
     <string name="sync">Sync</string>
     <string name="show_details">Details</string>
-    <string name="switch_read">Als (un-)gelesen markieren</string>
+    <string name="action_mark_unread">Als ungelesen markieren</string>
     <string name="download">Herunterladen</string>
     <string name="download_progress">Download läuft</string>
     <string name="download_complete">Download abgeschlossen</string>
@@ -62,4 +62,6 @@
     <string name="about">Über</string>
     <string name="label_libraries">Coboli nutzt ein paar Bibliotheken, um seine Funktionen bereitstellen zu können.</string>
     <string name="button_license">Lizenz anzeigen</string>
+    <string name="action_mark_read">Als gelesen markieren</string>
+    <string name="action_mark_in_progress">Als angelesen markieren</string>
 </resources>
