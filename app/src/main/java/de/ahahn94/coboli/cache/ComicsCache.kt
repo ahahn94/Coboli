@@ -222,24 +222,34 @@ class ComicsCache {
             return connected
         }
 
-        override fun onPostExecute(result: SimpleStatus?) {
-            // If no connection, show error message.
-            if (result == SimpleStatus.NO_CONNECTION) {
-                Logging.logDebug("Could not download file of issue $issueID! No connection to the server!")
-                Toast.makeText(
-                    ContextProvider.getApplicationContext(),
-                    R.string.download_no_connection, Toast.LENGTH_LONG
-                ).show()
-            } else {
-                // Authorization failed. Show error message.
-                Logging.logDebug("Could not download file of issue $issueID! Authorization failed!")
-                Toast.makeText(
-                    ContextProvider.getApplicationContext(),
-                    R.string.download_auth_failed, Toast.LENGTH_LONG
-                ).show()
-                // As the download is running in the background, getting a context for launching
-                // the LoginActivity is unreliable. Login will be forced when next syncing or opening
-                // the app.
+        override fun onPostExecute(result: SimpleStatus) {
+            when (result) {
+                SimpleStatus.NO_CONNECTION -> {
+                    // If no connection, show error message.
+                    Logging.logDebug("Could not download file of issue $issueID! No connection to the server!")
+                    Toast.makeText(
+                        ContextProvider.getApplicationContext(),
+                        R.string.download_no_connection, Toast.LENGTH_LONG
+                    ).show()
+                }
+                SimpleStatus.UNAUTHORIZED -> {
+                    // Authorization failed. Show error message.
+                    Logging.logDebug("Could not download file of issue $issueID! Authorization failed!")
+                    Toast.makeText(
+                        ContextProvider.getApplicationContext(),
+                        R.string.download_auth_failed, Toast.LENGTH_LONG
+                    ).show()
+                    // As the download is running in the background, getting a context for launching
+                    // the LoginActivity is unreliable. Login will be forced when next syncing or opening
+                    // the app.
+                }
+                SimpleStatus.OK -> {
+                    // Everything ok. Show toast.
+                    Toast.makeText(
+                        ContextProvider.getApplicationContext(),
+                        R.string.toast_download_complete, Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
 

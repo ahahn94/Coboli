@@ -44,23 +44,28 @@ data class ComicLibComics(private val url: String) {
         val response = client.newCall(request).execute()
         return if (response.isSuccessful) {
 
-            // Get filename.
-            val extension = response.header("Content-Disposition")?.split(".")?.last()
-            val filename = "$issueID.$extension"
+            // Get filename from Content-Disposition header.
+            val header = response.header("Content-Disposition")
+            val headerParts = header?.split("; ")
+            val fileName = headerParts?.first { it.startsWith("filename") }
+                ?.split("=")?.drop(1)?.joinToString("=")
+            if (fileName != null) {
+                // Get input-/outputstreams.
+                val file = File(parent, fileName)
+                val outputStream = FileOutputStream(file, false)    // Overwrite if exists.
+                val inputStream = response.body?.byteStream()
 
-            // Get input-/outputstreams.
-            val file = File(parent, filename)
-            val outputStream = FileOutputStream(file, false)    // Overwrite if exists.
-            val inputStream = response.body?.byteStream()
+                // Download to file.
+                inputStream?.copyTo(outputStream)
 
-            // Download to file.
-            inputStream?.copyTo(outputStream)
+                // Close streams.
+                inputStream?.close()
+                outputStream.close()
 
-            // Close streams.
-            inputStream?.close()
-            outputStream.close()
-
-            ComicFile(file)
+                ComicFile(file)
+            } else {
+                null
+            }
         } else {
             null
         }

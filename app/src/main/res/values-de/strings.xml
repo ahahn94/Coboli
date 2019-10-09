@@ -66,4 +66,5 @@
     <string name="action_mark_in_progress">Als angelesen markieren</string>
     <string name="fa_globe_europe">\uf7a2</string>
     <string name="toast_broken_url">Kann die URL nicht öffnen.</string>
+    <string name="toast_download_complete">Download abgeschlossen.</string>
 </resources>
