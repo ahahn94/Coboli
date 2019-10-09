@@ -11,15 +11,6 @@ class IssueReadStatus(
 ) :
     ApiResponse<IssueReadStatus.Content?>(responseStatus, responseContent) {
 
-    companion object {
-
-        // Constants.
-        const val IS_READ_READ = "1"
-        const val IS_READ_UNREAD = "0"
-        const val CURRENT_PAGE_NO_PROGRESS = "0"
-
-    }
-
     /**
      * Data class for the content part of IssueReadStatus.
      */
@@ -27,9 +18,9 @@ class IssueReadStatus(
         @SerializedName("IssueID")
         val issueID: String,
         @SerializedName("IsRead")
-        var isRead: String,
+        var isRead: Boolean,
         @SerializedName("CurrentPage")
-        var currentPage: String,
+        var currentPage: Int,
         @SerializedName("Changed")
         var timestampChanged : String
     )

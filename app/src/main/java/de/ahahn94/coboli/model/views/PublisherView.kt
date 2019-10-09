@@ -7,13 +7,13 @@ import androidx.room.PrimaryKey
 
 /**
  * Data class for the publisher view.
- * As the PublisherVolume contains a field that has to be computed (VolumesCount),
+ * As the PublisherVolume contains a field that has to be computed (VolumeCount),
  * reading from the database requires a complex SELECT statement.
  * To keep the SELECT statements on the PublishersDao simple, it is a good idea to use a view for the
  * complex stuff.
  */
 @DatabaseView(
-    value = "SELECT P.ID, P.URL, P.Description, P.ImageFileURL, P.Name, P.VolumesURL, COUNT (DISTINCT V.ID) AS VolumesCount FROM Publishers P LEFT OUTER JOIN Volumes V ON P.ID = V.PublisherID GROUP BY P.ID",
+    value = "SELECT P.ID, P.URL, P.Description, P.ImageFileURL, P.Name, P.VolumesURL, COUNT (DISTINCT V.ID) AS VolumeCount FROM Publishers P LEFT OUTER JOIN Volumes V ON P.ID = V.PublisherID GROUP BY P.ID",
     viewName = "PublisherView"
 )
 data class PublisherView(
@@ -38,7 +38,7 @@ data class PublisherView(
     @ColumnInfo(name = "VolumesURL")
     var volumesURL: String = "",
 
-    @ColumnInfo(name = "VolumesCount")
-    var volumesCount: Int = 0
+    @ColumnInfo(name = "VolumeCount")
+    var volumeCount: Int = 0
 
 )

@@ -37,9 +37,9 @@ data class PublisherEntity(
     @ColumnInfo(name = "VolumesURL")
     var volumesURL: String = "",
 
-    @SerializedName("VolumesCount")
-    @ColumnInfo(name = "VolumesCount")
-    var volumesCount: Int = 0
+    @SerializedName("VolumeCount")
+    @ColumnInfo(name = "VolumeCount")
+    var volumeCount: Int = 0
 ) {
 
     /**

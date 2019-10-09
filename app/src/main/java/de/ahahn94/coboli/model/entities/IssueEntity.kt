@@ -4,7 +4,6 @@ import androidx.annotation.NonNull
 import androidx.paging.DataSource
 import androidx.room.*
 import com.google.gson.annotations.SerializedName
-import de.ahahn94.coboli.api.responses.IssueReadStatus
 import de.ahahn94.coboli.model.views.CachedIssuesView
 
 /**
@@ -80,11 +79,11 @@ data class IssueEntity(
     data class ReadStatus(
         @SerializedName("IsRead")
         @ColumnInfo(name = "IsRead")
-        var isRead: String = IssueReadStatus.IS_READ_UNREAD,
+        var isRead: Boolean = false,
 
         @SerializedName("CurrentPage")
         @ColumnInfo(name = "CurrentPage")
-        var currentPage: String = IssueReadStatus.CURRENT_PAGE_NO_PROGRESS,
+        var currentPage: Int = 0,
 
         @SerializedName("Changed")
         @ColumnInfo(name = "Changed")
@@ -134,7 +133,7 @@ data class IssueEntity(
         fun delete(vararg issueEntity: IssueEntity)
 
         @Query("Update Issues SET IsRead = :isRead, CurrentPage = :currentPage, Changed = :changed WHERE ID = :issueID")
-        fun updateReadStatus(issueID: String, isRead: String, currentPage: String, changed: String)
+        fun updateReadStatus(issueID: String, isRead: Boolean, currentPage: Int, changed: String)
 
         /**
          * CachedIssuesView as PagedList for display in the RecyclerViews.

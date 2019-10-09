@@ -71,14 +71,14 @@ class IssuesAdapter(
             issueName.text = issue.name
 
             // Set isRead badge visibility.
-            if (issue.readStatus.isRead == "1") {
+            if (issue.readStatus.isRead) {
                 isReadBadge.visibility = View.INVISIBLE
             } else {
                 isReadBadge.visibility = View.VISIBLE
             }
 
             // Set badge visibility.
-            if (issue.isCached == "1") {
+            if (issue.isCached) {
                 isCloudBadge.visibility = View.INVISIBLE
             } else {
                 isCloudBadge.visibility = View.VISIBLE

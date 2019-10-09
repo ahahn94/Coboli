@@ -26,7 +26,7 @@ class VolumeReadStatus(
         @SerializedName("VolumeID")
         val volumeID: String,
         @SerializedName("IsRead")
-        var isRead: String,
+        var isRead: Boolean,
         @SerializedName("Changed")
         var timestampChanged: String
     )

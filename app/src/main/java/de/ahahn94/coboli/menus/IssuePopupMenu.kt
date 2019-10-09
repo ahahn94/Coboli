@@ -37,7 +37,7 @@ class IssuePopupMenu(
         menuInflater.inflate(R.menu.menu_issue_popup, menu)
 
         // Show download/delete/open/share actions based on current caching status.
-        if (issue?.isCached == "1") {
+        if (issue?.isCached == true) {
             menu.findItem(R.id.action_download).isVisible = false
             menu.findItem(R.id.action_delete).isVisible = true
             menu.findItem(R.id.action_open_with).isVisible = true
@@ -53,9 +53,9 @@ class IssuePopupMenu(
 
         // Show mark as unread/in progress/read based on current readStatus.
         when (issue?.readStatus?.isRead) {
-            "0" -> {
+            false -> {
                 // Not read or in progress.
-                if (issue.readStatus.currentPage == "0") {
+                if (issue.readStatus.currentPage == 0) {
                     // Unread. Show mark as in progress & read.
                     menu.findItem(R.id.action_read).isVisible = true
                     menu.findItem(R.id.action_in_progress).isVisible = true
@@ -67,7 +67,7 @@ class IssuePopupMenu(
                     menu.findItem(R.id.action_unread).isVisible = true
                 }
             }
-            "1" -> {
+            true -> {
                 // Is read. Show mark as unread & in progress.
                 menu.findItem(R.id.action_read).isVisible = false
                 menu.findItem(R.id.action_in_progress).isVisible = true

@@ -15,7 +15,7 @@ import java.io.Serializable
  * for display in the app.
  */
 @DatabaseView(
-    value = "SELECT I.ID, I.Description, I.ImageFileURL, I.IssueNumber, I.Name, I.IsRead, I.CurrentPage, I.Changed, I.ReadStatusURL, I.VolumeID, CASE WHEN EXISTS (SELECT IssueID FROM CachedComics C WHERE C.IssueID = I.ID) THEN '1' ELSE '0' END AS IsCached, C.FileName, C.Readable, C.Unpacked, (SELECT V.Name FROM Volumes V WHERE I.VolumeID = V.ID) AS VolumeName FROM Issues I LEFT OUTER JOIN CachedComics C ON I.ID = C.IssueID",
+    value = "SELECT I.ID, I.Description, I.ImageFileURL, I.IssueNumber, I.Name, I.IsRead, I.CurrentPage, I.Changed, I.ReadStatusURL, I.VolumeID, CASE WHEN EXISTS (SELECT IssueID FROM CachedComics C WHERE C.IssueID = I.ID) THEN 1 ELSE 0 END AS IsCached, C.FileName, C.Readable, C.Unpacked, (SELECT V.Name FROM Volumes V WHERE I.VolumeID = V.ID) AS VolumeName FROM Issues I LEFT OUTER JOIN CachedComics C ON I.ID = C.IssueID",
     viewName = "CachedIssues"
 )
 data class CachedIssuesView(
@@ -47,7 +47,7 @@ data class CachedIssuesView(
     val volumeID: String,
 
     @ColumnInfo(name = "IsCached")
-    val isCached: String,
+    val isCached: Boolean,
 
     @Embedded
     val cachedComic: CachedComic?
@@ -71,10 +71,10 @@ data class CachedIssuesView(
      */
     data class ReadStatus(
         @ColumnInfo(name = "IsRead")
-        var isRead: String = IssueReadStatus.IS_READ_UNREAD,
+        var isRead: Boolean = false,
 
         @ColumnInfo(name = "CurrentPage")
-        var currentPage: String = IssueReadStatus.CURRENT_PAGE_NO_PROGRESS,
+        var currentPage: Int = 0,
 
         @ColumnInfo(name = "Changed")
         var timestampChanged: String = ""

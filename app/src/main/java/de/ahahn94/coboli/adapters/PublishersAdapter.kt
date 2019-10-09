@@ -72,10 +72,10 @@ class PublishersAdapter(
 
             // Fill TextViews.
             publisherName.text = publisher.name
-            publisherVolumesCount.text =
+            publisherVolumeCount.text =
                 Localization.getLocalizedString(
                     R.string.volumes_number,
-                    publisher.volumesCount
+                    publisher.volumeCount
                 )
         }
     }
@@ -108,14 +108,14 @@ class PublishersAdapter(
         val imageProgress : ProgressBar
         val publisherImage: ImageView
         val publisherName: TextView
-        val publisherVolumesCount: TextView
+        val publisherVolumeCount: TextView
         private val menuToggle: TextView
 
         init {
             imageProgress = publisherCard.findViewById(R.id.progress_image)
             publisherImage = publisherCard.findViewById(R.id.image_logo)
             publisherName = publisherCard.findViewById(R.id.label_name)
-            publisherVolumesCount = publisherCard.findViewById(R.id.label_volumes_count)
+            publisherVolumeCount = publisherCard.findViewById(R.id.label_volumes_count)
             menuToggle = publisherCard.findViewById(R.id.button_menu)
 
             // Set OnClickListener on the card to navigate to the volumes of the publisher.

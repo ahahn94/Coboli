@@ -116,19 +116,19 @@ class ReaderActivity : AppCompatActivity() {
              */
             override fun onPageSelected(position: Int) {
                 // If reaching the last page, set IsRead to true. Else false.
-                issue.readStatus.isRead = if (
+                issue.readStatus.isRead =
                     position == (adapter.count) - 1 &&
                     // The "resume previous reading session"-function is triggered as soon as the
                     // required page is loaded, which makes it the (temp.) last page and triggers
                     // the "mark as read" part. The following line prevents this.
                     position != issue.readStatus.currentPage.toInt()
-                ) "1" else "0"
+
                 AsyncTask.execute {
                     Database.getInstance().issuesDao()
                         .updateReadStatus(
                             issue.id,
                             issue.readStatus.isRead,
-                            position.toString(),
+                            position,
                             Timestamps.nowToUtcTimestamp()
                         )
                 }

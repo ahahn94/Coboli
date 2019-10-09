@@ -44,7 +44,7 @@ data class VolumeEntity(
 
     @SerializedName("StartYear")
     @ColumnInfo(name = "StartYear")
-    var startYear: String = "",
+    var startYear: Int = 0,
 
     @SerializedName("IssuesURL")
     @ColumnInfo(name = "IssuesURL")
@@ -70,7 +70,7 @@ data class VolumeEntity(
     data class ReadStatus(
         @SerializedName("IsRead")
         @ColumnInfo(name = "IsRead")
-        var isRead: String,
+        var isRead: Boolean,
 
         @SerializedName("Changed")
         @ColumnInfo(name = "Changed")

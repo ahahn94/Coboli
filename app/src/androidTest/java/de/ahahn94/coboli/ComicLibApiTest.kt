@@ -106,8 +106,8 @@ class ComicLibApiTest {
         testObject(obj as ApiResponse<IssueReadStatus.Content?>)
 
         // Test PUT
-        obj.responseContent?.isRead = IssueReadStatus.IS_READ_READ
-        obj.responseContent?.currentPage = IssueReadStatus.CURRENT_PAGE_NO_PROGRESS
+        obj.responseContent?.isRead = true
+        obj.responseContent?.currentPage = 0
         val response2 = comicLibAPI.putIssueReadStatus(ISSUE_ID, obj.responseContent!!)
         val obj2 = getObjectFromResponse(response2)
         testObject(obj2 as ApiResponse<IssueReadStatus.Content?>)
@@ -149,7 +149,7 @@ class ComicLibApiTest {
         testObject(obj as ApiResponse<VolumeReadStatus.Content?>)
 
         // Test PUT
-        obj.responseContent?.isRead = VolumeReadStatus.IS_READ_READ
+        obj.responseContent?.isRead = true
         val response2 = comicLibAPI.putVolumeReadStatus(VOLUME_ID, obj.responseContent!!)
         val obj2 = getObjectFromResponse(response2)
         testObject(obj2 as ApiResponse<VolumeReadStatus.Content?>)

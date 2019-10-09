@@ -67,16 +67,16 @@ class IssueRepo {
 
             // Get new isRead.
             val newIsRead = when (newStatus) {
-                ReadStatus.UNREAD -> "0"
-                ReadStatus.IN_PROGRESS -> "0"
-                ReadStatus.READ -> "1"
+                ReadStatus.UNREAD -> false
+                ReadStatus.IN_PROGRESS -> false
+                ReadStatus.READ -> true
             }
 
             // Get new currentPage.
             val newCurrentPage = when(newStatus){
-                ReadStatus.UNREAD -> "0"
+                ReadStatus.UNREAD -> 0
                 ReadStatus.IN_PROGRESS -> when (issue.readStatus.currentPage){
-                    "0" -> "1"
+                    0 -> 1
                     else -> issue.readStatus.currentPage
                 }
                 ReadStatus.READ -> issue.readStatus.currentPage
