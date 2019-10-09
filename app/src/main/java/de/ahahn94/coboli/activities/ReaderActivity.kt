@@ -82,8 +82,10 @@ class ReaderActivity : AppCompatActivity() {
             }
 
             // Jump to current page from last reading session as soon as it is loaded.
-            val currentPage = issue.readStatus.currentPage.toInt()
-            if (it.size == (currentPage + 1)) pagesContainer.currentItem = currentPage
+            val currentPage = issue.readStatus.currentPage
+            // currentPage - 1 because the ComicLib reader counts from 1 while the
+            // ViewPager counts from 0.
+            if (it.size == (currentPage)) pagesContainer.currentItem = currentPage - 1
         })
 
         pagesContainer.adapter = adapter
@@ -128,7 +130,9 @@ class ReaderActivity : AppCompatActivity() {
                         .updateReadStatus(
                             issue.id,
                             issue.readStatus.isRead,
-                            position,
+                            // + 1 because the Reader from ComicLib counts from 1,
+                            // while ViewPager counts from 0.
+                            position + 1,
                             Timestamps.nowToUtcTimestamp()
                         )
                 }
