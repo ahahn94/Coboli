@@ -68,6 +68,18 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/colorTextLight" />
 
+                    <TextView
+                            android:id="@+id/badge_is_offline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|top"
+                            android:fontFamily="@font/font_fontawesome_solid"
+                            android:gravity="center"
+                            android:padding="@dimen/padding_small"
+                            android:text="@string/fa_slash"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@android:color/holo_red_dark" />
+
                 </FrameLayout>
 
                 <TextView

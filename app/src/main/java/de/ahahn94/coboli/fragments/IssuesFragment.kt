@@ -77,7 +77,7 @@ class IssuesFragment : Fragment() {
 
         // Bind data to recyclerView.
         val list = viewModel.issues
-        val adapter = IssuesAdapter(WeakReference(fragmentManager!!), list)
+        val adapter = IssuesAdapter(WeakReference(fragmentManager!!), list, this)
 
         // Set observer.
         list.observe(

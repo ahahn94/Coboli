@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Observer
 import de.ahahn94.coboli.R
 import de.ahahn94.coboli.activities.ReaderActivity
 import de.ahahn94.coboli.cache.ComicsCache
@@ -18,6 +19,7 @@ import de.ahahn94.coboli.fragments.ItemDetailFragment
 import de.ahahn94.coboli.model.views.CachedIssuesView
 import de.ahahn94.coboli.repositories.IssueRepo
 import de.ahahn94.coboli.utils.FileTypes
+import de.ahahn94.coboli.utils.network.OnlineStatusManager
 import java.lang.ref.WeakReference
 
 /**
@@ -28,7 +30,8 @@ class IssuePopupMenu(
     view: View,
     gravity: Int,
     issue: CachedIssuesView?,
-    fragmentManager: WeakReference<FragmentManager>
+    fragmentManager: WeakReference<FragmentManager>,
+    connected: Boolean
 ) :
     PopupMenu(context, view, gravity) {
     init {
@@ -44,7 +47,8 @@ class IssuePopupMenu(
             menu.findItem(R.id.action_open).isVisible = issue.cachedComic?.readable == true
             menu.findItem(R.id.action_share).isVisible = true
         } else {
-            menu.findItem(R.id.action_download).isVisible = true
+            // Only show download button if connected to API endpoint.
+            menu.findItem(R.id.action_download).isVisible = connected
             menu.findItem(R.id.action_delete).isVisible = false
             menu.findItem(R.id.action_open_with).isVisible = false
             menu.findItem(R.id.action_open).isVisible = false
@@ -73,6 +77,7 @@ class IssuePopupMenu(
                 menu.findItem(R.id.action_in_progress).isVisible = true
                 menu.findItem(R.id.action_unread).isVisible = true
             }
+
         }
 
         // Bind actions to menu entries.

@@ -8,8 +8,11 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -18,6 +21,7 @@ import de.ahahn94.coboli.R
 import de.ahahn94.coboli.asynctasks.ImagesLoader
 import de.ahahn94.coboli.menus.IssuePopupMenu
 import de.ahahn94.coboli.model.views.CachedIssuesView
+import de.ahahn94.coboli.utils.network.OnlineStatusManager
 import java.lang.ref.WeakReference
 
 /**
@@ -26,7 +30,8 @@ import java.lang.ref.WeakReference
  */
 class IssuesAdapter(
     private val fragmentManager: WeakReference<FragmentManager>,
-    val issues: LiveData<PagedList<CachedIssuesView>>
+    val issues: LiveData<PagedList<CachedIssuesView>>,
+    private val fragment: Fragment
 ) :
     PagedListAdapter<CachedIssuesView, IssuesAdapter.IssueDatasetHolder>(
 
@@ -92,14 +97,17 @@ class IssuesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IssueDatasetHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_card_issue, parent, false)
-        return IssueDatasetHolder(fragmentManager, view)
+        return IssueDatasetHolder(fragmentManager, view, fragment)
     }
 
     /**
      * Holder for CachedIssuesView datasets.
      * Organizes the issues data in a CardView.
      */
-    class IssueDatasetHolder(fragmentManager: WeakReference<FragmentManager>, itemView: View) :
+    class IssueDatasetHolder(
+        fragmentManager: WeakReference<FragmentManager>, itemView: View,
+        fragment: Fragment
+    ) :
         RecyclerView.ViewHolder(itemView) {
 
         // Data object
@@ -108,10 +116,11 @@ class IssuesAdapter(
         // UI elements.
         private val issueCard: CardView = itemView.findViewById(R.id.card_issue)
         val issueImage: ImageView
-        val imageProgress : ProgressBar
+        val imageProgress: ProgressBar
         val issueName: TextView
         val isReadBadge: TextView
         val isCloudBadge: TextView
+        val isOfflineBadge: TextView
         private val menuToggle: TextView
 
         init {
@@ -120,6 +129,7 @@ class IssuesAdapter(
             issueName = issueCard.findViewById(R.id.label_name)
             isReadBadge = issueCard.findViewById(R.id.badge_is_read)
             isCloudBadge = issueCard.findViewById(R.id.badge_is_cloud)
+            isOfflineBadge = issueCard.findViewById(R.id.badge_is_offline)
             menuToggle = issueCard.findViewById(R.id.button_menu)
 
             // Set OnClickListener on the menuToggle to show the popup menu.
@@ -130,10 +140,21 @@ class IssuesAdapter(
                         menuToggle,
                         Gravity.END,
                         issue,
-                        fragmentManager
+                        fragmentManager,
+                        OnlineStatusManager.connectionStatus.value ?: false
                     )
                 menu.show()
             }
+
+            OnlineStatusManager.connectionStatus.observe(fragment, Observer {
+                if (it){
+                    // Online. Show cloud icon as enabled.
+                    isOfflineBadge.visibility = View.INVISIBLE
+                } else {
+                    // Offline. Show cloud icon as disabled.
+                    isOfflineBadge.visibility = View.VISIBLE
+                }
+            })
 
         }
 

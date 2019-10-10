@@ -69,4 +69,5 @@
     <string name="fa_globe_europe">\uf7a2</string>
     <string name="toast_broken_url">Cannot open URL.</string>
     <string name="toast_download_complete">Download complete.</string>
+    <string name="fa_slash" translatable="false">\uf715</string>
 </resources>
