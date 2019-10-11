@@ -19,11 +19,6 @@ data class ComicLibComics(private val url: String) {
         // Constants.
         private const val API_COMICS_BASE_PATH = "/api/v1/issues/"
         private const val API_COMICS_FILE_PATH = "/file"
-
-        // Authorization for the API calls.
-        val bearerTokenAuthentication =
-            Authentication.generateBearerTokenHeader(Credentials.getInstance().apiKey)
-
     }
 
     /**
@@ -32,7 +27,9 @@ data class ComicLibComics(private val url: String) {
     fun getComicFile(issueID: String, parent: File): ComicFile? {
         val request = Request.Builder()
             .url(url + API_COMICS_BASE_PATH + issueID + API_COMICS_FILE_PATH)
-            .header("Authorization", bearerTokenAuthentication).build()
+            .header("Authorization",
+                Authentication.generateBearerTokenHeader(Credentials.getInstance().apiKey)
+                ).build()
 
         val client: OkHttpClient =
             DownloadClientFactory.create(

@@ -5,8 +5,10 @@ import android.os.AsyncTask
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import de.ahahn94.coboli.api.clients.TrustedCertificatesClientFactory
+import de.ahahn94.coboli.api.repos.ComicLibAPI
 import de.ahahn94.coboli.utils.ContextProvider
 import de.ahahn94.coboli.utils.Logging
+import de.ahahn94.coboli.utils.replaceNull
 import de.ahahn94.coboli.utils.settings.Credentials
 import de.ahahn94.coboli.utils.settings.Preferences
 import okhttp3.Request
@@ -42,36 +44,61 @@ class OnlineStatusManager {
         }
 
         /**
-         * Check if the device can successfully establish a connection to the ComicLib server.
+         * Check if the device can successfully establish an authenticated
+         * connection to the ComicLib server.
          * Return OK if successfully connected, NO_CONNECTION if no connection and
          * UNAUTHORIZED if authorization failed..
-         * Will update the API key if successfully connected and API key changed.
+         * Will update the API key if first try fails but username and password are still valid.
          */
-        private fun connectedToTokensResource(): SimpleStatus {
-            // Check if the status type is OK. Else error (connection, https or authentication).
-            val status = ConnectionTester.test()
-            return if (status.statusType == ConnectionStatusType.OK) {
-                // Check if API keys match. Else update (may have been regenerated via web interface).
-                val apiKeyFromServer = status.response?.body()?.responseContent?.apiKey
-                if (apiKeyFromServer != null && Credentials.getInstance().apiKey != apiKeyFromServer) {
-                    Credentials.getInstance().apiKey = apiKeyFromServer
-                    Credentials.saveInstance()
+        private fun authenticatedConnection(): SimpleStatus {
+
+            // Check if API key is still valid.
+            val response = ComicLibAPI(
+                Preferences.getInstance().getString(
+                    Preferences.SERVER_ADDRESS_KEY,
+                    ""
+                ) ?: ""
+            ).getAuthenticated()
+
+            if (response.isSuccessful) return SimpleStatus.OK
+            else {
+                if (response.code() == 401) {
+                    // Authentication failed. Try refreshing API key.
+                    val token = ComicLibAPI(
+                        Preferences.getInstance().getString(
+                            Preferences.SERVER_ADDRESS_KEY,
+                            ""
+                        ) ?: ""
+                    ).getToken()
+
+                    if (token.isSuccessful){
+                        // Successfully loaded new API key. Save key.
+                        val apiKeyFromServer = token.body()?.responseContent?.apiKey
+                        if (apiKeyFromServer != null){
+                            with(Credentials.getInstance()){
+                                apiKey = apiKeyFromServer
+                            }
+                            Credentials.saveInstance()
+                        }
+                        return SimpleStatus.OK
+                    } else {
+                        return if (token.code() == 401){
+                            // Authentication failed again. Password was changed too.
+                            // Reset credentials to force new login.
+                            Logging.logDebug("Authorization failed.")
+                            Credentials.reset()
+                            SimpleStatus.UNAUTHORIZED
+                        } else {
+                            SimpleStatus.NO_CONNECTION
+                        }
+                    }
+
+                } else {
+                    // Error connecting.
+                    return SimpleStatus.NO_CONNECTION
                 }
-                SimpleStatus.OK
-            } else if (status.code == 401) {
-                // Authentication failed. Password has probably changed.
-                Logging.logDebug("Authorization failed.")
-                // Reset credentials and show LoginActivity.
-                with(Credentials.getInstance()) {
-                    username = ""
-                    password = ""
-                    apiKey = ""
-                }
-                Credentials.saveInstance()
-                return SimpleStatus.UNAUTHORIZED
-            } else {
-                SimpleStatus.NO_CONNECTION
             }
+
         }
 
         /**
@@ -110,7 +137,7 @@ class OnlineStatusManager {
             // Check if connected to a network. Else return false.
             return if (connectedToNetwork()) {
                 // Check if connected to the server.
-                connectedToTokensResource()
+                authenticatedConnection()
             } else SimpleStatus.NO_CONNECTION
         }
 
@@ -167,7 +194,7 @@ class OnlineStatusManager {
     }
 
     /**
-     * Possible results for the connectedToTokensResource function.
+     * Possible results for the authenticatedConnection function.
      */
     enum class SimpleStatus {
         OK,

@@ -55,6 +55,13 @@ class ComicLibAPI(url: String) {
     }
 
     /**
+     * Check if the current API key is valid.
+     */
+    fun getAuthenticated(): Response<ApiResponse<Unit>?> {
+        return instance.getAuthenticated(bearerTokenAuthentication).execute()
+    }
+
+    /**
      * Get the issues list from the /issues resource.
      * Returns a Response with an IssueResponse.List that may be null.
      */
@@ -192,6 +199,9 @@ class ComicLibAPI(url: String) {
      * Retrofit-interface for the ComicLib API.
      */
     interface ComicLibApiInterface {
+        @GET("tokens")
+        fun getAuthenticated(@Header("Authorization") authorization: String): Call<ApiResponse<Unit>?>
+
         @GET("tokens")
         fun getToken(@Header("Authorization") authorization: String): Call<Token?>
 

@@ -115,6 +115,19 @@ data class Credentials(var username: String = "", var password: String = "", var
             editor.apply()
         }
 
+        /**
+         * Reset the credentials.
+         * E.g. after password change.
+         */
+        fun reset(){
+            with(getInstance()){
+                username = ""
+                password = ""
+                apiKey = ""
+            }
+            saveInstance()
+        }
+
     }
 
     /**
