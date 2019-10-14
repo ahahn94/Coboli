@@ -52,52 +52,55 @@ class OnlineStatusManager {
          */
         private fun authenticatedConnection(): SimpleStatus {
 
-            // Check if API key is still valid.
-            val response = ComicLibAPI(
-                Preferences.getInstance().getString(
-                    Preferences.SERVER_ADDRESS_KEY,
-                    ""
-                ) ?: ""
-            ).getAuthenticated()
+            // Check if connection to /online is possible.
+            if (quickConnectionTest()) {
+                // Check if API key is still valid.
+                val response = ComicLibAPI(
+                    Preferences.getInstance().getString(
+                        Preferences.SERVER_ADDRESS_KEY,
+                        ""
+                    ) ?: ""
+                ).getAuthenticated()
 
-            if (response.isSuccessful) return SimpleStatus.OK
-            else {
-                if (response.code() == 401) {
-                    // Authentication failed. Try refreshing API key.
-                    val token = ComicLibAPI(
-                        Preferences.getInstance().getString(
-                            Preferences.SERVER_ADDRESS_KEY,
-                            ""
-                        ) ?: ""
-                    ).getToken()
+                if (response.isSuccessful) return SimpleStatus.OK
+                else {
+                    if (response.code() == 401) {
+                        // Authentication failed. Try refreshing API key.
+                        val token = ComicLibAPI(
+                            Preferences.getInstance().getString(
+                                Preferences.SERVER_ADDRESS_KEY,
+                                ""
+                            ) ?: ""
+                        ).getToken()
 
-                    if (token.isSuccessful){
-                        // Successfully loaded new API key. Save key.
-                        val apiKeyFromServer = token.body()?.responseContent?.apiKey
-                        if (apiKeyFromServer != null){
-                            with(Credentials.getInstance()){
-                                apiKey = apiKeyFromServer
+                        if (token.isSuccessful) {
+                            // Successfully loaded new API key. Save key.
+                            val apiKeyFromServer = token.body()?.responseContent?.apiKey
+                            if (apiKeyFromServer != null) {
+                                with(Credentials.getInstance()) {
+                                    apiKey = apiKeyFromServer
+                                }
+                                Credentials.saveInstance()
                             }
-                            Credentials.saveInstance()
-                        }
-                        return SimpleStatus.OK
-                    } else {
-                        return if (token.code() == 401){
-                            // Authentication failed again. Password was changed too.
-                            // Reset credentials to force new login.
-                            Logging.logDebug("Authorization failed.")
-                            Credentials.reset()
-                            SimpleStatus.UNAUTHORIZED
+                            return SimpleStatus.OK
                         } else {
-                            SimpleStatus.NO_CONNECTION
+                            return if (token.code() == 401) {
+                                // Authentication failed again. Password was changed too.
+                                // Reset credentials to force new login.
+                                Logging.logDebug("Authorization failed.")
+                                Credentials.reset()
+                                SimpleStatus.UNAUTHORIZED
+                            } else {
+                                SimpleStatus.NO_CONNECTION
+                            }
                         }
-                    }
 
-                } else {
-                    // Error connecting.
-                    return SimpleStatus.NO_CONNECTION
+                    } else {
+                        // Error connecting.
+                        return SimpleStatus.NO_CONNECTION
+                    }
                 }
-            }
+            } else return SimpleStatus.NO_CONNECTION
 
         }
 
