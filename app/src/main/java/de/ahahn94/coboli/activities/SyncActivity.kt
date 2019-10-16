@@ -1,6 +1,5 @@
 package de.ahahn94.coboli.activities
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -60,7 +59,6 @@ class SyncActivity : AppCompatActivity() {
                         ContextProvider.getApplicationContext(),
                         R.string.login_failed, Toast.LENGTH_LONG
                     ).show()
-                    startActivityForResult(Intent(this, LoginActivity::class.java), 1)
                     finish()
                 }
             }

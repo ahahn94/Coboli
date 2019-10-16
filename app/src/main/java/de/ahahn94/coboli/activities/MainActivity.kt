@@ -27,17 +27,11 @@ class MainActivity : ToolbarActivity() {
         // Load activity layout.
         super.onCreate(savedInstanceState)
 
-        // Show login activity if no credentials have previously been saved.
-        val showLogin = Credentials.getInstance().isEmpty()
-        if (showLogin) {
-            // Require login and sync database with server after successful login.
-            startActivityForResult(Intent(this, LoginActivity::class.java), 1)
-        } else {
-            if (startup) {
-                startup = false
-                // Sync database with ComicLib server at app start.
-                startActivityForResult(Intent(this, SyncActivity::class.java), 1)
-            }
+        // Sync database at startup if credentials are present.
+        if (startup && !Credentials.getInstance().isEmpty()) {
+            startup = false
+            // Sync database with ComicLib server at app start.
+            startActivityForResult(Intent(this, SyncActivity::class.java), 1)
         }
     }
 }

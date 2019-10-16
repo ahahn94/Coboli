@@ -74,6 +74,13 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
 
         // Show default fragment.
         showDefaultFragment()
+
+        // Observe the credentials. If they turn to empty, show LoginActivity.
+        Credentials.isEmpty.observe(this, Observer {
+            if (it){
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
+        })
     }
 
     /**
@@ -221,14 +228,8 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
             }
 
             R.id.action_logout -> {
-                // Logout from Coboli. Deletes credentials and starts LoginActivity.
-                with(Credentials.getInstance()) {
-                    username = ""
-                    password = ""
-                    apiKey = ""
-                }
-                Credentials.saveInstance()
-                startActivity(Intent(this, LoginActivity::class.java))
+                // Logout from Coboli. Deletes credentials. LoginActivity starts automatically.
+                Credentials.reset()
             }
         }
         drawer.closeDrawer(GravityCompat.START)

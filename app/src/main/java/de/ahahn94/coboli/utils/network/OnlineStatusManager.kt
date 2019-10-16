@@ -8,7 +8,6 @@ import de.ahahn94.coboli.api.clients.TrustedCertificatesClientFactory
 import de.ahahn94.coboli.api.repos.ComicLibAPI
 import de.ahahn94.coboli.utils.ContextProvider
 import de.ahahn94.coboli.utils.Logging
-import de.ahahn94.coboli.utils.replaceNull
 import de.ahahn94.coboli.utils.settings.Credentials
 import de.ahahn94.coboli.utils.settings.Preferences
 import okhttp3.Request
@@ -16,6 +15,7 @@ import okhttp3.Response
 import java.io.IOException
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
+import javax.net.ssl.SSLHandshakeException
 
 /**
  * Handles the online status of the app.
@@ -124,6 +124,10 @@ class OnlineStatusManager {
             return try {
                 response = client.newCall(request).execute()
                 response.isSuccessful
+            } catch (e: SSLHandshakeException) {
+                // Certificate changed. Reset credentials to force user to login again.
+                Credentials.reset()
+                false
             } catch (e: IOException) {
                 // Timeout raises  an exception. Catch and return false.
                 false

@@ -2,6 +2,7 @@ package de.ahahn94.coboli.utils.settings
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.lifecycle.MutableLiveData
 import de.ahahn94.coboli.utils.ContextProvider
 import de.ahahn94.coboli.utils.replaceNull
 import de.ahahn94.coboli.utils.security.Cryptography
@@ -27,6 +28,14 @@ data class Credentials(var username: String = "", var password: String = "", var
         private const val USERNAME_KEY = "username"
         private const val PASSWORD_KEY = "password"
         private const val APIKEY_KEY = "apikey"
+
+        // Status of the credentials as live data.
+        val isEmpty = MutableLiveData<Boolean>()
+
+        init {
+            // Init isEmpty with false so ToolbarActivity does not start LoginActivity at app startup.
+            isEmpty.postValue(false)
+        }
 
         /**
          * Initialize the applicationContext and sharedPreferences if necessary.
@@ -113,6 +122,7 @@ data class Credentials(var username: String = "", var password: String = "", var
                 .putString(PASSWORD_KEY, encryptedPassword)
                 .putString(APIKEY_KEY, encryptedApiKey)
             editor.apply()
+            isEmpty.postValue(false)
         }
 
         /**
@@ -126,6 +136,7 @@ data class Credentials(var username: String = "", var password: String = "", var
                 apiKey = ""
             }
             saveInstance()
+            isEmpty.postValue(true)
         }
 
     }
