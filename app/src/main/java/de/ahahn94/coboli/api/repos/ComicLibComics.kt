@@ -28,7 +28,7 @@ data class ComicLibComics(private val url: String) {
         val request = Request.Builder()
             .url(url + API_COMICS_BASE_PATH + issueID + API_COMICS_FILE_PATH)
             .header("Authorization",
-                Authentication.generateBearerTokenHeader(Credentials.getInstance().apiKey)
+                Authentication.generateBearerTokenHeader(Credentials.instance.apiKey)
                 ).build()
 
         val client: OkHttpClient =

@@ -4,18 +4,21 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import de.ahahn94.coboli.utils.ContextProvider
-import de.ahahn94.coboli.utils.replaceNull
 import de.ahahn94.coboli.utils.security.Cryptography
 
 /**
  * Class that handles the users credentials.
  */
-data class Credentials(var username: String = "", var password: String = "", var apiKey: String = "") {
+data class Credentials(
+    var username: String = "",
+    var password: String = "",
+    var apiKey: String = ""
+) {
 
     companion object {
 
         // Singleton instance of Credentials.
-        private val instance = Credentials()
+        lateinit var instance: Credentials
 
         // Singleton instance of preferences.
         private lateinit var sharedPreferences: SharedPreferences
@@ -65,43 +68,49 @@ data class Credentials(var username: String = "", var password: String = "", var
         }
 
         /**
-         * Get the singleton instance of the credentials.
-         * Initialize the credentials from the preferences if empty.
+         * Load the singleton instance of the credentials.
+         * Initialize the credentials from the SharedPreferences if not yet initialized.
          * Credentials from sharedPreferences are stored encrypted and have to be decrypted during initialization.
-         * Returns an Credentials with empty strings if no credentials where stored in sharedPreferences.
+         * Instance will be consist of empty strings if no credentials where stored in sharedPreferences.
          */
-        fun getInstance(): Credentials {
-            if (instance.isEmpty()) {
+        fun loadInstance() {
+            if (!this::instance.isInitialized) {
+                // Not yet initialized. Initialize it from SharedPreferences.
                 val sharedPreferences =
                     getSharedPreferences()
                 // Try to read the credentials from the preferences file. )
-                val rawUsername: String = sharedPreferences.getString(USERNAME_KEY, "") replaceNull ""
-                val rawPassword: String = sharedPreferences.getString(PASSWORD_KEY, "") replaceNull ""
-                val rawApiKey: String = sharedPreferences.getString(APIKEY_KEY, "") replaceNull ""
+                val rawUsername: String =
+                    sharedPreferences.getString(USERNAME_KEY, "") ?: ""
+                val rawPassword: String =
+                    sharedPreferences.getString(PASSWORD_KEY, "") ?: ""
+                val rawApiKey: String = sharedPreferences.getString(APIKEY_KEY, "") ?: ""
 
-                if (Credentials(
-                        rawUsername,
-                        rawPassword,
-                        rawApiKey
-                    ).isEmpty()
-                ) return instance // No stored credentials.
+                if (isEmpty(
+                        Credentials(
+                            rawUsername,
+                            rawPassword,
+                            rawApiKey
+                        )
+                    )
+                ) {
+                    // No stored credentials.
+                    instance = Credentials()
+                    isEmpty.postValue(true)
+                    return
+                }
 
                 // Try to decrypt loaded credentials.
-                if (rawUsername != "") {
-                    instance.username =
-                        Cryptography.decryptToString(rawUsername)
-                }
-                if (rawPassword != "") {
-                    instance.password =
-                        Cryptography.decryptToString(rawPassword)
-                }
-                if (rawApiKey != "") {
-                    instance.apiKey =
-                        Cryptography.decryptToString(rawApiKey)
-                }
-                return instance
-            } else {
-                return instance
+                val username = if (rawUsername != "") {
+                    Cryptography.decryptToString(rawUsername)
+                } else ""
+                val password = if (rawPassword != "") {
+                    Cryptography.decryptToString(rawPassword)
+                } else ""
+                val apiKey = if (rawApiKey != "") {
+                    Cryptography.decryptToString(rawApiKey)
+                } else ""
+                instance = Credentials(username, password, apiKey)
+                isEmpty.postValue(isEmpty(instance))
             }
         }
 
@@ -129,8 +138,8 @@ data class Credentials(var username: String = "", var password: String = "", var
          * Reset the credentials.
          * E.g. after password change.
          */
-        fun reset(){
-            with(getInstance()){
+        fun reset() {
+            with(instance) {
                 username = ""
                 password = ""
                 apiKey = ""
@@ -139,14 +148,15 @@ data class Credentials(var username: String = "", var password: String = "", var
             isEmpty.postValue(true)
         }
 
-    }
+        /**
+         * Check if credentials are empty.
+         */
+        private fun isEmpty(credentials: Credentials): Boolean {
+            with(credentials) {
+                return username == "" && password == "" && apiKey == ""
+            }
+        }
 
-    /**
-     * Check if credentials are empty.
-     */
-    fun isEmpty(): Boolean {
-        return username == "" && password == "" && apiKey == ""
     }
-
 
 }

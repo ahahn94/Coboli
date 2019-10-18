@@ -55,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        credentials = Credentials.getInstance()
+        credentials = Credentials.instance
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             autofillManager = getSystemService(AutofillManager::class.java) as AutofillManager
@@ -141,7 +141,7 @@ class LoginActivity : AppCompatActivity() {
                 val token = connectionStatus.response?.body()
                 if (token != null) {
                     val apiKey = token.responseContent?.apiKey
-                    Credentials.getInstance().apiKey = apiKey.toString()
+                    Credentials.instance.apiKey = apiKey.toString()
                 }
 
                 // Save credentials

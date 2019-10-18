@@ -28,7 +28,7 @@ class MainActivity : ToolbarActivity() {
         super.onCreate(savedInstanceState)
 
         // Sync database at startup if credentials are present.
-        if (startup && !Credentials.getInstance().isEmpty()) {
+        if (startup && Credentials.isEmpty.value == false) {
             startup = false
             // Sync database with ComicLib server at app start.
             startActivityForResult(Intent(this, SyncActivity::class.java), 1)

@@ -40,7 +40,7 @@ class ComicLibAPI(url: String) {
             .client(TrustedCertificatesClientFactory.create())
 
             .build().create(ComicLibApiInterface::class.java)
-        val credentials = Credentials.getInstance()
+        val credentials = Credentials.instance
         basicAuthentication =
             Authentication.generateBasicAuthHeader(credentials.username, credentials.password)
         bearerTokenAuthentication = Authentication.generateBearerTokenHeader(credentials.apiKey)

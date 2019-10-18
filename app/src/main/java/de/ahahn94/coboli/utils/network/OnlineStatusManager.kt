@@ -77,7 +77,7 @@ class OnlineStatusManager {
                             // Successfully loaded new API key. Save key.
                             val apiKeyFromServer = token.body()?.responseContent?.apiKey
                             if (apiKeyFromServer != null) {
-                                with(Credentials.getInstance()) {
+                                with(Credentials.instance) {
                                     apiKey = apiKeyFromServer
                                 }
                                 Credentials.saveInstance()

@@ -44,6 +44,9 @@ open class ToolbarActivity : AppCompatActivity(), NavigationView.OnNavigationIte
         // Save application context into ContextProvider.
         ContextProvider.setApplicationContext(applicationContext)
 
+        // Load credentials from SharedPreferences.
+        Credentials.loadInstance()
+
         // Start online status monitor.
         OnlineStatusManager.startOnlineStatusMonitor()
 
