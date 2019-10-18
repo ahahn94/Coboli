@@ -28,7 +28,7 @@ class VolumesViewModel(publisherID: String, cachedOnly: Boolean, searchQuery: St
         } else if (searchQuery != "") {
             VolumeRepo.getBySearchQuery(searchQuery)
         } else {
-            if (cachedOnly == true) {
+            if (cachedOnly) {
                 VolumeRepo.getCached()
             } else {
                 VolumeRepo.getAll()

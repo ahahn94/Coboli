@@ -17,10 +17,6 @@ data class PublisherEntity(
     @NonNull
     var id: String = "",
 
-    @SerializedName("Link")
-    @ColumnInfo(name = "URL")
-    var link: String = "",
-
     @SerializedName("Description")
     @ColumnInfo(name = "Description")
     var description: String = "",
@@ -32,10 +28,6 @@ data class PublisherEntity(
     @SerializedName("Name")
     @ColumnInfo(name = "Name")
     var name: String = "",
-
-    @SerializedName("VolumesURL")
-    @ColumnInfo(name = "VolumesURL")
-    var volumesURL: String = "",
 
     @SerializedName("VolumeCount")
     @ColumnInfo(name = "VolumeCount")

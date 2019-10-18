@@ -26,10 +26,6 @@ data class IssueEntity(
     @NonNull
     var id: String = "",
 
-    @SerializedName("Link")
-    @ColumnInfo(name = "URL")
-    var link: String = "",
-
     @SerializedName("Description")
     @ColumnInfo(name = "Description")
     var description: String = "",
@@ -101,11 +97,7 @@ data class IssueEntity(
         @SerializedName("VolumeID")
         @ColumnInfo(name = "VolumeID")
         @NonNull
-        var volumeID: String = "",
-
-        @SerializedName("Link")
-        @ColumnInfo(name = "VolumeURL")
-        var link: String = ""
+        var volumeID: String = ""
     )
 
     /**
@@ -142,10 +134,10 @@ data class IssueEntity(
         @Query("SELECT * FROM CachedIssues WHERE VolumeID = :volumeID ORDER BY IssueNumber + 0 ASC")
         fun getByVolumePaged(volumeID: String): DataSource.Factory<Int, CachedIssuesView>
 
-        @Query("SELECT * FROM CachedIssues WHERE VolumeID = :volumeID AND IsCached = '1'")
+        @Query("SELECT * FROM CachedIssues WHERE VolumeID = :volumeID AND IsCached = 1")
         fun getCachedByVolume(volumeID: String): DataSource.Factory<Int, CachedIssuesView>
 
-        @Query("SELECT * FROM CachedIssues WHERE IsRead != '1' AND CurrentPage != '0' ORDER BY VolumeName, IssueNumber")
+        @Query("SELECT * FROM CachedIssues WHERE IsRead != 1 AND CurrentPage != '0' ORDER BY VolumeName, IssueNumber")
         fun getReading(): DataSource.Factory<Int, CachedIssuesView>
     }
 

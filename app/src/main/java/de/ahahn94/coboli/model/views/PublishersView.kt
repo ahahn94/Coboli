@@ -13,7 +13,7 @@ import androidx.room.PrimaryKey
  * complex stuff.
  */
 @DatabaseView(
-    value = "SELECT P.ID, P.URL, P.Description, P.ImageFileURL, P.Name, P.VolumesURL, COUNT (DISTINCT V.ID) AS VolumeCount FROM Publishers P LEFT OUTER JOIN Volumes V ON P.ID = V.PublisherID GROUP BY P.ID",
+    value = "SELECT P.ID, P.Description, P.ImageFileURL, P.Name, COUNT (DISTINCT V.ID) AS VolumeCount FROM Publishers P LEFT OUTER JOIN Volumes V ON P.ID = V.PublisherID GROUP BY P.ID",
     viewName = "PublishersView"
 )
 data class PublishersView(
@@ -23,9 +23,6 @@ data class PublishersView(
     @NonNull
     var id: String = "",
 
-    @ColumnInfo(name = "URL")
-    var link: String = "",
-
     @ColumnInfo(name = "Description")
     var description: String = "",
 
@@ -34,9 +31,6 @@ data class PublishersView(
 
     @ColumnInfo(name = "Name")
     var name: String = "",
-
-    @ColumnInfo(name = "VolumesURL")
-    var volumesURL: String = "",
 
     @ColumnInfo(name = "VolumeCount")
     var volumeCount: Int = 0

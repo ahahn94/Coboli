@@ -27,12 +27,12 @@ class VolumePopupMenu(
 
         // Show mark as unread/read based on current readStatus.
         when (volume?.readStatus?.isRead) {
-            "0" -> {
+            false -> {
                 // Unread. Show mark as read.
                 menu.findItem(R.id.action_read).isVisible = true
                 menu.findItem(R.id.action_unread).isVisible = false
             }
-            "1" -> {
+            true -> {
                 // Is read. Show mark as unread.
                 menu.findItem(R.id.action_read).isVisible = false
                 menu.findItem(R.id.action_unread).isVisible = true

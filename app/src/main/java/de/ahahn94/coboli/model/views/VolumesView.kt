@@ -14,7 +14,7 @@ import androidx.room.PrimaryKey
  * complex stuff.
  */
 @DatabaseView(
-    value = "SELECT V.*, VRS.VolumeIsRead AS IsRead, VRS.VolumeIssueCount AS IssueCount, VRS.VolumeChanged AS Changed FROM (SELECT ID, URL, Description, ImageFileURL, Name, StartYear, IssuesURL, PublisherID, PublisherURL FROM Volumes) V JOIN VolumeReadStatus VRS ON V.ID = VRS.VolumeID",
+    value = "SELECT V.*, VRS.VolumeIsRead AS IsRead, VRS.VolumeIssueCount AS IssueCount, VRS.VolumeChanged AS Changed FROM (SELECT ID, Description, ImageFileURL, Name, StartYear, PublisherID FROM Volumes) V JOIN VolumeReadStatus VRS ON V.ID = VRS.VolumeID",
     viewName = "VolumesView"
 )
 data class VolumesView(
@@ -23,9 +23,6 @@ data class VolumesView(
     @PrimaryKey
     @NonNull
     var id: String = "",
-
-    @ColumnInfo(name = "URL")
-    var link: String = "",
 
     @ColumnInfo(name = "Description")
     var description: String = "",
@@ -38,9 +35,6 @@ data class VolumesView(
 
     @ColumnInfo(name = "StartYear")
     var startYear: String = "",
-
-    @ColumnInfo(name = "IssuesURL")
-    var issuesURL: String = "",
 
     @ColumnInfo(name = "IssueCount")
     var issueCount: Int,
@@ -58,7 +52,7 @@ data class VolumesView(
      */
     data class ReadStatus(
         @ColumnInfo(name = "IsRead")
-        var isRead: String,
+        var isRead: Boolean,
 
         @ColumnInfo(name = "Changed")
         var timestampChanged: String
@@ -70,9 +64,6 @@ data class VolumesView(
     data class Publisher(
         @ColumnInfo(name = "PublisherID")
         @NonNull
-        var publisherID: String = "",
-
-        @ColumnInfo(name = "PublisherURL")
-        var link: String = ""
+        var publisherID: String = ""
     )
 }

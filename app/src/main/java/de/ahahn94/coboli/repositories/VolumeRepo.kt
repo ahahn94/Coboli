@@ -72,8 +72,8 @@ class VolumeRepo {
 
             // Get new isRead.
             val newIsRead = when (newStatus) {
-                ReadStatus.UNREAD -> "0"
-                ReadStatus.READ -> "1"
+                ReadStatus.UNREAD -> false
+                ReadStatus.READ -> true
             }
 
             // Get current UTC timestamp.

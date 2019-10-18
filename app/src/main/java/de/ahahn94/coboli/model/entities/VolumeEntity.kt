@@ -26,10 +26,6 @@ data class VolumeEntity(
     @NonNull
     var id: String = "",
 
-    @SerializedName("Link")
-    @ColumnInfo(name = "URL")
-    var link: String = "",
-
     @SerializedName("Description")
     @ColumnInfo(name = "Description")
     var description: String = "",
@@ -45,10 +41,6 @@ data class VolumeEntity(
     @SerializedName("StartYear")
     @ColumnInfo(name = "StartYear")
     var startYear: Int = 0,
-
-    @SerializedName("IssuesURL")
-    @ColumnInfo(name = "IssuesURL")
-    var issuesURL: String = "",
 
     @SerializedName("IssueCount")
     @ColumnInfo(name = "IssueCount")
@@ -84,11 +76,7 @@ data class VolumeEntity(
         @SerializedName("PublisherID")
         @ColumnInfo(name = "PublisherID")
         @NonNull
-        var publisherID: String = "",
-
-        @SerializedName("Link")
-        @ColumnInfo(name = "PublisherURL")
-        var link: String = ""
+        var publisherID: String = ""
     )
 
     /**
@@ -116,7 +104,7 @@ data class VolumeEntity(
         fun delete(vararg volumeEntity: VolumeEntity)
 
         @Query("Update Issues SET IsRead = :isRead, Changed = :changed WHERE VolumeID = :volumeID")
-        fun updateReadStatus(volumeID: String, isRead: String, changed: String)
+        fun updateReadStatus(volumeID: String, isRead: Boolean, changed: String)
 
         /*
         Paged live data of CachedVolumesView for display in the apps activities.
@@ -125,7 +113,7 @@ data class VolumeEntity(
         @Query("SELECT * FROM CachedVolumes ORDER BY Name")
         fun getAllPaged(): DataSource.Factory<Int, CachedVolumesView>
 
-        @Query("SELECT * FROM CachedVolumes WHERE HasCachedIssues = '1' ORDER BY Name")
+        @Query("SELECT * FROM CachedVolumes WHERE HasCachedIssues = 1 ORDER BY Name")
         fun getCachedPaged(): DataSource.Factory<Int, CachedVolumesView>
 
         @Query("SELECT * FROM CachedVolumes WHERE PublisherID = :publisherID")

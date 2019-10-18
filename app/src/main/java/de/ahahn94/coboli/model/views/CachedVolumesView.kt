@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey
  * for display in the app.
  */
 @DatabaseView(
-    value = "SELECT V.ID, V.Description, V.ImageFileURL, V.Name, V.StartYear, V.IssueCount, V.IsRead, V.Changed, V.PublisherID, CASE WHEN EXISTS (SELECT VolumeID FROM (SELECT VolumeID FROM CachedIssues WHERE IsCached = '1') CI WHERE CI.VolumeID = V.ID) THEN '1' ELSE '0' END AS HasCachedIssues FROM VolumesView V",
+    value = "SELECT V.ID, V.Description, V.ImageFileURL, V.Name, V.StartYear, V.IssueCount, V.IsRead, V.Changed, V.PublisherID, CASE WHEN EXISTS (SELECT VolumeID FROM (SELECT VolumeID FROM CachedIssues WHERE IsCached = 1) CI WHERE CI.VolumeID = V.ID) THEN 1 ELSE 0 END AS HasCachedIssues FROM VolumesView V",
     viewName = "CachedVolumes"
 )
 data class CachedVolumesView(
@@ -44,7 +44,7 @@ data class CachedVolumesView(
     var publisherID: String,
 
     @ColumnInfo(name = "HasCachedIssues")
-    var hasCachedIssues: String
+    var hasCachedIssues: Boolean
 ) {
 
     /**
@@ -52,7 +52,7 @@ data class CachedVolumesView(
      */
     data class ReadStatus(
         @ColumnInfo(name = "IsRead")
-        var isRead: String,
+        var isRead: Boolean,
 
         @ColumnInfo(name = "Changed")
         var timestampChanged: String

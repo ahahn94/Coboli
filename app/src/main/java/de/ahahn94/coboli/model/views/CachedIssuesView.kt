@@ -5,7 +5,6 @@ import androidx.room.ColumnInfo
 import androidx.room.DatabaseView
 import androidx.room.Embedded
 import androidx.room.PrimaryKey
-import de.ahahn94.coboli.api.responses.IssueReadStatus
 import de.ahahn94.coboli.model.entities.CachedComicEntity
 import java.io.Serializable
 

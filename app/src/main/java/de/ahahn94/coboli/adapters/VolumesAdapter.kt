@@ -82,7 +82,7 @@ class VolumesAdapter(
                 )
 
             // Set badge visibility.
-            if (volume.readStatus?.isRead == "1") {
+            if (volume.readStatus?.isRead == true) {
                 isReadBadge.visibility = View.INVISIBLE
             } else {
                 isReadBadge.visibility = View.VISIBLE

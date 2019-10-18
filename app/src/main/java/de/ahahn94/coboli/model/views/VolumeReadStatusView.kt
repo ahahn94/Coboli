@@ -24,7 +24,7 @@ data class VolumeReadStatusView(
     val issuesCount: Int,
 
     @ColumnInfo(name = "VolumeIsRead")
-    var isRead: String,
+    var isRead: Boolean,
 
     @ColumnInfo(name = "VolumeChanged")
     var timestampChanged: String
