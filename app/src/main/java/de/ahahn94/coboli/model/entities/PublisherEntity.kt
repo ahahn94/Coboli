@@ -53,19 +53,19 @@ data class PublisherEntity(
         @Update
         fun update(vararg publisherEntity: PublisherEntity)
 
-        @Query("SELECT * FROM PublisherView WHERE ID = :publisherID")
+        @Query("SELECT * FROM PublishersView WHERE ID = :publisherID")
         fun get(publisherID: String): PublisherEntity?
 
-        @Query("SELECT * FROM PublisherView")
+        @Query("SELECT * FROM PublishersView")
         fun getAll(): Array<PublisherEntity>
 
         @Delete
         fun delete(vararg publisherEntity: PublisherEntity)
 
-        @Query("SELECT * FROM PublisherView ORDER BY Name")
+        @Query("SELECT * FROM PublishersView ORDER BY Name")
         fun getAllPaged(): DataSource.Factory<Int, PublisherEntity>
 
-        @Query("SELECT * FROM PublisherView WHERE ID = :publisherID")
+        @Query("SELECT * FROM PublishersView WHERE ID = :publisherID")
         fun getLiveData(publisherID: String): LiveData<PublisherEntity>
 
     }

@@ -14,9 +14,9 @@ import androidx.room.PrimaryKey
  */
 @DatabaseView(
     value = "SELECT P.ID, P.URL, P.Description, P.ImageFileURL, P.Name, P.VolumesURL, COUNT (DISTINCT V.ID) AS VolumeCount FROM Publishers P LEFT OUTER JOIN Volumes V ON P.ID = V.PublisherID GROUP BY P.ID",
-    viewName = "PublisherView"
+    viewName = "PublishersView"
 )
-data class PublisherView(
+data class PublishersView(
 
     @ColumnInfo(name = "ID")
     @PrimaryKey

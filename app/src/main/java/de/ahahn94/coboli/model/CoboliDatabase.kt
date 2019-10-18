@@ -13,7 +13,7 @@ import de.ahahn94.coboli.model.views.*
  */
 @Database(
     entities = [PublisherEntity::class, VolumeEntity::class, IssueEntity::class, CachedComicEntity::class],
-    views = [VolumeReadStatusView::class, VolumesView::class, PublisherView::class, CachedIssuesView::class, CachedVolumesView::class],
+    views = [VolumeReadStatusView::class, VolumesView::class, PublishersView::class, CachedIssuesView::class, CachedVolumesView::class],
     version = 1
 )
 abstract class CoboliDatabase : RoomDatabase() {
