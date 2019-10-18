@@ -115,23 +115,25 @@ class OnlineStatusManager {
             val onlineApiPath = "/online"
             val serverAddress =
                 Preferences.getInstance().getString(Preferences.SERVER_ADDRESS_KEY, "") ?: ""
-            val client =
-                TrustedCertificatesClientFactory.createPreconfiguredBuilder()
-                    .callTimeout(timeout, TimeUnit.MILLISECONDS)
-                    .build()
-            val request = Request.Builder().url("$serverAddress$onlineApiPath").build()
-            val response: Response
-            return try {
-                response = client.newCall(request).execute()
-                response.isSuccessful
-            } catch (e: SSLHandshakeException) {
-                // Certificate changed. Reset credentials to force user to login again.
-                Credentials.reset()
-                false
-            } catch (e: IOException) {
-                // Timeout raises  an exception. Catch and return false.
-                false
-            }
+            if (serverAddress != "") {
+                val client =
+                    TrustedCertificatesClientFactory.createPreconfiguredBuilder()
+                        .callTimeout(timeout, TimeUnit.MILLISECONDS)
+                        .build()
+                val request = Request.Builder().url("$serverAddress$onlineApiPath").build()
+                val response: Response
+                return try {
+                    response = client.newCall(request).execute()
+                    response.isSuccessful
+                } catch (e: SSLHandshakeException) {
+                    // Certificate changed. Reset credentials to force user to login again.
+                    Credentials.reset()
+                    false
+                } catch (e: IOException) {
+                    // Timeout raises  an exception. Catch and return false.
+                    false
+                }
+            } else return false // No server address. Not yet logged in.
         }
 
         /**
