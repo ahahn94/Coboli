@@ -48,7 +48,7 @@ data class ComicLibComics(private val url: String) {
                 ?.split("=")?.drop(1)?.joinToString("=")
             if (fileName != null) {
                 // Get input-/outputstreams.
-                val file = File(parent, fileName)
+                val file = File(parent, "$issueID-$fileName")
                 val outputStream = FileOutputStream(file, false)    // Overwrite if exists.
                 val inputStream = response.body?.byteStream()
 
