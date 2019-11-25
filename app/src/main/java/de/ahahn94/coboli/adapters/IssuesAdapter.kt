@@ -1,5 +1,6 @@
 package de.ahahn94.coboli.adapters
 
+import android.os.AsyncTask
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -69,7 +70,7 @@ class IssuesAdapter(
                 issue.imageFileURL,
                 WeakReference(issueImage),
                 WeakReference(imageProgress)
-            ).execute()
+            ).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
 
             // Fill TextViews.
             issueName.text = issue.name

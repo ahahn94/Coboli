@@ -1,5 +1,6 @@
 package de.ahahn94.coboli.adapters
 
+import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -68,7 +69,7 @@ class PublishersAdapter(
                 publisher.imageFileURL,
                 WeakReference(publisherImage),
                 WeakReference(imageProgress)
-            ).execute()
+            ).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
 
             // Fill TextViews.
             publisherName.text = publisher.name

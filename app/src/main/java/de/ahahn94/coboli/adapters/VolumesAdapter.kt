@@ -1,5 +1,6 @@
 package de.ahahn94.coboli.adapters
 
+import android.os.AsyncTask
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -71,7 +72,7 @@ class VolumesAdapter(
                 volume.imageFileURL,
                 WeakReference(volumeImage),
                 WeakReference(imageProgress)
-            ).execute()
+            ).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
 
             // Fill TextViews.
             volumeName.text = volume.name

@@ -2,6 +2,7 @@ package de.ahahn94.coboli.fragments
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -99,7 +100,7 @@ class ItemDetailFragment() :
                 imageFilePath,
                 WeakReference(imageView),
                 WeakReference(imageProgress)
-            ).execute()
+            ).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
         }
 
         nameTextView?.text = name

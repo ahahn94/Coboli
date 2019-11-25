@@ -14,7 +14,7 @@ This readme will be updated at the time version 1 is released.
 - [x] Basic testing
 - [ ] Extended testing
 - [ ] Improve downloads
-- [ ] Improve loading of images in the volumes and publishers view
+- [x] Improve loading of images in the volumes and publishers view
 - [ ] Replace JUnRAR with UnRAR (no support for RAR >= version 5 in JUnRAR; requires Android NDK because of C++ code)
 
 ## Bachelor's Thesis

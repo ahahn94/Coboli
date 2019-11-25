@@ -44,7 +44,7 @@ class PagesLoader(
             pagesLiveData.error = true
         } else {
             // Start loading thumbnails.
-            thumbnailsLoader.execute()
+            thumbnailsLoader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
             // Add pages to pagesLiveData.
             result.forEach {
                 pagesLiveData.add(it)
