@@ -52,7 +52,7 @@ class DownloadClientFactory {
     /**
      * Listener that shows a notification with a progress bar.
      */
-    class NotifyingProgressListener(private val notificationID: Int) {
+    class NotifyingProgressListener(private val notificationID: Int, private val issueName: String) {
 
         // Constants.
         private val MAX_PROGRESS = 100
@@ -72,7 +72,7 @@ class DownloadClientFactory {
             PendingIntent.FLAG_UPDATE_CURRENT
         )
         private val builder = NotificationCompat.Builder(applicationContext, channelID)
-            .setContentTitle(applicationContext.getString(R.string.app_name))
+            .setContentTitle(issueName)
             .setContentText(Localization.getLocalizedString(R.string.download_progress))
             .setSmallIcon(R.drawable.ic_coboli_notification)
             .setPriority(NotificationCompat.PRIORITY_LOW)

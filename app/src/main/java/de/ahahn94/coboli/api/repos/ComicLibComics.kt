@@ -24,17 +24,19 @@ data class ComicLibComics(private val url: String) {
     /**
      * Download the comics file specified by issueID.
      */
-    fun getComicFile(issueID: String, parent: File): ComicFile? {
+    fun getComicFile(issueID: String, issueName: String, parent: File): ComicFile? {
         val request = Request.Builder()
             .url(url + API_COMICS_BASE_PATH + issueID + API_COMICS_FILE_PATH)
-            .header("Authorization",
+            .header(
+                "Authorization",
                 Authentication.generateBearerTokenHeader(Credentials.instance.apiKey)
-                ).build()
+            ).build()
 
         val client: OkHttpClient =
             DownloadClientFactory.create(
                 DownloadClientFactory.NotifyingProgressListener(
-                    issueID.toInt()
+                    issueID.toInt(),
+                    issueName
                 )
             )
 

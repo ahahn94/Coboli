@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Observer
 import de.ahahn94.coboli.R
 import de.ahahn94.coboli.activities.ReaderActivity
 import de.ahahn94.coboli.cache.ComicsCache
@@ -19,7 +18,6 @@ import de.ahahn94.coboli.fragments.ItemDetailFragment
 import de.ahahn94.coboli.model.views.CachedIssuesView
 import de.ahahn94.coboli.repositories.IssueRepo
 import de.ahahn94.coboli.utils.FileTypes
-import de.ahahn94.coboli.utils.network.OnlineStatusManager
 import java.lang.ref.WeakReference
 
 /**
@@ -123,7 +121,10 @@ class IssuePopupMenu(
 
                 // Download the comic file.
                 R.id.action_download -> {
-                    ComicsCache.cacheComicFile(issue?.id ?: "")
+                    ComicsCache.cacheComicFile(
+                        issue?.id ?: "",
+                        "${issue?.volumeName} #${issue?.number}"
+                    )
                     true
                 }
 

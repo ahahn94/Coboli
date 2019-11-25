@@ -78,9 +78,9 @@ class ComicsCache {
          * Checks if the file is already cached and downloads it if not.
          * Runs in a new thread.
          */
-        fun cacheComicFile(issueID: String) {
+        fun cacheComicFile(issueID: String, issueName: String) {
             Logging.logDebug("Caching comic file of issue $issueID")
-            ComicsCacher(issueID).execute()
+            ComicsCacher(issueID, issueName).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
         }
 
         /**
@@ -187,7 +187,7 @@ class ComicsCache {
     /**
      * AsyncTask that runs downloading and caching of comic files in the background.
      */
-    class ComicsCacher(private val issueID: String) :
+    class ComicsCacher(private val issueID: String, private val issueName: String) :
         AsyncTask<String, Int, SimpleStatus>() {
 
         override fun doInBackground(vararg params: String?): SimpleStatus? {
@@ -200,7 +200,7 @@ class ComicsCache {
                 val cachedComicEntity = Database.getInstance().cachedComicsDao().get(issueID)
                 if (cachedComicEntity == null) {
                     // Not cached. Download and cache.
-                    val response = comicLibComics.getComicFile(issueID, getInstance())
+                    val response = comicLibComics.getComicFile(issueID, issueName, getInstance())
                     if (response != null) {
                         // Download successful. Add infos to database.
                         val cachedComic = CachedComicEntity(
